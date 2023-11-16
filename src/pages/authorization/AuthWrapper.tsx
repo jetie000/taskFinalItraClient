@@ -14,10 +14,10 @@ function AuthWrapper({ children }: { children: ReactElement[] | ReactElement }) 
       <div className="border rounded p-5 inner-window">
         <ul className="navbar-nav flex-row justify-content-between gap-3">
           <li className="nav-item w-100">
-            <Link className="btn w-100 btn-light btn-outline-primary" to={'/login'}>Вход</Link>
+            <Link className="btn w-100 btn-outline-primary" to={'/login'}>Вход</Link>
           </li>
           <li className="nav-item w-100">
-            <Link className="btn w-100 btn-light btn-outline-primary" to={'/register'}>Регистрация </Link>
+            <Link className="btn w-100 btn-outline-primary" to={'/register'}>Регистрация </Link>
           </li>
         </ul>
         {children}

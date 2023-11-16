@@ -7,6 +7,7 @@ import { useActions } from '../../hooks/useActions';
 import Modal from '../modal/Modal';
 import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap'
+import { IUser } from '../../types/user.interface';
 
 function Login() {
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
@@ -25,7 +26,7 @@ function Login() {
             else {
                 setToastChildren('Вы успешно вошли');
                 myToast.show();
-                setUser(data);
+                setUser(data as IUser);
                 navigate('/');
             }
         }

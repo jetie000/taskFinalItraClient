@@ -9,14 +9,14 @@ export const userApi = createApi({
         baseUrl: variables.API_URL + '/user'
     }),
     endpoints: builder => ({
-        logInUser: builder.mutation({
+        logInUser: builder.mutation<IUser | string, IUserLoginInfo>({
             query: (userInfo: IUserLoginInfo) => ({
                 body: userInfo,
                 url: '/login',
                 method: 'POST',
             }),
         }),
-        registerUser: builder.mutation({
+        registerUser: builder.mutation<string, IUserRegisterInfo>({
             query: (userInfo: IUserRegisterInfo) => ({
                 body: userInfo,
                 url: '/register',

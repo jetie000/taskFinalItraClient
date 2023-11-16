@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IUser } from "../../types/user.interface";
 import { variables } from "../../variables";
 
@@ -14,8 +14,11 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        logout: () => initialState,
-        setUser: (state, {payload: user}) => {
+        logout: (state) => {
+            localStorage.removeItem(variables.USER_LOCALSTORAGE);
+            state = initialState;
+        },
+        setUser: (state, {payload: user}: PayloadAction<IUser>) => {
             state.user = user as IUser;
             localStorage.setItem(variables.USER_LOCALSTORAGE, JSON.stringify(user));
             console.log(user);

@@ -1,11 +1,13 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { reducer as userReducer } from './user/user.slice'
-import { reducer as toastReducer } from './toast/toast.slice'
+import { reducer as userReducer } from './slices/user.slice'
+import { reducer as toastReducer } from './slices/toast.slice'
+import { reducer as optionsReducer } from './slices/pageOptions.slice'
 import { userApi } from './api/user.api'
 
 const reducers = combineReducers({
   user: userReducer,
   toast: toastReducer,
+  options: optionsReducer,
   [userApi.reducerPath]: userApi.reducer,
 })
 

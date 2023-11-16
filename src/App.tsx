@@ -10,13 +10,14 @@ import Home from "./pages/home/Home";
 import ReactDOM from "react-dom/client";
 import Toast from "./pages/toast/Toast";
 import Header from "./pages/header/Header";
+import Custom404 from "./pages/not-found/not-found";
 
 const App = () => {
 
   return (
     <Provider store={store}>
-      <Header/>
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path='/login'
@@ -31,13 +32,13 @@ const App = () => {
                 <Register />
               </AuthWrapper>
             } />
-          <Route path='*' element={<Navigate to='/' />} />
+          <Route path='*' element={<Custom404/>} />
         </Routes>
+        <Toast />
       </BrowserRouter>
-      <Toast/>
     </Provider>
   )
 };
 
 const root = ReactDOM.createRoot(document.getElementById("app") as HTMLElement);
-root.render(<App/>)
+root.render(<App />)

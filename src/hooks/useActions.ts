@@ -1,12 +1,14 @@
 import { useDispatch } from "react-redux";
-import { actions as userActions } from "../store/user/user.slice";
 import { useMemo } from "react";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { actions as toastActions } from "../store/toast/toast.slice";
+import { actions as userActions } from "../store/slices/user.slice";
+import { actions as toastActions } from "../store/slices/toast.slice";
+import { actions as optionsActions } from "../store/slices/pageOptions.slice";
 
 const rootActions = {
     ...userActions,
-    ...toastActions
+    ...toastActions,
+    ...optionsActions
 }
 
 export const useActions = () => {
