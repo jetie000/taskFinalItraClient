@@ -1,0 +1,18 @@
+.main-window{
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.inner-window{
+    width: 400px;
+    margin: auto;
+}
+
+@media (max-width:500px) {
+    .inner-window{
+        padding: 20px !important;
+        margin: auto 20px;
+    }
+}
