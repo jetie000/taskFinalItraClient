@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from '../../pages/modal/Modal'
 import 'bootstrap';
 import { IModalInfo } from '../../types/modalInfo.interface';
@@ -7,9 +7,21 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 function Register() {
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
-    const [registerUser, {isLoading, isSuccess, isError, error, data}] = useRegisterUserMutation();
-    
-    async function registerClick() {
+    const [registerUser, { isLoading, isSuccess, isError, error, data }] = useRegisterUserMutation();
+
+    useEffect(() => {
+        if (isSuccess) {
+            if (data === 'User exists.')
+                setModalInfo({ title: "Ошибка", children: "Пользователь с таким адресом эл. почты существует" })
+            else
+                setModalInfo({ title: "Успешно", children: "Вы успешно зарегистрированы" });
+        }
+        if (isError) {
+            setModalInfo({ title: "Ошибка", children: ((error as FetchBaseQueryError).data as string) })
+        }
+    }, [isLoading])
+
+    const registerClick = () => {
         let inputName = (document.getElementById('inputName') as HTMLInputElement).value;
         let inputSurname = (document.getElementById('inputSurname') as HTMLInputElement).value;
         let inputEmail = (document.getElementById('inputEmail') as HTMLInputElement).value;
@@ -23,15 +35,7 @@ function Register() {
             saltedPassword: inputPassword.trim(),
             fullName: inputSurname.trim() + ' ' + inputName.trim()
         });
-        if (isError) {
-            setModalInfo({ title: "Ошибка", children: ((error as FetchBaseQueryError).data as string) })
-            return;
-        }
-        if (data === 'User exists.'){
-            setModalInfo({ title: "Ошибка", children: "Пользователь с таким адресом эл. почты существует" })
-            return;
-        }
-        setModalInfo({ title: "Успешно", children: "Вы успешно зарегистрированы" });
+        setModalInfo({ title: "Загрузка...", children: "Загрузка..." })
     }
 
     return (
@@ -46,7 +50,7 @@ function Register() {
                     <input className="form-control" id="inputName" placeholder="Введите имя" />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="inputEmail">Логин</label>
+                    <label htmlFor="inputEmail">Email</label>
                     <input type='email' className="form-control" id="inputEmail" placeholder="Введите email" />
                 </div>
                 <div className="mb-3">

@@ -16,7 +16,7 @@ export const userSlice = createSlice({
     reducers: {
         logout: (state) => {
             localStorage.removeItem(variables.USER_LOCALSTORAGE);
-            state = initialState;
+            state.user = undefined;
         },
         setUser: (state, {payload: user}: PayloadAction<IUser>) => {
             state.user = user as IUser;

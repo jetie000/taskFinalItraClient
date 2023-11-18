@@ -57,7 +57,7 @@ function Login() {
         <div className="mt-3">
             <form>
                 <div className="mb-3">
-                    <label className="mb-1" htmlFor="inputEmail">Логин</label>
+                    <label className="mb-1" htmlFor="inputEmail">Email</label>
                     <input type='email' className="form-control" id="inputEmail" placeholder="Введите e-mail" />
                 </div>
                 <div className="mb-3">

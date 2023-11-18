@@ -1,0 +1,11 @@
+.full-height{
+    min-height: max-content;
+}
+body{
+    height: 100vh;
+}
+#app{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}

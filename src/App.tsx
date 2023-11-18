@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./index.scss";
 import AuthWrapper from "./pages/authorization/AuthWrapper";
@@ -11,8 +11,14 @@ import ReactDOM from "react-dom/client";
 import Toast from "./pages/toast/Toast";
 import Header from "./pages/header/Header";
 import Custom404 from "./pages/not-found/not-found";
+import { variables } from "./variables";
+import Cabinet from "./pages/cabinet/Cabinet";
 
 const App = () => {
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-bs-theme', localStorage.getItem(variables.THEME_LOCALSTORAGE) || 'dark')
+  }, [])
 
   return (
     <Provider store={store}>
@@ -32,6 +38,7 @@ const App = () => {
                 <Register />
               </AuthWrapper>
             } />
+          <Route path="/cabinet" element={<Cabinet />} />
           <Route path='*' element={<Custom404/>} />
         </Routes>
         <Toast />

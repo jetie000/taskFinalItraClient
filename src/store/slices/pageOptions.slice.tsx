@@ -19,6 +19,7 @@ export const pageOptionsSlice = createSlice({
         setTheme: (state, {payload: theme}: PayloadAction<string>) => {
             state.theme = theme;
             localStorage.setItem(variables.THEME_LOCALSTORAGE, theme);
+            document.documentElement.setAttribute('data-bs-theme', theme)
         },
         setLanguage: (state, {payload: language}: PayloadAction<string>) => {
             state.language = language;
