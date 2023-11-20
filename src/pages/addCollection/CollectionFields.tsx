@@ -24,7 +24,7 @@ function CollectionFields({ fields, setFields }: { fields: { id: number, name: s
         <>
             {fields.length > 0 && fields.map(field =>
                 <div key={field.id} className="input-group mb-1">
-                    <select onSelect={(event) => changeFieldType(event, field.id)} className="form-select" id={'fieldSelect' + field.id} defaultValue='string'>
+                    <select onChange={(event) => changeFieldType(event, field.id)} className="form-select" id={'fieldSelect' + field.id} defaultValue='string'>
                         <option value='string'>Строка</option>
                         <option value="number">Число</option>
                         <option value="Date">Дата</option>

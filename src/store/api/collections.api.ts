@@ -44,7 +44,15 @@ export const collectionsApi = createApi({
                 headers: AuthHeaders
             }),
         }),
+        postCollectionPhoto: builder.mutation<string, FormData>({
+            query: (imgFileData) => ({
+                body: imgFileData,
+                url: '/saveCollectionPhoto?accessToken='+variables.ACCESS_TOKEN,
+                method: 'POST',
+                headers: AuthHeaders
+            }),
+        }),
     })
 })
 
-export const { useAddCollectionMutation, useGetMyCollectionsQuery, useChangeMyCollectionMutation, useDeleteCollectionMutation } = collectionsApi
+export const { useAddCollectionMutation, useGetMyCollectionsQuery, useChangeMyCollectionMutation, useDeleteCollectionMutation, usePostCollectionPhotoMutation } = collectionsApi

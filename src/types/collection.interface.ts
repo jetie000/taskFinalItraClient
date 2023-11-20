@@ -1,3 +1,4 @@
+import { ICollectionFields } from "./collectionFields.interface"
 import { IItem } from "./item.interface"
 
 export interface ICollection{
@@ -8,4 +9,5 @@ export interface ICollection{
     photoPath: string
     creationDate: Date
     items : IItem[] | undefined
+    collectionFields: ICollectionFields[] | undefined
 }

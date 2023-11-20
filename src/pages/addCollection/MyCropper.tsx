@@ -30,6 +30,8 @@ function MyCropper({croppedImage, setCroppedImage}: {croppedImage: string | unde
             myToast.show();
             return;
         }
+        console.log(e.target.files[0]);
+        
         let imageDataUrl = (await readFile(e.target.files[0])) as string;
         setImageSrc(imageDataUrl);
     }
@@ -37,6 +39,8 @@ function MyCropper({croppedImage, setCroppedImage}: {croppedImage: string | unde
     const setCroppedImgFunc = async () => {
         if (imageSrc) {
             const croppedImageResponse = await cropImage(imageSrc, croppedAreaPixels, console.log);
+            console.log(croppedImageResponse);
+            
             setCroppedImage(croppedImageResponse)
         }
     }

@@ -1,17 +1,100 @@
-import React, { useState } from 'react'
-import { useAddCollectionMutation } from '../../store/api/collections.api';
+import React, { useEffect, useState } from 'react'
+import { useAddCollectionMutation, usePostCollectionPhotoMutation } from '../../store/api/collections.api';
 import CollectionFields from './CollectionFields';
 import MyCropper from './MyCropper';
+import { dataUrlToFile } from './cropUtils';
+import { Modal as bootstrapModal } from 'bootstrap';
+import { Toast as bootstrapToast } from 'bootstrap';
+import { ICollectionFields } from '../../types/collectionFields.interface';
+import { useActions } from '../../hooks/useActions';
+import { IModalInfo } from '../../types/modalInfo.interface';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import Modal from '../modal/Modal';
 
 
 function AddCollection() {
     const [croppedImage, setCroppedImage] = useState<string | undefined>(undefined);
     const [fields, setFields] = useState<{ id: number, name: string, type: string }[]>([]);
+    const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
+    const { setUser, setToastChildren } = useActions();
 
     const [addCollection, { isLoading, isSuccess, isError, error, data }] = useAddCollectionMutation();
+    const [postCollectionImg, { isLoading: isLoadingImg, isSuccess: isSuccessImg, isError: isErrorImg, error: errorImg, data: dataImg }] = usePostCollectionPhotoMutation();
 
-    const addCollectionClick = () => {
-        
+    useEffect(() => {
+        if (isSuccessImg) {
+            let inputName = (document.getElementById('inputName') as HTMLInputElement).value;
+            let inputTheme = (document.getElementById('inputTheme') as HTMLInputElement).value;
+            let inputDesc = (document.getElementById('inputDesc') as HTMLInputElement).value;
+            let collectionFields: ICollectionFields[] = fields.map(field => {
+                return {
+                    id: field.id,
+                    fieldName: field.name,
+                    fieldType: field.type
+                }
+            });
+            console.log(collectionFields);
+            console.log({
+                id: 0,
+                title: inputName,
+                description: inputDesc !== '' ? inputDesc : undefined,
+                theme: inputTheme,
+                photoPath: dataImg || 'default.jpg',
+                creationDate: new Date(),
+                items: undefined,
+                collectionFields: collectionFields
+            });
+            addCollection({
+                id: 0,
+                title: inputName,
+                description: inputDesc !== '' ? inputDesc : undefined,
+                theme: inputTheme,
+                photoPath: dataImg || 'default.jpg',
+                creationDate: new Date(),
+                items: undefined,
+                collectionFields: collectionFields
+            })
+        }
+        if (isErrorImg) {
+            const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
+            setToastChildren('Ошибка загрузки фото коллекции');
+            myToast.show();
+        }
+    }, [isLoadingImg]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('addCollectionModal') || 'addCollectionModal');
+            const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
+            if (data === "No user found.") {
+                setModalInfo({ title: "Ошибка", children: "Ошибка токена доступа" })
+                myModal.show();
+            }
+            else {
+                setToastChildren('Коллекция успешно добавлена');
+                myToast.show();
+            }
+        }
+        if (isError) {
+            const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('addCollectionModal') || 'addCollectionModal');
+            setModalInfo({ title: "Ошибка", children: (error as FetchBaseQueryError).data as string })
+            myModal.show();
+        }
+    }, [isLoading])
+
+    const addCollectionClick = async () => {
+        let inputName = (document.getElementById('inputName') as HTMLInputElement).value;
+        let inputTheme = (document.getElementById('inputTheme') as HTMLInputElement).value;
+        if (inputName === '' || inputTheme === '' || !croppedImage || fields.some(field => field.name === '')){
+            const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('addCollectionModal') || 'addCollectionModal');
+            setModalInfo({ title: "Ошибка", children: 'Введите данные'})
+            myModal.show();
+            return;
+        }
+        const formData = new FormData();
+        let imgFile = await dataUrlToFile(croppedImage, inputName+'.jpg')
+        formData.append('file', imgFile, imgFile.name);
+        postCollectionImg(formData);
     }
 
     return (
@@ -25,7 +108,7 @@ function AddCollection() {
                         <span className='fs-5'>
                             Фото коллекции
                         </span>
-                        <MyCropper croppedImage={croppedImage} setCroppedImage={setCroppedImage}/>
+                        <MyCropper croppedImage={croppedImage} setCroppedImage={setCroppedImage} />
                         {croppedImage && <img className='img-fluid border rounded-2 mb-1' src={croppedImage} alt="blab" />}
                         <label className="mb-1 fs-5" htmlFor="inputName">Название коллекции</label>
                         <input className="form-control fs-6 mb-3" id="inputName" placeholder="Введите название коллекции" />
@@ -43,6 +126,9 @@ function AddCollection() {
                         <button onClick={() => addCollectionClick()} className='btn btn-primary fs-4 mt-4'>Создать колллекцию</button>
                     </div>
                 </div>
+                <Modal id='addCollectionModal' title={modalInfo.title}>
+                    {modalInfo.children}
+                </Modal>
             </div>
         </div>
     );
