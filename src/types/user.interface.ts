@@ -1,3 +1,5 @@
+import { ICollection } from "./collection.interface"
+
 export interface IUser{
     id: number
     email: string
@@ -9,6 +11,7 @@ export interface IUser{
     joinDate: Date
     loginDate: Date
     isOnline: boolean
+    collections: ICollection[] | undefined
 }
 
 export interface IUserLoginInfo{
@@ -27,5 +30,11 @@ export interface IUserChangeInfo{
     saltedNewPassword: string
     saltedOldPassword: string
     fullName: string
+    accessToken: string
+}
+
+export interface IUserDeleteInfo{
+    email: string
+    saltedPassword: string
     accessToken: string
 }

@@ -16,12 +16,8 @@ function Cabinet() {
     const navigate = useNavigate();
 
     if (!user) {
-        return <Navigate to={'/'} />
+        return <Navigate to={'/'}/>;
     }
-
-    useEffect(() => {
-
-    }, [currentPage])
 
     return (
         <div className="d-flex p-3 flex-fill">

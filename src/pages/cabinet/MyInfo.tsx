@@ -5,7 +5,7 @@ import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
 import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap'
-import { useChangeUserMutation } from '../../store/api/user.api';
+import { useChangeUserMutation, useDeleteUserMutation } from '../../store/api/user.api';
 import { useActions } from '../../hooks/useActions';
 import { IUser } from '../../types/user.interface';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
@@ -15,21 +15,22 @@ function MyInfo() {
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
     const { user } = useSelector((state: RootState) => state.user);
     const [changeUser, { isLoading, isSuccess, isError, error, data }] = useChangeUserMutation();
-    const { setUser, setToastChildren } = useActions();
+    const [deleteUser, { isLoading: deleteLoading, isSuccess: deleteSuccess, isError: deleteIsError, error: deleteError, data: deleteData }] = useDeleteUserMutation();
+    const { logout, setUser, setToastChildren } = useActions();
 
     useEffect(() => {
-        if(isSuccess){
-            const myModal = new bootstrapModal(document.getElementById('myInfoModal') || 'myInfoModal');
-            const myToast = new bootstrapToast(document.getElementById('myToast') || 'myToast');
+        if (isSuccess) {
+            const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('myInfoModal') || 'myInfoModal');
+            const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             if (data === "User with that email exists.") {
                 setModalInfo({ title: "Ошибка", children: "Пользователь с таким адресом эл. почты существует" })
                 myModal.show();
             }
-            else if(data === "Wrong Password."){
+            else if (data === "Wrong Password.") {
                 setModalInfo({ title: "Ошибка", children: "Вы ввели неправильный пароль" })
                 myModal.show();
             }
-            else{
+            else {
                 setToastChildren('Данные успешно изменены');
                 myToast.show();
                 setUser(data as IUser);
@@ -38,12 +39,32 @@ function MyInfo() {
             (document.getElementById('inputOldPassword') as HTMLInputElement).value = '';
         }
         if (isError) {
-            const myModal = new bootstrapModal(document.getElementById('loginModal') || 'loginModal');
+            const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('myInfoModal') || 'myInfoModal');
             setModalInfo({ title: "Ошибка", children: (error as FetchBaseQueryError).data as string })
             myModal.show();
-            return;
         }
     }, [isLoading]);
+
+    useEffect(() => {
+        const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('myInfoModal') || 'myInfoModal');
+        if (deleteSuccess) {
+            const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
+            if (deleteData === "Invalid data.") {
+                setModalInfo({ title: "Ошибка", children: "Ошибка в данных пользователя" })
+            }
+            else {
+                myModal.hide();
+                logout();
+                setToastChildren('Пользователь успешно удален');
+                myToast.show();
+            }
+        }
+        if (deleteIsError) {
+            setModalInfo({ title: "Ошибка", children: (deleteError as FetchBaseQueryError).data as string })
+            myModal.show();
+        }
+
+    }, [deleteLoading]);
 
     const changeInfoClick = async () => {
         let inputName = (document.getElementById('inputName') as HTMLInputElement).value;
@@ -52,7 +73,7 @@ function MyInfo() {
         let inputOldPassword = (document.getElementById('inputOldPassword') as HTMLInputElement).value;
         let inputNewPassword = (document.getElementById('inputNewPassword') as HTMLInputElement).value;
         if (inputEmail == "" || inputOldPassword == "" || inputName == "" || inputSurname == "") {
-            const myModal = new bootstrapModal(document.getElementById('myInfoModal') || 'myInfoModal');
+            const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('myInfoModal') || 'myInfoModal');
             setModalInfo({ title: "Ошибка", children: "Введите данные" });
             myModal.show();
             return;
@@ -67,9 +88,29 @@ function MyInfo() {
             });
     }
 
+    const deleteAccClick = () => {
+        const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('myInfoModal') || 'myInfoModal');
+        const children = user
+            ?
+            <div className='d-flex flex-column gap-3'>
+                <span>Вы точно хотите удалить аккаунт? Вместе с этим вы удалите все свои коллекции.</span>
+                <button onClick={() =>
+                    deleteUser({
+                        email: user?.email,
+                        saltedPassword: user?.saltedPassword,
+                        accessToken: user?.accessToken
+                    })} className='btn btn-danger'>
+                    Удалить аккаунт
+                </button>
+            </div >
+            : <div>Пользователь не найден</div>;
+        setModalInfo({ title: "Удаление аккаунта", children: children });
+        myModal.show();
+    }
+
     return (
-        <div className='p-3 d-flex flex-fill'>
-            <div className='ms-auto me-auto d-flex flex-column my-info'>
+        <div className=' d-flex flex-fill flex-column'>
+            <div className='ms-auto me-auto d-flex flex-column my-info p-3 flex-fill'>
                 <h2 className='text-center p-3'>
                     Мои данные
                 </h2>
@@ -103,6 +144,12 @@ function MyInfo() {
                     {modalInfo.children}
                 </Modal>
             </div>
+            <button onClick={() => deleteAccClick()} className='align-self-end btn btn-danger d-flex align-items-center gap-2'>
+                Удалить аккаунт
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
+                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                </svg>
+            </button>
         </div>
     );
 }

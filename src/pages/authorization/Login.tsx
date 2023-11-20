@@ -6,7 +6,7 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useActions } from '../../hooks/useActions';
 import Modal from '../modal/Modal';
 import { Modal as bootstrapModal } from 'bootstrap';
-import { Toast as bootstrapToast } from 'bootstrap'
+import { Toast as bootstrapToast } from 'bootstrap';
 import { IUser } from '../../types/user.interface';
 
 function Login() {
@@ -17,8 +17,8 @@ function Login() {
 
     useEffect(() => {
         if (isSuccess) {
-            const myModal = new bootstrapModal(document.getElementById('loginModal') || 'loginModal');
-            const myToast = new bootstrapToast(document.getElementById('myToast') || 'myToast');
+            const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('loginModal') || 'loginModal');
+            const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             if (data === "Invalid data.") {
                 setModalInfo({ title: "Ошибка", children: "Вы ввели неправильный логин или пароль" })
                 myModal.show();
@@ -31,7 +31,7 @@ function Login() {
             }
         }
         if (isError) {
-            const myModal = new bootstrapModal(document.getElementById('loginModal') || 'loginModal');
+            const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('loginModal') || 'loginModal');
             setModalInfo({ title: "Ошибка", children: (error as FetchBaseQueryError).data as string })
             myModal.show();
             return;
@@ -41,7 +41,7 @@ function Login() {
     const logIn = () => {
         let inputEmail = (document.getElementById('inputEmail') as HTMLInputElement).value;
         let inputPassword = (document.getElementById('inputPassword') as HTMLInputElement).value;
-        const myModal = new bootstrapModal(document.getElementById('loginModal') || 'loginModal');
+        const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('loginModal') || 'loginModal');
         if (inputEmail == "" || inputPassword == "") {
             setModalInfo({ title: "Ошибка", children: "Введите данные" })
             myModal.show();
@@ -74,7 +74,6 @@ function Login() {
                 </Modal>
             </form>
         </div>
-
     )
 }
 export default Login;

@@ -13,6 +13,7 @@ import Header from "./pages/header/Header";
 import Custom404 from "./pages/not-found/not-found";
 import { variables } from "./variables";
 import Cabinet from "./pages/cabinet/Cabinet";
+import AddCollection from "./pages/addCollection/AddCollection";
 
 const App = () => {
 
@@ -39,6 +40,7 @@ const App = () => {
               </AuthWrapper>
             } />
           <Route path="/cabinet" element={<Cabinet />} />
+          <Route path="/addcollection" element={<AddCollection/>}/>
           <Route path='*' element={<Custom404/>} />
         </Routes>
         <Toast />

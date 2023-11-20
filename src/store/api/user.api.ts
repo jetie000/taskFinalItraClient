@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { variables } from '../../variables'
-import { IUser, IUserChangeInfo, IUserLoginInfo, IUserRegisterInfo } from '../../types/user.interface'
+import { IUser, IUserChangeInfo, IUserDeleteInfo, IUserLoginInfo, IUserRegisterInfo } from '../../types/user.interface'
 
 export const userApi = createApi({
     reducerPath: 'userApi',
@@ -34,7 +34,18 @@ export const userApi = createApi({
                 }
             }),
         }),
+        deleteUser: builder.mutation<string, IUserDeleteInfo>({
+            query: (userInfo: IUserDeleteInfo) => ({
+                body: userInfo,
+                url: '/delete',
+                method: 'DELETE',
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + (JSON.parse(localStorage.getItem(variables.USER_LOCALSTORAGE)!) as IUser)?.accessToken || ''
+                }
+            }),
+        }),
     })
 })
 
-export const { useLogInUserMutation, useRegisterUserMutation, useChangeUserMutation } = userApi
+export const { useLogInUserMutation, useRegisterUserMutation, useChangeUserMutation, useDeleteUserMutation } = userApi
