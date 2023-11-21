@@ -1,11 +1,17 @@
-.full-height{
+.full-height {
     min-height: max-content;
 }
-body{
+
+body {
     height: 100vh;
 }
-#app{
+
+#app {
     height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+.cursor-pointer{
+    cursor: pointer;
 }

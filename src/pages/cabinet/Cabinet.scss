@@ -1,8 +1,25 @@
-.cabinet-wrapper{
-    width: 1200px;
+.cabinet-wrapper {
+    width: 1168px;
 }
 
-.my-info{
+.my-info {
     width: 350px;
     flex-grow: 1;
+}
+
+.collection-wrapper {
+    height: calc(100vh - 180px);
+}
+
+.collection-item {
+    height: 300px;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        filter: brightness(80%);
+    }
+}
+
+.collection-add{
+    height: 100px;
 }

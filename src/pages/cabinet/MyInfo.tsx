@@ -110,7 +110,7 @@ function MyInfo() {
 
     return (
         <div className=' d-flex flex-fill flex-column'>
-            <div className='ms-auto me-auto d-flex flex-column my-info p-3 flex-fill'>
+            <div className='ms-auto me-auto d-flex flex-column my-info ps-3 pe-3 flex-fill'>
                 <h2 className='text-center p-3'>
                     Мои данные
                 </h2>

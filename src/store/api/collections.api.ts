@@ -1,55 +1,54 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { variables } from '../../variables'
 import { ICollection } from '../../types/collection.interface'
+import { baseApi } from './baseApi'
 
-const AuthHeaders = {
-    "Accept": "application/json",
-    "Authorization": "Bearer " + variables.ACCESS_TOKEN
-}
 
-export const collectionsApi = createApi({
-    reducerPath: 'collectionsApi',
-    tagTypes: ['Collections'],
-    baseQuery: fetchBaseQuery({
-        baseUrl: variables.API_URL + '/collection'
-    }),
+export const collectionsApi = baseApi.injectEndpoints({
     endpoints: builder => ({
-        getMyCollections: builder.query<ICollection[], undefined>({
-            query: () => ({
-                url: '/getMy?accessToken='+variables.ACCESS_TOKEN,
+        getMyCollections: builder.query<ICollection[], string>({
+            query: (accessToken) => ({
+                url: '/collection/getMy?accessToken='+accessToken,
                 method: 'GET',
-                headers: AuthHeaders
             }),
+            providesTags: () => [{
+                type: 'Collections'
+            }]
         }),
         addCollection: builder.mutation<string, ICollection>({
             query: (collection) => ({
                 body: collection,
-                url: '/add?accessToken='+variables.ACCESS_TOKEN,
+                url: '/collection/add?accessToken='+variables.ACCESS_TOKEN,
                 method: 'POST',
-                headers: AuthHeaders
             }),
+            invalidatesTags: () => [{
+                type: 'Collections'
+            }]
         }),
         changeMyCollection: builder.mutation<string, ICollection>({
             query: (collection) => ({
                 body: collection,
-                url: '/changeInfoMy?accessToken='+variables.ACCESS_TOKEN,
+                url: '/collection/changeInfoMy?accessToken='+variables.ACCESS_TOKEN,
                 method: 'PUT',
-                headers: AuthHeaders
             }),
+            invalidatesTags: () => [{
+                type: 'Collections'
+            }]
         }),
         deleteCollection: builder.mutation<string, number>({
             query: (collectionId) => ({
-                url: '/delete?id='+collectionId+'&accessToken='+variables.ACCESS_TOKEN,
+                url: '/collection/delete?id='+collectionId+'&accessToken='+variables.ACCESS_TOKEN,
                 method: 'DELETE',
-                headers: AuthHeaders
             }),
+            invalidatesTags: () => [{
+                type: 'Collections'
+            }]
         }),
         postCollectionPhoto: builder.mutation<string, FormData>({
             query: (imgFileData) => ({
                 body: imgFileData,
-                url: '/saveCollectionPhoto?accessToken='+variables.ACCESS_TOKEN,
+                url: '/collection/saveCollectionPhoto?accessToken='+variables.ACCESS_TOKEN,
                 method: 'POST',
-                headers: AuthHeaders
             }),
         }),
     })

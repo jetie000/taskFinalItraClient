@@ -1,5 +1,5 @@
 export interface ICollectionFields {
-    id: number
-    fieldName: string | undefined
-    fieldType: string | undefined
+    id: number | undefined
+    fieldName: string
+    fieldType: string
 }

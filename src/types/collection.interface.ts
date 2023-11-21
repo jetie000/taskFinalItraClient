@@ -2,7 +2,7 @@ import { ICollectionFields } from "./collectionFields.interface"
 import { IItem } from "./item.interface"
 
 export interface ICollection{
-    id: number 
+    id: number | undefined
     title: string 
     description: string | undefined
     theme: string
@@ -10,4 +10,10 @@ export interface ICollection{
     creationDate: Date
     items : IItem[] | undefined
     collectionFields: ICollectionFields[] | undefined
+}
+
+
+export interface ICollectionUser{
+    collection : ICollection
+    userId: number
 }

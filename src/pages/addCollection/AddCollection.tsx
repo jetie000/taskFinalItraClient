@@ -10,13 +10,14 @@ import { useActions } from '../../hooks/useActions';
 import { IModalInfo } from '../../types/modalInfo.interface';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import Modal from '../modal/Modal';
+import { Link } from 'react-router-dom';
 
 
 function AddCollection() {
     const [croppedImage, setCroppedImage] = useState<string | undefined>(undefined);
     const [fields, setFields] = useState<{ id: number, name: string, type: string }[]>([]);
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
-    const { setUser, setToastChildren } = useActions();
+    const { setToastChildren } = useActions();
 
     const [addCollection, { isLoading, isSuccess, isError, error, data }] = useAddCollectionMutation();
     const [postCollectionImg, { isLoading: isLoadingImg, isSuccess: isSuccessImg, isError: isErrorImg, error: errorImg, data: dataImg }] = usePostCollectionPhotoMutation();
@@ -33,26 +34,21 @@ function AddCollection() {
                     fieldType: field.type
                 }
             });
-            console.log(collectionFields);
-            console.log({
-                id: 0,
-                title: inputName,
-                description: inputDesc !== '' ? inputDesc : undefined,
-                theme: inputTheme,
-                photoPath: dataImg || 'default.jpg',
-                creationDate: new Date(),
-                items: undefined,
-                collectionFields: collectionFields
-            });
             addCollection({
-                id: 0,
+                id: undefined,
                 title: inputName,
                 description: inputDesc !== '' ? inputDesc : undefined,
                 theme: inputTheme,
                 photoPath: dataImg || 'default.jpg',
                 creationDate: new Date(),
-                items: undefined,
-                collectionFields: collectionFields
+                items: [],
+                collectionFields: collectionFields.map(field => {
+                    return {
+                        id: undefined,
+                        fieldName: field.fieldName,
+                        fieldType: field.fieldType
+                    }
+                })
             })
         }
         if (isErrorImg) {
@@ -85,22 +81,56 @@ function AddCollection() {
     const addCollectionClick = async () => {
         let inputName = (document.getElementById('inputName') as HTMLInputElement).value;
         let inputTheme = (document.getElementById('inputTheme') as HTMLInputElement).value;
-        if (inputName === '' || inputTheme === '' || !croppedImage || fields.some(field => field.name === '')){
+        let inputDesc = (document.getElementById('inputDesc') as HTMLInputElement).value;
+        let collectionFields: ICollectionFields[] = fields.map(field => {
+            return {
+                id: field.id,
+                fieldName: field.name,
+                fieldType: field.type
+            }
+        });
+        if (inputName === '' || inputTheme === '' || fields.some(field => field.name === '')) {
             const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('addCollectionModal') || 'addCollectionModal');
-            setModalInfo({ title: "Ошибка", children: 'Введите данные'})
+            setModalInfo({ title: "Ошибка", children: 'Введите данные' })
             myModal.show();
             return;
         }
-        const formData = new FormData();
-        let imgFile = await dataUrlToFile(croppedImage, inputName+'.jpg')
-        formData.append('file', imgFile, imgFile.name);
-        postCollectionImg(formData);
+        if (croppedImage) {
+            const formData = new FormData();
+            let imgFile = await dataUrlToFile(croppedImage, inputName + '.jpg')
+            formData.append('file', imgFile, imgFile.name);
+            postCollectionImg(formData);
+        }
+        else{
+            addCollection({
+                id: undefined,
+                title: inputName,
+                description: inputDesc !== '' ? inputDesc : undefined,
+                theme: inputTheme,
+                photoPath: dataImg || 'default.jpg',
+                creationDate: new Date(),
+                items: [],
+                collectionFields: collectionFields.map(field => {
+                    return {
+                        id: undefined,
+                        fieldName: field.fieldName,
+                        fieldType: field.fieldType
+                    }
+                })
+            })
+        }
     }
 
     return (
         <div className="d-flex p-3 flex-fill">
             <div className="d-flex cabinet-wrapper ms-auto me-auto">
                 <div className="d-flex flex-column flex-fill">
+                    <Link to={'/'} className="btn btn-outline-primary align-items-center align-self-start d-flex mt-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left me-2" viewBox="0 0 16 16">
+                            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                        </svg>
+                        Вернуться на главную
+                    </Link>
                     <h2 className="text-center p-3">
                         Создание новой коллекции
                     </h2>

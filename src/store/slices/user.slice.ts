@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IUser } from "../../types/user.interface";
 import { variables } from "../../variables";
+import { ICollection } from "../../types/collection.interface";
+
 
 export interface userState {
     user?: IUser
@@ -18,12 +20,18 @@ export const userSlice = createSlice({
             localStorage.removeItem(variables.USER_LOCALSTORAGE);
             state.user = undefined;
         },
-        setUser: (state, {payload: user}: PayloadAction<IUser>) => {
-            state.user = user as IUser;
+        setUser: (state, { payload: user }: PayloadAction<IUser>) => {
+            state.user = user;
             localStorage.setItem(variables.USER_LOCALSTORAGE, JSON.stringify(user));
-            console.log(user);
+        },
+        addCollection: (state, { payload: collection }: PayloadAction<ICollection>) => {
+            state.user?.collections?.push(collection);
+        },
+        setCollections: (state, { payload: collections }: PayloadAction<ICollection[]>) => {
+            if (state.user)
+                state.user.collections = collections;
         }
-    }
+    },
 })
 
-export const {actions, reducer} = userSlice
+export const { actions, reducer } = userSlice
