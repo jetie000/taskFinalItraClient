@@ -9,7 +9,7 @@ import './Cabinet.scss'
 import { variables } from '../../variables';
 
 function MyCollections() {
-    const { setUser, setToastChildren, setCollections } = useActions();
+    const { setToastChildren, setCollections } = useActions();
     const { user } = useSelector((state: RootState) => state.user);
     const navigate = useNavigate();
     const { isLoading, isSuccess, isError, error, data } = useGetMyCollectionsQuery(user?.accessToken || '')
@@ -35,7 +35,7 @@ function MyCollections() {
                     user?.collections &&
                     user.collections.map(collection => {
                         let correctDate = new Date(collection.creationDate).toLocaleTimeString() + ' ' + new Date(collection.creationDate).toLocaleDateString();
-                        return <div className='m-2 border rounded-4 collection-item d-flex cursor-pointer' key={collection.id}>
+                        return <div onClick={() => navigate('/collection/'+collection.id)} className='m-2 border rounded-4 collection-item d-flex cursor-pointer' key={collection.id}>
                             <img className='rounded-start-4' src={variables.PHOTOS_URL + collection.photoPath} alt="CollectionImg" />
                             <div className='d-flex flex-column p-4 ps-5 fs-5 justify-content-around'>
                                 <span className='fs-1'>{collection.title}</span>

@@ -14,6 +14,8 @@ import Custom404 from "./pages/not-found/not-found";
 import { variables } from "./variables";
 import Cabinet from "./pages/cabinet/Cabinet";
 import AddCollection from "./pages/addCollection/AddCollection";
+import Collection from "./pages/collection/Collection";
+import AddItem from "./pages/addItem/AddItem";
 
 const App = () => {
 
@@ -41,6 +43,8 @@ const App = () => {
             } />
           <Route path="/cabinet" element={<Cabinet />} />
           <Route path="/addcollection" element={<AddCollection/>}/>
+          <Route path="/collection/:id" element={<Collection/>}/>
+          <Route path="/collection/:id/additem" element={<AddItem/>}/>
           <Route path='*' element={<Custom404/>} />
         </Routes>
         <Toast />

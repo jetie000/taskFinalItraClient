@@ -24,9 +24,6 @@ export const userSlice = createSlice({
             state.user = user;
             localStorage.setItem(variables.USER_LOCALSTORAGE, JSON.stringify(user));
         },
-        addCollection: (state, { payload: collection }: PayloadAction<ICollection>) => {
-            state.user?.collections?.push(collection);
-        },
         setCollections: (state, { payload: collections }: PayloadAction<ICollection[]>) => {
             if (state.user)
                 state.user.collections = collections;

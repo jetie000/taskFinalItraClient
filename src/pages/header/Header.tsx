@@ -14,7 +14,7 @@ function Header() {
 
     return (
         <header className='position-sticky top-0 start-0 end-0 bg-primary p-3 z-2'>
-            <div className='header-wrapper m-auto d-flex align-items-center gap-3'>
+            <div className='main-wrapper m-auto d-flex align-items-center gap-3'>
                 <h3 className='font-light m-0 cursor-pointer' onClick={() => navigate('/')}>
                     Collections by jetie
                 </h3>

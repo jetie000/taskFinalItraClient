@@ -8,17 +8,26 @@ export const collectionsApi = baseApi.injectEndpoints({
     endpoints: builder => ({
         getMyCollections: builder.query<ICollection[], string>({
             query: (accessToken) => ({
-                url: '/collection/getMy?accessToken='+accessToken,
+                url: '/collection/getMy?accessToken=' + accessToken,
                 method: 'GET',
             }),
             providesTags: () => [{
                 type: 'Collections'
             }]
         }),
+        getCollection: builder.query<ICollection | string, number>({
+            query: (collectionId) => ({
+                url: '/collection/getOne?collectionId=' + collectionId,
+                method: 'GET',
+            }),
+            providesTags: () => [{
+                type: 'Collection'
+            }]
+        }),
         addCollection: builder.mutation<string, ICollection>({
             query: (collection) => ({
                 body: collection,
-                url: '/collection/add?accessToken='+variables.ACCESS_TOKEN,
+                url: '/collection/add?accessToken=' + variables.ACCESS_TOKEN,
                 method: 'POST',
             }),
             invalidatesTags: () => [{
@@ -28,7 +37,7 @@ export const collectionsApi = baseApi.injectEndpoints({
         changeMyCollection: builder.mutation<string, ICollection>({
             query: (collection) => ({
                 body: collection,
-                url: '/collection/changeInfoMy?accessToken='+variables.ACCESS_TOKEN,
+                url: '/collection/changeInfoMy?accessToken=' + variables.ACCESS_TOKEN,
                 method: 'PUT',
             }),
             invalidatesTags: () => [{
@@ -37,21 +46,31 @@ export const collectionsApi = baseApi.injectEndpoints({
         }),
         deleteCollection: builder.mutation<string, number>({
             query: (collectionId) => ({
-                url: '/collection/delete?id='+collectionId+'&accessToken='+variables.ACCESS_TOKEN,
+                url: '/collection/delete?id=' + collectionId + '&accessToken=' + variables.ACCESS_TOKEN,
                 method: 'DELETE',
             }),
             invalidatesTags: () => [{
                 type: 'Collections'
-            }]
+            },{
+                type: 'Collection'
+            },
+            ]
         }),
         postCollectionPhoto: builder.mutation<string, FormData>({
             query: (imgFileData) => ({
                 body: imgFileData,
-                url: '/collection/saveCollectionPhoto?accessToken='+variables.ACCESS_TOKEN,
+                url: '/collection/saveCollectionPhoto?accessToken=' + variables.ACCESS_TOKEN,
                 method: 'POST',
             }),
         }),
     })
 })
 
-export const { useAddCollectionMutation, useGetMyCollectionsQuery, useChangeMyCollectionMutation, useDeleteCollectionMutation, usePostCollectionPhotoMutation } = collectionsApi
+export const {
+    useAddCollectionMutation,
+    useGetMyCollectionsQuery,
+    useChangeMyCollectionMutation,
+    useDeleteCollectionMutation,
+    usePostCollectionPhotoMutation,
+    useGetCollectionQuery
+} = collectionsApi

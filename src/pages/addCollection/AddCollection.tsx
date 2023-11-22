@@ -27,13 +27,6 @@ function AddCollection() {
             let inputName = (document.getElementById('inputName') as HTMLInputElement).value;
             let inputTheme = (document.getElementById('inputTheme') as HTMLInputElement).value;
             let inputDesc = (document.getElementById('inputDesc') as HTMLInputElement).value;
-            let collectionFields: ICollectionFields[] = fields.map(field => {
-                return {
-                    id: field.id,
-                    fieldName: field.name,
-                    fieldType: field.type
-                }
-            });
             addCollection({
                 id: undefined,
                 title: inputName,
@@ -42,11 +35,11 @@ function AddCollection() {
                 photoPath: dataImg || 'default.jpg',
                 creationDate: new Date(),
                 items: [],
-                collectionFields: collectionFields.map(field => {
+                collectionFields: fields.map(field => {
                     return {
                         id: undefined,
-                        fieldName: field.fieldName,
-                        fieldType: field.fieldType
+                        fieldName: field.name,
+                        fieldType: field.type
                     }
                 })
             })
@@ -82,14 +75,7 @@ function AddCollection() {
         let inputName = (document.getElementById('inputName') as HTMLInputElement).value;
         let inputTheme = (document.getElementById('inputTheme') as HTMLInputElement).value;
         let inputDesc = (document.getElementById('inputDesc') as HTMLInputElement).value;
-        let collectionFields: ICollectionFields[] = fields.map(field => {
-            return {
-                id: field.id,
-                fieldName: field.name,
-                fieldType: field.type
-            }
-        });
-        if (inputName === '' || inputTheme === '' || fields.some(field => field.name === '')) {
+        if (inputName === '' || inputTheme === '' || fields.some(field => field.name.trim() === '')) {
             const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('addCollectionModal') || 'addCollectionModal');
             setModalInfo({ title: "Ошибка", children: 'Введите данные' })
             myModal.show();
@@ -101,7 +87,7 @@ function AddCollection() {
             formData.append('file', imgFile, imgFile.name);
             postCollectionImg(formData);
         }
-        else{
+        else {
             addCollection({
                 id: undefined,
                 title: inputName,
@@ -110,51 +96,57 @@ function AddCollection() {
                 photoPath: dataImg || 'default.jpg',
                 creationDate: new Date(),
                 items: [],
-                collectionFields: collectionFields.map(field => {
+                collectionFields: fields.map(field => {
                     return {
                         id: undefined,
-                        fieldName: field.fieldName,
-                        fieldType: field.fieldType
+                        fieldName: field.name,
+                        fieldType: field.type
                     }
                 })
             })
         }
     }
-
+    // TODO: FIX ПРИ ЛОГИНЕ С ДРУГОГО ПОЛЬЗОВАТЕЛЯ КОЛЛЕКЦИЯ ДОБАВЛЯЕТСЯ ПРЕДЫДУЩЕМУ ЕСЛИ НЕ ОБНОВИТЬ СТРАНИЦУ
     return (
         <div className="d-flex p-3 flex-fill">
-            <div className="d-flex cabinet-wrapper ms-auto me-auto">
-                <div className="d-flex flex-column flex-fill">
-                    <Link to={'/'} className="btn btn-outline-primary align-items-center align-self-start d-flex mt-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left me-2" viewBox="0 0 16 16">
-                            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
-                        </svg>
-                        Вернуться на главную
-                    </Link>
-                    <h2 className="text-center p-3">
-                        Создание новой коллекции
-                    </h2>
-                    <div className="d-flex align-self-center flex-column w-50 mb-4">
-                        <span className='fs-5'>
-                            Фото коллекции
-                        </span>
-                        <MyCropper croppedImage={croppedImage} setCroppedImage={setCroppedImage} />
-                        {croppedImage && <img className='img-fluid border rounded-2 mb-1' src={croppedImage} alt="blab" />}
-                        <label className="mb-1 fs-5" htmlFor="inputName">Название коллекции</label>
-                        <input className="form-control fs-6 mb-3" id="inputName" placeholder="Введите название коллекции" />
-                        <label className="mb-1 fs-5" htmlFor="inputTheme">Тема коллекции</label>
-                        <input className="form-control fs-6 mb-3" id="inputTheme" placeholder="Введите тему коллекции" />
-                        <label className="mb-1 fs-5" htmlFor="inputDesc">Описание (по желанию)</label>
-                        <textarea className="form-control fs-6 mb-3" id="inputDesc" placeholder="Введите описание коллекции" />
-                        <span className='fs-5 mb-1'>
-                            Добавьте поля коллекции
-                        </span>
-                        <button className='btn btn-secondary mb-2' onClick={() => setFields([...fields, { id: fields.length, name: '', type: 'string' }])}>
-                            Добавить поле
-                        </button>
-                        <CollectionFields fields={fields} setFields={setFields} />
-                        <button onClick={() => addCollectionClick()} className='btn btn-primary fs-4 mt-4'>Создать колллекцию</button>
-                    </div>
+            <div className="d-flex flex-column main-wrapper ms-auto me-auto">
+                <Link to={'/'} className="btn btn-outline-primary align-items-center align-self-start d-flex mt-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left me-2" viewBox="0 0 16 16">
+                        <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                    </svg>
+                    Вернуться на главную
+                </Link>
+                <h2 className="text-center p-3">
+                    Создание новой коллекции
+                </h2>
+                <div className="d-flex align-self-center flex-column w-50 mb-4">
+                    <span className='fs-5'>
+                        Фото коллекции
+                    </span>
+                    <MyCropper croppedImage={croppedImage} setCroppedImage={setCroppedImage} />
+                    {croppedImage && <img className='img-fluid border rounded-2 mb-1' src={croppedImage} alt="blab" />}
+                    <label className="mb-1 fs-5" htmlFor="inputName">Название коллекции</label>
+                    <input className="form-control fs-6 mb-3" id="inputName" placeholder="Введите название коллекции" />
+                    <label className="mb-1 fs-5" htmlFor="inputTheme">Тема коллекции</label>
+                    <input className="form-control fs-6 mb-3" id="inputTheme" placeholder="Введите тему коллекции" />
+                    <label className="mb-1 fs-5" htmlFor="inputDesc">Описание (по желанию)</label>
+                    <textarea className="form-control fs-6 mb-3" id="inputDesc" placeholder="Введите описание коллекции" />
+                    <span className='fs-5 mb-1'>
+                        Добавьте поля коллекции
+                    </span>
+                    <button className='btn btn-secondary mb-2' onClick={() => setFields([...fields, { id: fields.length, name: '', type: 'string' }])}>
+                        Добавить поле
+                    </button>
+                    <CollectionFields fields={fields} setFields={setFields} />
+                    <button onClick={() => addCollectionClick()} className='btn btn-primary fs-4 mt-4'>
+                        {isLoadingImg || isLoading ?
+                            <div className="spinner-border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                            :
+                            <div>Создать колллекцию</div>
+                        }
+                    </button>
                 </div>
                 <Modal id='addCollectionModal' title={modalInfo.title}>
                     {modalInfo.children}
