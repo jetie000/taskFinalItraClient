@@ -1,5 +1,5 @@
 export interface ICollectionFields {
     id: number | undefined
     fieldName: string
-    fieldType: string
+    fieldType: 'string' | 'number' | 'Date' | 'boolean'
 }

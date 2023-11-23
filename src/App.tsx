@@ -15,7 +15,8 @@ import { variables } from "./variables";
 import Cabinet from "./pages/cabinet/Cabinet";
 import AddCollection from "./pages/addCollection/AddCollection";
 import Collection from "./pages/collection/Collection";
-import AddItem from "./pages/addItem/AddItem";
+import Item from "./pages/item/Item";
+import ChangeCollection from "./pages/changeCollection/ChangeCollection";
 
 const App = () => {
 
@@ -44,7 +45,9 @@ const App = () => {
           <Route path="/cabinet" element={<Cabinet />} />
           <Route path="/addcollection" element={<AddCollection/>}/>
           <Route path="/collection/:id" element={<Collection/>}/>
-          <Route path="/collection/:id/additem" element={<AddItem/>}/>
+          <Route path="/collection/:id/change" element={<ChangeCollection/>}/>
+          <Route path="/collection/:id/item/:idItem" element={<Item/>}/>
+          <Route path="/item/:idItem" element={<Item/>}/>
           <Route path='*' element={<Custom404/>} />
         </Routes>
         <Toast />

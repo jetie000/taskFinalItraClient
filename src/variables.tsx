@@ -8,5 +8,5 @@ export const variables = {
     LANGUAGE_LOCALSTORAGE: "page_language",
     MAX_COLLECTION_PHOTO_SIZE: 5000000,
     ASPECT_COLLECTIONS_IMG: 4/3,
-    ACCESS_TOKEN: (JSON.parse(localStorage.getItem("user_info")!) as IUser)?.accessToken || ''
+    GET_ACCESS_TOKEN: () => (JSON.parse(localStorage.getItem("user_info")!) as IUser)?.accessToken || ''
 }

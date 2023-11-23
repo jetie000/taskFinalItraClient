@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { useAddCollectionMutation, usePostCollectionPhotoMutation } from '../../store/api/collections.api';
 import CollectionFields from './CollectionFields';
 import MyCropper from './MyCropper';
-import { dataUrlToFile } from './cropUtils';
+import { dataUrlToFile } from '../../utils/cropUtils';
 import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap';
-import { ICollectionFields } from '../../types/collectionFields.interface';
 import { useActions } from '../../hooks/useActions';
 import { IModalInfo } from '../../types/modalInfo.interface';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import Modal from '../modal/Modal';
 import { Link } from 'react-router-dom';
+import { ICollectionFields } from '../../types/collectionFields.interface';
 
 
 function AddCollection() {
     const [croppedImage, setCroppedImage] = useState<string | undefined>(undefined);
-    const [fields, setFields] = useState<{ id: number, name: string, type: string }[]>([]);
+    const [fields, setFields] = useState<ICollectionFields[]>([]);
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
     const { setToastChildren } = useActions();
 
@@ -27,22 +27,17 @@ function AddCollection() {
             let inputName = (document.getElementById('inputName') as HTMLInputElement).value;
             let inputTheme = (document.getElementById('inputTheme') as HTMLInputElement).value;
             let inputDesc = (document.getElementById('inputDesc') as HTMLInputElement).value;
+
             addCollection({
-                id: undefined,
-                title: inputName,
-                description: inputDesc !== '' ? inputDesc : undefined,
-                theme: inputTheme,
-                photoPath: dataImg || 'default.jpg',
-                creationDate: new Date(),
-                items: [],
-                collectionFields: fields.map(field => {
-                    return {
                         id: undefined,
-                        fieldName: field.name,
-                        fieldType: field.type
-                    }
-                })
-            })
+                        title: inputName,
+                        description: inputDesc !== '' ? inputDesc : undefined,
+                        theme: inputTheme,
+                        photoPath: dataImg || 'default.jpg',
+                        creationDate: new Date(),
+                        items: [],
+                        collectionFields: fields
+                    })
         }
         if (isErrorImg) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
@@ -75,7 +70,7 @@ function AddCollection() {
         let inputName = (document.getElementById('inputName') as HTMLInputElement).value;
         let inputTheme = (document.getElementById('inputTheme') as HTMLInputElement).value;
         let inputDesc = (document.getElementById('inputDesc') as HTMLInputElement).value;
-        if (inputName === '' || inputTheme === '' || fields.some(field => field.name.trim() === '')) {
+        if (inputName === '' || inputTheme === '' || fields.some(field => field.fieldName.trim() === '')) {
             const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('addCollectionModal') || 'addCollectionModal');
             setModalInfo({ title: "Ошибка", children: 'Введите данные' })
             myModal.show();
@@ -96,25 +91,19 @@ function AddCollection() {
                 photoPath: dataImg || 'default.jpg',
                 creationDate: new Date(),
                 items: [],
-                collectionFields: fields.map(field => {
-                    return {
-                        id: undefined,
-                        fieldName: field.name,
-                        fieldType: field.type
-                    }
-                })
+                collectionFields: fields
             })
         }
     }
-    // TODO: FIX ПРИ ЛОГИНЕ С ДРУГОГО ПОЛЬЗОВАТЕЛЯ КОЛЛЕКЦИЯ ДОБАВЛЯЕТСЯ ПРЕДЫДУЩЕМУ ЕСЛИ НЕ ОБНОВИТЬ СТРАНИЦУ
+
     return (
         <div className="d-flex p-3 flex-fill">
             <div className="d-flex flex-column main-wrapper ms-auto me-auto">
-                <Link to={'/'} className="btn btn-outline-primary align-items-center align-self-start d-flex mt-3">
+                <Link to={'/cabinet'} className="btn btn-outline-primary align-items-center align-self-start d-flex mt-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left me-2" viewBox="0 0 16 16">
                         <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                     </svg>
-                    Вернуться на главную
+                    Вернуться в личный кабинет
                 </Link>
                 <h2 className="text-center p-3">
                     Создание новой коллекции
@@ -134,14 +123,14 @@ function AddCollection() {
                     <span className='fs-5 mb-1'>
                         Добавьте поля коллекции
                     </span>
-                    <button className='btn btn-secondary mb-2' onClick={() => setFields([...fields, { id: fields.length, name: '', type: 'string' }])}>
+                    <button className='btn btn-secondary mb-2' onClick={() => setFields([...fields, { id: fields.length, fieldName: '', fieldType: 'string' }])}>
                         Добавить поле
                     </button>
                     <CollectionFields fields={fields} setFields={setFields} />
                     <button onClick={() => addCollectionClick()} className='btn btn-primary fs-4 mt-4'>
                         {isLoadingImg || isLoading ?
                             <div className="spinner-border" role="status">
-                                <span className="visually-hidden">Loading...</span>
+                                <span className="visually-hidden">Загрузка...</span>
                             </div>
                             :
                             <div>Создать колллекцию</div>

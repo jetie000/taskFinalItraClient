@@ -6,13 +6,13 @@ export const baseApi = createApi({
     baseQuery: fetchBaseQuery({
       baseUrl: variables.API_URL,
       prepareHeaders: (headers) => {
-        const token = variables.ACCESS_TOKEN;
+        const token = variables.GET_ACCESS_TOKEN();
         if (token) {
           headers.set("Authorization", `Bearer ${token}`);
         }
         return headers;
       },
     }),
-    tagTypes: ["Collections", "User", "Collection"],
+    tagTypes: ["Collections", "User", "Collection", "Items"],
     endpoints: () => ({}),
   });

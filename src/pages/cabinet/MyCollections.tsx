@@ -7,6 +7,7 @@ import { Toast as bootstrapToast } from 'bootstrap';
 import { useGetMyCollectionsQuery } from '../../store/api/collections.api';
 import './Cabinet.scss'
 import { variables } from '../../variables';
+import { ICollection } from '../../types/collection.interface';
 
 function MyCollections() {
     const { setToastChildren, setCollections } = useActions();
@@ -16,7 +17,14 @@ function MyCollections() {
 
     useEffect(() => {
         if (isSuccess) {
-            setCollections(data);
+            if (data === 'No user found.') {
+
+                const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
+                setToastChildren('Ошибка загрузки коллекций');
+                myToast.show();
+            }
+            else
+                setCollections(data as ICollection[]);
         }
         if (isError) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
@@ -35,7 +43,7 @@ function MyCollections() {
                     user?.collections &&
                     user.collections.map(collection => {
                         let correctDate = new Date(collection.creationDate).toLocaleTimeString() + ' ' + new Date(collection.creationDate).toLocaleDateString();
-                        return <div onClick={() => navigate('/collection/'+collection.id)} className='m-2 border rounded-4 collection-item d-flex cursor-pointer' key={collection.id}>
+                        return <div onClick={() => navigate('/collection/' + collection.id)} className='m-2 border rounded-4 collection-item d-flex cursor-pointer' key={collection.id}>
                             <img className='rounded-start-4' src={variables.PHOTOS_URL + collection.photoPath} alt="CollectionImg" />
                             <div className='d-flex flex-column p-4 ps-5 fs-5 justify-content-around'>
                                 <span className='fs-1'>{collection.title}</span>
@@ -57,6 +65,13 @@ function MyCollections() {
                         </div>
                     }
                     )
+                }
+                {isLoading &&
+                    <div className="d-flex p-3">
+                        <div className="spinner-border m-auto" role="status">
+                            <span className="visually-hidden">Загрузка...</span>
+                        </div>
+                    </div>
                 }
                 <div className='btn btn-outline-primary collection-add m-2 border rounded-4 d-flex' onClick={() => navigate('/addcollection')}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" className="bi bi-plus-circle m-auto" viewBox="0 0 16 16">
