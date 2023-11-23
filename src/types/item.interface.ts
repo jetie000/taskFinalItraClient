@@ -1,3 +1,4 @@
+import { ICollection } from "./collection.interface"
 import { IComment } from "./comment.interface"
 import { IItemFields } from "./itemFields.interface"
 import { IReaction } from "./reaction.interface"
@@ -11,4 +12,5 @@ export interface IItem{
     fields : IItemFields[] | undefined
     comments : IComment[] | undefined
     reactions : IReaction[] | undefined
+    myCollection? : ICollection
 }

@@ -34,19 +34,19 @@ function MyCollections() {
     }, [isLoading])
 
     return (
-        <div className='ps-3 pe-3 d-flex flex-column flex-fill'>
+        <div className='ps-3 pe-3 d-flex flex-column w-75 flex-fill'>
             <h2 className='text-center p-3'>
                 Мои коллекции
             </h2>
-            <div className='overflow-y-auto collection-wrapper'>
+            <div className='overflow-y-auto collection-wrapper flex-fill'>
                 {
                     user?.collections &&
                     user.collections.map(collection => {
                         let correctDate = new Date(collection.creationDate).toLocaleTimeString() + ' ' + new Date(collection.creationDate).toLocaleDateString();
                         return <div onClick={() => navigate('/collection/' + collection.id)} className='m-2 border rounded-4 collection-item d-flex cursor-pointer' key={collection.id}>
                             <img className='rounded-start-4' src={variables.PHOTOS_URL + collection.photoPath} alt="CollectionImg" />
-                            <div className='d-flex flex-column p-4 ps-5 fs-5 justify-content-around'>
-                                <span className='fs-1'>{collection.title}</span>
+                            <div className='d-flex flex-column p-4 ps-5 fs-5 justify-content-around flex-fill w-25'>
+                                <span className='fs-1 text-truncate'>{collection.title}</span>
                                 <div className='d-flex gap-2'>
                                     <div className='d-flex flex-column'>
                                         <span className='fs-3 fw-light'>Категория: </span>
@@ -55,7 +55,7 @@ function MyCollections() {
                                         <span>Создано: </span>
                                     </div>
                                     <div className='d-flex flex-column'>
-                                        <span className='fs-3 fw-light'>{collection.theme}</span>
+                                        <span className='fs-3 fw-light text-truncate'>{collection.theme}</span>
                                         <span>{collection.items?.length || 0}</span>
                                         <span>{collection.collectionFields?.length || 0}</span>
                                         <span>{correctDate}</span>

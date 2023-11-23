@@ -118,8 +118,8 @@ function AddCollection() {
                     <input className="form-control fs-6 mb-3" id="inputName" placeholder="Введите название коллекции" />
                     <label className="mb-1 fs-5" htmlFor="inputTheme">Тема коллекции</label>
                     <input className="form-control fs-6 mb-3" id="inputTheme" placeholder="Введите тему коллекции" />
-                    <label className="mb-1 fs-5" htmlFor="inputDesc">Описание (по желанию)</label>
-                    <textarea className="form-control fs-6 mb-3" id="inputDesc" placeholder="Введите описание коллекции" />
+                    <label className="mb-1 fs-5" htmlFor="inputDesc">Описание в Markdown (по желанию)</label>
+                    <textarea rows={4} className="form-control fs-6 mb-3" id="inputDesc" placeholder="Введите описание коллекции" />
                     <span className='fs-5 mb-1'>
                         Добавьте поля коллекции
                     </span>

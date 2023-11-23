@@ -15,7 +15,7 @@ function Collection() {
     const { setToastChildren, setCollections } = useActions();
     const navigate = useNavigate();
     const { isLoading: isLoadingMy, isSuccess: isSuccessMy, isError: isErrorMy, error: errorMy, data: dataMy } = useGetMyCollectionsQuery(user?.accessToken || '')
-
+    
     useEffect(() => {
         if (isError || data === 'No collection found.') {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');

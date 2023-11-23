@@ -6,7 +6,6 @@ import { useActions } from '../../hooks/useActions';
 import { IModalInfo } from '../../types/modalInfo.interface';
 import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap';
-import { ICollectionFields } from '../../types/collectionFields.interface';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { dataUrlToFile } from '../../utils/cropUtils';
 import Modal from '../modal/Modal';
@@ -71,7 +70,7 @@ function ChangeCollection() {
         }
     }, [isLoading])
 
-    const addCollectionClick = async () => {
+    const changeCollectionClick = async () => {
         let inputName = (document.getElementById('inputName') as HTMLInputElement).value;
         let inputTheme = (document.getElementById('inputTheme') as HTMLInputElement).value;
         let inputDesc = (document.getElementById('inputDesc') as HTMLInputElement).value;
@@ -109,7 +108,8 @@ function ChangeCollection() {
                         <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                     </svg>
                     Вернуться к коллекции
-                </Link>{
+                </Link>
+                {
                     dataGet && typeof (dataGet) !== 'string' && <>
                         <h2 className="text-center p-3">
                             Изменение коллекции
@@ -125,9 +125,9 @@ function ChangeCollection() {
                             <input className="form-control fs-6 mb-3" id="inputName" placeholder="Введите название коллекции" defaultValue={dataGet.collection.title} />
                             <label className="mb-1 fs-5" htmlFor="inputTheme">Тема коллекции</label>
                             <input className="form-control fs-6 mb-3" id="inputTheme" placeholder="Введите тему коллекции" defaultValue={dataGet.collection.theme} />
-                            <label className="mb-1 fs-5" htmlFor="inputDesc">Описание (по желанию)</label>
-                            <textarea className="form-control fs-6 mb-3" id="inputDesc" placeholder="Введите описание коллекции" defaultValue={dataGet.collection.description}/>
-                            <button onClick={() => addCollectionClick()} className='btn btn-primary fs-4 mt-4'>
+                            <label className="mb-1 fs-5" htmlFor="inputDesc">Описание в Markdown (по желанию)</label>
+                            <textarea rows={4} className="form-control fs-6 mb-3" id="inputDesc" placeholder="Введите описание коллекции" defaultValue={dataGet.collection.description}/>
+                            <button onClick={() => changeCollectionClick()} className='btn btn-primary fs-4 mt-4'>
                                 {isLoadingImg || isLoading ?
                                     <div className="spinner-border" role="status">
                                         <span className="visually-hidden">Загрузка...</span>

@@ -12,7 +12,7 @@ import { useActions } from '../../hooks/useActions';
 import { useNavigate } from 'react-router-dom';
 import { marked } from 'marked';
 
-function CollectionInfo({data} : {data: ICollectionInfo}) {
+function CollectionInfo({ data }: { data: ICollectionInfo }) {
     const { user } = useSelector((state: RootState) => state.user);
     const { setToastChildren } = useActions();
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
@@ -28,8 +28,8 @@ function CollectionInfo({data} : {data: ICollectionInfo}) {
                     setToastChildren('Коллекция не найдена');
                 else {
                     setToastChildren('Коллекция успешно удалена');
-                    myToast.show();
                 }
+            myToast.show();
         }
         if (isErrorDelete) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
@@ -37,7 +37,7 @@ function CollectionInfo({data} : {data: ICollectionInfo}) {
             myToast.show();
         }
     }, [isLoadingDelete])
-    
+
     const deleteCollectionClick = () => {
         const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('collectionModal') || 'collectionModal');
         const children = data && typeof (data) !== 'string'
@@ -57,10 +57,10 @@ function CollectionInfo({data} : {data: ICollectionInfo}) {
         <>
             <div className="d-flex">
                 <img className="w-50 rounded-4" src={variables.PHOTOS_URL + data.collection.photoPath} alt="collection img" />
-                <div className="d-flex flex-column ps-5 justify-content-around flex-fill">
+                <div className="d-flex flex-column ps-5 justify-content-around flex-fill w-50">
                     <span className="fs-1 align-self-center">Коллекция</span>
                     <hr />
-                    <span className='fs-1'>{data.collection.title}</span>
+                    <span className='fs-1 text-truncate'>{data.collection.title}</span>
                     <hr />
                     <div className='d-flex gap-2 fs-2'>
                         <div className='d-flex flex-column'>
@@ -71,24 +71,24 @@ function CollectionInfo({data} : {data: ICollectionInfo}) {
                             <span>Создатель: </span>
                         </div>
                         <div className='d-flex flex-column'>
-                            <span className='fw-light'>{data.collection.theme}</span>
+                            <span className='fw-light text-truncate'>{data.collection.theme}</span>
                             <span className="ms-2">{data.collection.items?.length || 0}</span>
                             <span className="ms-2">{data.collection.collectionFields?.length || 0}</span>
-                            <span>{new Date(data.collection.creationDate).toLocaleTimeString() + ' ' + new Date(data.collection.creationDate).toLocaleDateString()}</span>
-                            <span>{data.userName}</span>
+                            <span>{new Date(data.collection.creationDate).toLocaleString()}</span>
+                            <span className='text-truncate'>{data.userName}</span>
                         </div>
                     </div>
                 </div>
             </div>
             {
                 data.collection.description && data.collection.description?.trim() != '' &&
-                <div className="pt-5 fs-5" dangerouslySetInnerHTML={{__html: marked.parse(data.collection.description)}}>
+                <div className="mt-4 fs-5" dangerouslySetInnerHTML={{ __html: marked.parse(data.collection.description) }}>
                 </div>
             }
             {
                 user && user.collections?.some(collection => collection.id === data.collection.id) &&
                 <div className="d-flex gap-3 mt-3">
-                    <button onClick={() => navigate('/collection/'+data.collection.id+'/change')} className="btn btn-primary fs-4 w-50">
+                    <button onClick={() => navigate('/collection/' + data.collection.id + '/change')} className="btn btn-primary fs-4 w-50">
                         Изменить коллекцию
                     </button>
                     <button onClick={() => deleteCollectionClick()} className="btn btn-danger fs-4 w-50">

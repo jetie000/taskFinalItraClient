@@ -38,7 +38,7 @@ export const collectionsApi = baseApi.injectEndpoints({
         changeMyCollection: builder.mutation<string, ICollection>({
             query: (collection) => ({
                 body: collection,
-                url: '/collection/changeInfoMy?accessToken=' + variables.GET_ACCESS_TOKEN(),
+                url: '/collection/change?accessToken=' + variables.GET_ACCESS_TOKEN(),
                 method: 'PUT',
             }),
             invalidatesTags: () => [{
