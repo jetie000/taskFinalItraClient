@@ -173,7 +173,7 @@ function AddItem({ data }: { data: ICollectionInfo }) {
                 </div>
             }
             {
-                user && (user.collections?.some(collection => collection.id === data.collection.id) || user.role === 1) &&
+                user && ((user.collections && user.collections.some(collection => collection.id === data.collection.id)) || user.role === 1) &&
                 <div className='btn btn-outline-primary mt-3 border rounded-4 d-flex' onClick={() => setIsAddingItem(!isAddingItem)}>
                     {
                         isAddingItem ?
