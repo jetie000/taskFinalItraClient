@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { Toast as bootstrapToast } from 'bootstrap';
-import { useGetItemQuery } from '../../store/api/items.api';
+import { useChangeMyItemMutation, useGetItemQuery } from '../../store/api/items.api';
 import { useActions } from '../../hooks/useActions';
 import { ITag } from '../../types/tag.interface';
+import { IItemFields } from '../../types/itemFields.interface';
+import { IItemInfo } from '../../types/itemInfo.interface';
 
 function ChangeItem() {
     let { id, idItem } = useParams();
     const { isLoading, isSuccess, isError, error, data } = useGetItemQuery(Number(idItem))
-    const [addItem, { isLoading: isLoadingChange, isSuccess: isSuccessChange, isError: isErrorChange, error: errorChange, data: dataChange }] = useChangeItemMutation();
+    const [changeMyItem, { isLoading: isLoadingChange, isSuccess: isSuccessChange, isError: isErrorChange, error: errorChange, data: dataChange }] = useChangeMyItemMutation();
     const { setToastChildren } = useActions();
     const [itemTags, setItemTags] = useState<string[]>([]);
 
@@ -23,6 +25,34 @@ function ChangeItem() {
             myToast.show();
         }
     }, [isLoading])
+
+    useEffect(() => {
+        if (isSuccessChange) {
+            const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
+            switch (dataChange) {
+                case 'No user found.':
+                    setToastChildren('Пользователь не найден'); break;
+                case 'No item found.':
+                    setToastChildren('Коллекция не найдена'); break;
+                case 'Fields don\'t match.':
+                    setToastChildren('Поля коллекции и предмета не совпадают'); break;
+                case 'There are empty fields.':
+                    setToastChildren('Присутствуют пустые поля'); break;
+                case 'No access to item.':
+                    setToastChildren('Нет доступа к предмету'); break;
+                case 'Item changed.':
+                    setToastChildren('Предмет успешно изменен'); break;
+                default:
+                    setToastChildren('Ошибка изменения предмета'); break;
+            }
+            myToast.show();
+        }
+        if (isErrorChange) {
+            const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
+            setToastChildren('Ошибка изменения предмета');
+            myToast.show();
+        }
+    }, [isLoadingChange])
 
     const addTag = () => {
         let value = (document.getElementById('inputTag') as HTMLInputElement).value;
@@ -43,40 +73,39 @@ function ChangeItem() {
     const changeItemClick = () => {
         let inputItemName = (document.getElementById('inputItemName') as HTMLInputElement).value;
         let itemFields: IItemFields[] = [];
-        data.collection.collectionFields?.forEach(field => {
-            switch (field.fieldType) {
-                case 'string':
-                    let valueStr = (document.getElementById('input' + field.id) as HTMLInputElement)?.value.trim()
-                    itemFields.push({
-                        stringFieldValue: valueStr === '' ? undefined : valueStr,
-                        fieldName: field.fieldName,
-                        id: 0
-                    })
-                    break;
-                case 'number':
+        (data as IItemInfo).item.fields?.forEach(field => {
+            if (field.stringFieldValue !== null) {
+                let valueStr = (document.getElementById('input' + field.id) as HTMLInputElement)?.value.trim()
+                itemFields.push({
+                    stringFieldValue: valueStr === '' ? undefined : valueStr,
+                    fieldName: field.fieldName,
+                    id: 0
+                })
+            } else
+                if (field.doubleFieldValue !== null) {
+
                     let valueNum = (document.getElementById('input' + field.id) as HTMLInputElement)?.value;
                     itemFields.push({
                         doubleFieldValue: valueNum === '' ? undefined : Number(valueNum),
                         fieldName: field.fieldName,
                         id: 0
                     })
-                    break;
-                case 'Date':
-                    let valueDate = (document.getElementById('input' + field.id) as HTMLInputElement)?.value;
-                    itemFields.push({
-                        dateFieldValue: valueDate === '' ? undefined : new Date(valueDate),
-                        fieldName: field.fieldName,
-                        id: 0
-                    })
-                    break;
-                case 'boolean':
-                    itemFields.push({
-                        boolFieldValue: (document.getElementById('input' + field.id) as HTMLInputElement)?.checked,
-                        fieldName: field.fieldName,
-                        id: 0
-                    })
-                    break;
-            }
+                } else
+                    if (field.dateFieldValue !== null) {
+                        let valueDate = (document.getElementById('input' + field.id) as HTMLInputElement)?.value;
+                        itemFields.push({
+                            dateFieldValue: valueDate === '' ? undefined : new Date(valueDate),
+                            fieldName: field.fieldName,
+                            id: 0
+                        })
+                    }
+                    else {
+                        itemFields.push({
+                            boolFieldValue: (document.getElementById('input' + field.id) as HTMLInputElement)?.checked,
+                            fieldName: field.fieldName,
+                            id: 0
+                        })
+                    }
         })
         if (inputItemName.trim() === '' || itemFields.some(field =>
             field.dateFieldValue === undefined && field.doubleFieldValue === undefined && field.stringFieldValue === undefined && field.boolFieldValue === undefined)) {
@@ -86,11 +115,11 @@ function ChangeItem() {
             myToast.show();
             return;
         }
-        CHANGEItem({
-            item: {
-                id: 0,
+        changeMyItem(
+            {
+                id: (data as IItemInfo).item.id ,
                 name: inputItemName,
-                tags: addItemTags.map(tag => {
+                tags: itemTags.map(tag => {
                     return {
                         id: 0,
                         tag: tag
@@ -100,9 +129,7 @@ function ChangeItem() {
                 fields: itemFields,
                 comments: undefined,
                 reactions: undefined
-            },
-            collectionId: data.collection.id || 0
-        })
+            })
     }
     return (
         <div className="d-flex p-3 flex-fill">
@@ -122,16 +149,19 @@ function ChangeItem() {
                             <div className="d-flex gap-4 mb-3">
                                 <div className="d-flex flex-column w-50">
                                     <label htmlFor="inputItemName">Название предмета</label>
-                                    <input type='text' className="form-control" id="inputItemName" placeholder="Введите название предмета" defaultValue={data.item.name}/>
+                                    <input type='text' className="form-control" id="inputItemName" placeholder="Введите название предмета" defaultValue={data.item.name} />
                                     {
                                         data.item.fields && data.item.fields.map(field =>
                                             <div key={field.id}>
                                                 <label htmlFor={"input" + field.id}>{field.fieldName}</label>
                                                 {
-                                                    field.stringFieldValue !== null ? <input type="text" defaultValue={field.stringFieldValue} className='item-field form-control' id={"input" + field.id}/>
-                                                    : (field.doubleFieldValue !== null ? <input type='number' defaultValue={field.doubleFieldValue} className='item-field form-control' id={"input" + field.id}/>
-                                                    : (field.dateFieldValue !== null ? <input type='datetime-local' defaultValue={field.dateFieldValue?.toString()} className='item-field form-control' id={"input" + field.id}/>
-                                                    : <input type='checkbox' defaultChecked={field.boolFieldValue} className='item-field form-control form-check-input p-2' id={"input" + field.id}/>))
+                                                    field.stringFieldValue !== null
+                                                        ? <input type="text" defaultValue={field.stringFieldValue} className='item-field form-control' id={"input" + field.id} />
+                                                        : (field.doubleFieldValue !== null
+                                                            ? <input type='number' defaultValue={field.doubleFieldValue} className='item-field form-control' id={"input" + field.id} />
+                                                            : (field.dateFieldValue !== null
+                                                                ? <input type='datetime-local' defaultValue={field.dateFieldValue?.toString()} className='item-field form-control' id={"input" + field.id} />
+                                                                : <input type='checkbox' defaultChecked={field.boolFieldValue} className='item-field form-control form-check-input p-2' id={"input" + field.id} />))
                                                 }
                                             </div>
                                         )
@@ -157,7 +187,7 @@ function ChangeItem() {
                                 </div>
                             </div>
                             <button onClick={() => changeItemClick()} className='btn btn-primary fs-4 mt-4'>
-                                {isLoading ?
+                                {isLoadingChange ?
                                     <div className="spinner-border" role="status">
                                         <span className="visually-hidden">Загрузка...</span>
                                     </div>
@@ -174,7 +204,3 @@ function ChangeItem() {
 }
 
 export default ChangeItem;
-
-function useChangeItemMutation(): [any, { isLoading: any; isSuccess: any; isError: any; error: any; data: any; }] {
-    throw new Error('Function not implemented.');
-}

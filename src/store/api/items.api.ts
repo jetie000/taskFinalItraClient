@@ -21,8 +21,6 @@ export const itemsApi = baseApi.injectEndpoints({
                 method: 'POST',
             }),
             invalidatesTags: () => [{
-                type: 'Items',
-            },{
                 type: 'Collection'
             }]
         }),

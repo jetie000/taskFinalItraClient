@@ -82,7 +82,7 @@ function CollectionInfo({ data }: { data: ICollectionInfo }) {
             </div>
             {
                 data.collection.description && data.collection.description?.trim() != '' &&
-                <div className="mt-4 fs-5" dangerouslySetInnerHTML={{ __html: marked.parse(data.collection.description) }}>
+                <div className="mt-4 fs-5 text-break" dangerouslySetInnerHTML={{ __html: marked.parse(data.collection.description) }}>
                 </div>
             }
             {
