@@ -89,7 +89,7 @@ function ItemInfo({ data }: { data: IItemInfo }) {
                 <div className=" w-50 d-flex flex-column ps-5 justify-content-around flex-fill">
                     <span className="fs-1 align-self-center">Предмет</span>
                     <hr />
-                    <span className='fs-1'>{data.item.name}</span>
+                    <span className='fs-1 text-truncate'>{data.item.name}</span>
                     <hr />
                     <div className='d-flex gap-2 fs-2'>
                         <div className='flex-shrink-0 d-flex flex-column'>

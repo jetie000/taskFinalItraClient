@@ -16,6 +16,17 @@ export const collectionsApi = baseApi.injectEndpoints({
                 type: 'Collections'
             }]
         }),
+        getLargestCollections: builder.query<ICollection[] | string, number>({
+            query: (limit) => ({
+                url: '/collection/getLargest?limit=' + limit,
+                method: 'GET',
+            }),
+            providesTags: () => [{
+                type: 'Collections'
+            },{
+                type: 'Collection'
+            }]
+        }),
         getCollection: builder.query<ICollectionInfo | string, number>({
             query: (collectionId) => ({
                 url: '/collection/getOne?collectionId=' + collectionId,
@@ -74,5 +85,6 @@ export const {
     useChangeMyCollectionMutation,
     useDeleteCollectionMutation,
     usePostCollectionPhotoMutation,
-    useGetCollectionQuery
+    useGetCollectionQuery,
+    useGetLargestCollectionsQuery
 } = collectionsApi

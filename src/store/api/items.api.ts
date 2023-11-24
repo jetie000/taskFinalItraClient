@@ -23,6 +23,17 @@ export const itemsApi = baseApi.injectEndpoints({
                 type: 'Item'
             }]
         }),
+        getLastItems: builder.query<IItemInfo[] | string, number>({
+            query: (limit) => ({
+                url: '/item/getLast?limit=' + limit,
+                method: 'GET',
+            }),
+            providesTags: () => [{
+                type: 'Item'
+            },{
+                type: 'Collection'
+            }]
+        }),
         getReactionItems: builder.query<IItem[] | string, undefined>({
             query: () => ({
                 url: '/reaction/getMy?accessToken=' + variables.GET_ACCESS_TOKEN(),
@@ -74,5 +85,6 @@ export const {
     useChangeMyItemMutation,
     useDeleteMyItemMutation,
     useGetCommentsItemsQuery,
-    useGetReactionItemsQuery
+    useGetReactionItemsQuery,
+    useGetLastItemsQuery
 } = itemsApi

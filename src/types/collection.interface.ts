@@ -11,6 +11,7 @@ export interface ICollection {
     creationDate: Date
     items: IItem[] | undefined
     collectionFields: ICollectionFields[] | undefined
+    user? : IUser
 }
 
 
