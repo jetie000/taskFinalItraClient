@@ -11,6 +11,6 @@ export interface IItem{
     creationDate: Date
     fields : IItemFields[] | undefined
     comments : IComment[] | undefined
-    reactions : IReaction[] | undefined
+    likes : IReaction[] | undefined
     myCollection? : ICollection
 }

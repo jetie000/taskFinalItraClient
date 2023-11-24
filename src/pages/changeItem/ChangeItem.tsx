@@ -128,7 +128,7 @@ function ChangeItem() {
                 creationDate: new Date(),
                 fields: itemFields,
                 comments: undefined,
-                reactions: undefined
+                likes: undefined
             })
     }
     return (

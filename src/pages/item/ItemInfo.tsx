@@ -3,24 +3,25 @@ import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap';
 import { IModalInfo } from '../../types/modalInfo.interface';
 import Modal from '../modal/Modal';
-import { useDeleteCollectionMutation } from '../../store/api/collections.api';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { variables } from '../../variables';
 import { useActions } from '../../hooks/useActions';
 import { useNavigate, useParams } from 'react-router-dom';
-import { marked } from 'marked';
 import { IItemInfo } from '../../types/itemInfo.interface';
 import { useDeleteMyItemMutation } from '../../store/api/items.api';
 import ItemInfoFields from './ItemInfoFields';
 import ItemInfoTags from './ItemInfoTags';
+import ItemComments from './ItemComments';
+import { useSetReactionMutation } from '../../store/api/reaction.api';
 
 function ItemInfo({ data }: { data: IItemInfo }) {
-    let { id, idItem } = useParams();
+    let { id } = useParams();
     const { user } = useSelector((state: RootState) => state.user);
     const { setToastChildren } = useActions();
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
     const [deleteItem, { isLoading: isLoadingDelete, isSuccess: isSuccessDelete, isError: isErrorDelete, error: errorDelete, data: dataDelete }] = useDeleteMyItemMutation();
+    const [setReaction, { isLoading: isLoadingSet, isSuccess: isSuccessSet, isError: isErrorSet, error: errorSet, data: dataSet }] = useSetReactionMutation();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,6 +45,25 @@ function ItemInfo({ data }: { data: IItemInfo }) {
             myToast.show();
         }
     }, [isLoadingDelete])
+
+    useEffect(() => {
+        if (isSuccessSet) {
+            const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
+            switch (dataSet) {
+                case 'No user found.':
+                    setToastChildren('Пользователь не найден');
+                    myToast.show(); break;
+                case 'No item found.':
+                    setToastChildren('Предмет не найден');
+                    myToast.show(); break;
+            }
+        }
+        if (isErrorSet) {
+            const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
+            setToastChildren('Ошибка удаления предмета');
+            myToast.show();
+        }
+    }, [isLoadingSet])
 
     const deleteItemClick = () => {
         const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('itemModal') || 'itemModal');
@@ -86,6 +106,36 @@ function ItemInfo({ data }: { data: IItemInfo }) {
                             </span>
                         </div>
                     </div>
+                    <hr />
+                    <div className="d-flex gap-2 justify-content-center">
+                        <button onClick={() => setReaction({
+                            reaction: {
+                                id: 0,
+                                userId: user!.id,
+                                isLike: true,
+                                creationDate: new Date()
+                            },
+                            itemId: data.item.id
+                        })}
+                            className={'btn fs-5 ' + (data.item.likes?.some(like =>
+                                like.isLike === true && like.userId == user?.id) ? 'btn-primary' : 'btn-secondary')}>
+                            Нравится {' '}
+                            {data.item.likes?.filter(like => like.isLike === true).length || 0}
+                        </button>
+                        <button onClick={() => setReaction({
+                            reaction: {
+                                id: 0,
+                                userId: user!.id,
+                                isLike: false,
+                                creationDate: new Date()
+                            },
+                            itemId: data.item.id
+                        })} className={'btn fs-5 ' + (data.item.likes?.some(like =>
+                            like.isLike === false && like.userId == user?.id) ? 'btn-primary' : 'btn-secondary')}>
+                            Не нравится {' '}
+                            {data.item.likes?.filter(like => like.isLike === false).length || 0}
+                        </button>
+                    </div>
                 </div>
             </div>
             {
@@ -105,8 +155,9 @@ function ItemInfo({ data }: { data: IItemInfo }) {
             }
             {
                 data.item.tags && data.item.tags.length > 0 &&
-                <ItemInfoTags tags={data.item.tags}/>
+                <ItemInfoTags tags={data.item.tags} />
             }
+            <ItemComments idItem={data.item.id} comments={data.item.comments || []} />
             <Modal id={"itemModal"} title={modalInfo.title}>
                 {modalInfo.children}
             </Modal>
