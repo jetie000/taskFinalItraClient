@@ -4,7 +4,7 @@ function Home() {
     return (
         <div className="d-flex p-3">
             <div className="d-flex main-wrapper m-auto">
-                <div>
+                <div className="d-flex">
                     Home
                 </div>
             </div>

@@ -86,26 +86,26 @@ function ItemInfo({ data }: { data: IItemInfo }) {
         <>
             <div className="d-flex">
                 <img className="w-50 rounded-4" src={variables.PHOTOS_URL + data.item.myCollection?.photoPath} alt="collection img" />
-                <div className="d-flex flex-column ps-5 justify-content-around flex-fill">
+                <div className=" w-50 d-flex flex-column ps-5 justify-content-around flex-fill">
                     <span className="fs-1 align-self-center">Предмет</span>
                     <hr />
                     <span className='fs-1'>{data.item.name}</span>
                     <hr />
                     <div className='d-flex gap-2 fs-2'>
-                        <div className='d-flex flex-column'>
+                        <div className='flex-shrink-0 d-flex flex-column'>
                             <span className='fw-light'>Дата создания: </span>
                             <span>Коллекция: </span>
                         </div>
-                        <div className='d-flex flex-column'>
+                        <div className='d-flex flex-column overflow-hidden'>
                             <span className='fw-light'>{new Date(data.item.creationDate).toLocaleString()}</span>
-                            <span className='d-flex gap-2 align-items-center'>
+                            <span className='flex-grow-0 text-truncate'>
                                 {data.item.myCollection?.title}
-                                {!id &&
-                                    <button onClick={() => navigate('/collection/' + data.collectionId)} className='btn btn-primary fs-5'>Перейти</button>
-                                }
                             </span>
                         </div>
                     </div>
+                    {!id &&
+                        <button onClick={() => navigate('/collection/' + data.collectionId)} className='btn btn-primary fs-5'>Перейти</button>
+                    }
                     <hr />
                     <div className="d-flex gap-2 justify-content-center">
                         <button onClick={() => setReaction({
