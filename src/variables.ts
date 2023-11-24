@@ -1,8 +1,10 @@
 import { IUser } from "./types/user.interface";
 
 export const variables = {
-    API_URL: 'https://localhost:7066/api',
-    PHOTOS_URL: "https://localhost:7066/photos/",
+    // API_URL: 'https://localhost:7066/api',
+    // PHOTOS_URL: "https://localhost:7066/photos/",
+    PI_URL: 'https://jeytikon-001-site1.etempurl.com/api',
+    PHOTOS_URL: "https://jeytikon-001-site1.etempurl.com/photos/",
     USER_LOCALSTORAGE: "user_info",
     THEME_LOCALSTORAGE: "page_theme",
     LANGUAGE_LOCALSTORAGE: "page_language",
