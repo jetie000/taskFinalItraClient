@@ -139,7 +139,7 @@ function ItemInfo({ data }: { data: IItemInfo }) {
                 </div>
             </div>
             {
-                user && user.id === data.userId &&
+                user && (user.id === data.userId || user.role == 1) &&
                 <div className="d-flex gap-3 mt-3">
                     <button onClick={() => navigate('/collection/' + data.collectionId + '/item/' + data.item.id + '/change')} className="btn btn-primary fs-4 w-50">
                         Изменить предмет

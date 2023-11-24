@@ -14,10 +14,28 @@ export const itemsApi = baseApi.injectEndpoints({
                 type: 'Item'
             }]
         }),
-        addItem: builder.mutation<string, {item:IItem, collectionId: number}>({
-            query: ({item, collectionId}) => ({
+        getCommentsItems: builder.query<IItem[] | string, undefined>({
+            query: () => ({
+                url: '/comment/getMy?accessToken=' + variables.GET_ACCESS_TOKEN(),
+                method: 'GET',
+            }),
+            providesTags: () => [{
+                type: 'Item'
+            }]
+        }),
+        getReactionItems: builder.query<IItem[] | string, undefined>({
+            query: () => ({
+                url: '/reaction/getMy?accessToken=' + variables.GET_ACCESS_TOKEN(),
+                method: 'GET',
+            }),
+            providesTags: () => [{
+                type: 'Item'
+            }]
+        }),
+        addItem: builder.mutation<string, { item: IItem, collectionId: number }>({
+            query: ({ item, collectionId }) => ({
                 body: item,
-                url: '/item/add?collectionId='+collectionId+'&accessToken=' + variables.GET_ACCESS_TOKEN(),
+                url: '/item/add?collectionId=' + collectionId + '&accessToken=' + variables.GET_ACCESS_TOKEN(),
                 method: 'POST',
             }),
             invalidatesTags: () => [{
@@ -32,7 +50,7 @@ export const itemsApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: () => [{
                 type: 'Item'
-            },{
+            }, {
                 type: 'Collection'
             }]
         }),
@@ -43,7 +61,7 @@ export const itemsApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: () => [{
                 type: 'Item'
-            },{
+            }, {
                 type: 'Collection'
             }]
         }),
@@ -54,5 +72,7 @@ export const {
     useAddItemMutation,
     useGetItemQuery,
     useChangeMyItemMutation,
-    useDeleteMyItemMutation
+    useDeleteMyItemMutation,
+    useGetCommentsItemsQuery,
+    useGetReactionItemsQuery
 } = itemsApi

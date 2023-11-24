@@ -2,7 +2,7 @@ import React from 'react'
 import { ITag } from '../../types/tag.interface';
 function ItemInfoTags({ tags }: { tags: ITag[] }) {
     return (
-        <div className='border rounded-4 p-3'>
+        <div className='border rounded-4 p-3 mt-3'>
             <h4>Теги:</h4>
             <div className="d-flex gap-2 flex-wrap">
                 {

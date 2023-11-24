@@ -9,6 +9,7 @@ import MyCollections from "./MyCollections";
 import MyComments from "./MyComments";
 import MyReactions from "./MyReactions";
 import { baseApi } from "../../store/api/baseApi";
+import AdminMenu from "./AdminMenu";
 
 function Cabinet() {
     const [currentPage, setCurrentPage] = useState(<MyInfo />);
@@ -37,6 +38,10 @@ function Cabinet() {
                         </svg>
                         Вернуться на главную
                     </Link>
+                    {   user.role === 1 &&
+                        <button className="btn btn-primary mt-3" onClick={() => setCurrentPage(<AdminMenu />)}>
+                        Меню администратора
+                    </button>}
                     <button className="btn btn-primary mt-3" onClick={() => setCurrentPage(<MyInfo />)}>
                         Мои данные
                     </button>

@@ -114,7 +114,7 @@ function AddItem({ data }: { data: ICollectionInfo }) {
                 creationDate: new Date(),
                 fields: itemFields,
                 comments: undefined,
-                reactions: undefined
+                likes: undefined
             },
             collectionId: data.collection.id || 0
         })
@@ -173,7 +173,7 @@ function AddItem({ data }: { data: ICollectionInfo }) {
                 </div>
             }
             {
-                user && user.collections?.some(collection => collection.id === data.collection.id) &&
+                user && (user.collections?.some(collection => collection.id === data.collection.id) || user.role === 1) &&
                 <div className='btn btn-outline-primary mt-3 border rounded-4 d-flex' onClick={() => setIsAddingItem(!isAddingItem)}>
                     {
                         isAddingItem ?

@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ICollectionInfo } from "../../types/collectionInfo.interface";
-import { Toast as bootstrapToast } from 'bootstrap';
-import { useActions } from "../../hooks/useActions";
 import AddItem from "./AddItem";
 import './Collection.scss'
 import { useNavigate } from "react-router-dom";
 
 function CollectionItems({ data }: { data: ICollectionInfo }) {
-    const { setToastChildren } = useActions();
     const navigate = useNavigate();
 
     return (

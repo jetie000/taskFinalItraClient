@@ -19,6 +19,7 @@ function CollectionInfo({ data }: { data: ICollectionInfo }) {
     const [deleteCollection, { isLoading: isLoadingDelete, isSuccess: isSuccessDelete, isError: isErrorDelete, error: errorDelete, data: dataDelete }] = useDeleteCollectionMutation();
     const navigate = useNavigate();
     useEffect(() => {
+        const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('collectionModal') || 'collectionModal');
         if (isSuccessDelete) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             if (dataDelete === 'No user found.')
@@ -30,11 +31,13 @@ function CollectionInfo({ data }: { data: ICollectionInfo }) {
                     setToastChildren('Коллекция успешно удалена');
                 }
             myToast.show();
+            myModal.hide()
         }
         if (isErrorDelete) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             setToastChildren('Ошибка удаления коллекции');
             myToast.show();
+            myModal.hide();
         }
     }, [isLoadingDelete])
 
@@ -86,7 +89,7 @@ function CollectionInfo({ data }: { data: ICollectionInfo }) {
                 </div>
             }
             {
-                user && user.collections?.some(collection => collection.id === data.collection.id) &&
+                user && (user.collections?.some(collection => collection.id === data.collection.id) || user.role === 1) &&
                 <div className="d-flex gap-3 mt-3">
                     <button onClick={() => navigate('/collection/' + data.collection.id + '/change')} className="btn btn-primary fs-4 w-50">
                         Изменить коллекцию

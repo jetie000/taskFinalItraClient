@@ -91,7 +91,7 @@ function ItemComments({ idItem, comments }: { idItem: number, comments: IComment
                                     {comment.comment}
                                 </div>
                                 {
-                                    comment.userId === user!.id &&
+                                    (comment.userId === user!.id || user!.role === 1) &&
                                     <>
                                         <div className="vr ms-auto"></div>
                                         <button onClick={() => deleteComment(comment.id)} className='btn btn-danger align-self-start p-1'>

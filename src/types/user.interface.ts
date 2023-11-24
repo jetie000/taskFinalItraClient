@@ -31,6 +31,8 @@ export interface IUserChangeInfo{
     saltedOldPassword: string
     fullName: string
     accessToken: string
+    access? : boolean
+    role? : number
 }
 
 export interface IUserDeleteInfo{
