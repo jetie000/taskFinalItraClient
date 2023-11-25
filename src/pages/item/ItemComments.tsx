@@ -73,11 +73,15 @@ function ItemComments({ idItem, comments }: { idItem: number, comments: IComment
     return (
         <div className='d-flex flex-column mt-3 gap-1'>
             <h2>Комментарии:</h2>
-            <div className="input-group mb-2">
-                <input type="text" className="form-control" placeholder="Введите комментарий" id='commentInput' />
-                <button onClick={() => addCommentClick()} className="btn btn-outline-secondary" type="button" id="buttonAdd">Отправить</button>
-            </div>
-            {comments.length > 0 &&
+
+            {
+                user &&
+                <div className="input-group mb-2">
+                    <input type="text" className="form-control" placeholder="Введите комментарий" id='commentInput' />
+                    <button onClick={() => addCommentClick()} className="btn btn-outline-secondary" type="button" id="buttonAdd">Отправить</button>
+                </div>
+            }
+            {comments.length > 0 ?
                 <ul className="list-group">
 
                     {comments.map(comment =>
@@ -91,7 +95,7 @@ function ItemComments({ idItem, comments }: { idItem: number, comments: IComment
                                     {comment.comment}
                                 </div>
                                 {
-                                    (comment.userId === user!.id || user!.role === 1) &&
+                                    (comment.userId === user?.id || user?.role === 1) &&
                                     <>
                                         <div className="vr ms-auto"></div>
                                         <button onClick={() => deleteComment(comment.id)} className='btn btn-danger align-self-start p-1'>
@@ -103,10 +107,9 @@ function ItemComments({ idItem, comments }: { idItem: number, comments: IComment
                                 }
                             </div>
                         </li>
-                    )
-
-                    }
+                    )}
                 </ul>
+                : <div className='fs-4'>На этом предмете пока нет комментариев</div>
             }
         </div >
     );

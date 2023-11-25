@@ -82,6 +82,25 @@ function ItemInfo({ data }: { data: IItemInfo }) {
         setModalInfo({ title: "Удаление предмета", children: children });
         myModal.show();
     }
+
+    const setReactionClick = (isLike: boolean) => {
+        if(!user){
+            const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
+            setToastChildren('Войдите, чтобы ставить реакции');
+            myToast.show(); 
+            return;
+        }
+        setReaction({
+            reaction: {
+                id: 0,
+                userId: user!.id,
+                isLike: isLike,
+                creationDate: new Date()
+            },
+            itemId: data.item.id
+        })
+    }
+
     return (
         <>
             <div className="d-flex">
@@ -108,29 +127,13 @@ function ItemInfo({ data }: { data: IItemInfo }) {
                     }
                     <hr />
                     <div className="d-flex gap-2 justify-content-center">
-                        <button onClick={() => setReaction({
-                            reaction: {
-                                id: 0,
-                                userId: user!.id,
-                                isLike: true,
-                                creationDate: new Date()
-                            },
-                            itemId: data.item.id
-                        })}
+                        <button onClick={() => setReactionClick(true)}
                             className={'btn fs-5 ' + (data.item.likes?.some(like =>
                                 like.isLike === true && like.userId == user?.id) ? 'btn-primary' : 'btn-secondary')}>
                             Нравится {' '}
                             {data.item.likes?.filter(like => like.isLike === true).length || 0}
                         </button>
-                        <button onClick={() => setReaction({
-                            reaction: {
-                                id: 0,
-                                userId: user!.id,
-                                isLike: false,
-                                creationDate: new Date()
-                            },
-                            itemId: data.item.id
-                        })} className={'btn fs-5 ' + (data.item.likes?.some(like =>
+                        <button onClick={() => setReactionClick(false)} className={'btn fs-5 ' + (data.item.likes?.some(like =>
                             like.isLike === false && like.userId == user?.id) ? 'btn-primary' : 'btn-secondary')}>
                             Не нравится {' '}
                             {data.item.likes?.filter(like => like.isLike === false).length || 0}

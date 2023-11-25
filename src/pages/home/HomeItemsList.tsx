@@ -3,7 +3,7 @@ import { IItem } from '../../types/item.interface';
 import { useNavigate } from 'react-router-dom';
 import { IItemInfo } from '../../types/itemInfo.interface';
 
-function HomeItemsList({ data }: { data: IItemInfo[] }) {
+function HomeItemsList({ data, setItemsLimit, itemsLimit }: { data: IItemInfo[], setItemsLimit: Function, itemsLimit: number }) {
     const navigate = useNavigate();
 
     return (
@@ -56,6 +56,10 @@ function HomeItemsList({ data }: { data: IItemInfo[] }) {
                     </li>
                 )
             }
+
+            <li className='list-group-item btn btn-outline-primary fs-4 d-flex justify-content-center' onClick={() => setItemsLimit(itemsLimit + 5)}>
+                Показать еще
+            </li>
         </ul>
     );
 }

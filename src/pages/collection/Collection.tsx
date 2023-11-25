@@ -15,7 +15,7 @@ function Collection() {
     const { setToastChildren, setCollections } = useActions();
     const navigate = useNavigate();
     const { isLoading: isLoadingMy, isSuccess: isSuccessMy, isError: isErrorMy, error: errorMy, data: dataMy } = useGetMyCollectionsQuery(user?.accessToken || '')
-    
+
     useEffect(() => {
         if (isError || data === 'No collection found.') {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
@@ -25,20 +25,23 @@ function Collection() {
     }, [isLoading])
 
     useEffect(() => {
-        if(isSuccessMy){
+        if (isSuccessMy) {
             if (dataMy === 'No user found') {
-
-                const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-                setToastChildren('Ошибка загрузки коллекций');
-                myToast.show();
+                if (user) {
+                    const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
+                    setToastChildren('Ошибка загрузки коллекций');
+                    myToast.show();
+                }
             }
             else
                 setCollections(dataMy as ICollection[]);
         }
         if (isErrorMy) {
-            const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Ошибка загрузки коллекций');
-            myToast.show();
+            if (user) {
+                const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
+                setToastChildren('Ошибка загрузки коллекций');
+                myToast.show();
+            }
         }
     }, [isLoadingMy])
 
@@ -55,7 +58,7 @@ function Collection() {
                     data && typeof (data) != 'string' && data.collection ?
                         <div className="d-flex flex-column">
                             <CollectionInfo data={data} />
-                            <CollectionItems data={data}/>
+                            <CollectionItems data={data} />
                         </div>
                         : (isLoading ?
                             <div className="spinner-border m-auto" role="status">
