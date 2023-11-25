@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { Toast as bootstrapToast } from 'bootstrap';
 import { useChangeMyItemMutation, useGetItemQuery } from '../../store/api/items.api';
 import { useActions } from '../../hooks/useActions';
 import { ITag } from '../../types/tag.interface';
 import { IItemFields } from '../../types/itemFields.interface';
 import { IItemInfo } from '../../types/itemInfo.interface';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 function ChangeItem() {
     let { id, idItem } = useParams();
+    
+    const { user } = useSelector((state: RootState) => state.user);
+    if (!user) {
+        return <Navigate to={'/'}/>;
+    }
+    
     const { isLoading, isSuccess, isError, error, data } = useGetItemQuery(Number(idItem))
     const [changeMyItem, { isLoading: isLoadingChange, isSuccess: isSuccessChange, isError: isErrorChange, error: errorChange, data: dataChange }] = useChangeMyItemMutation();
     const { setToastChildren } = useActions();

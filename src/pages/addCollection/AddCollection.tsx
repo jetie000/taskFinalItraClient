@@ -7,17 +7,23 @@ import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap';
 import { useActions } from '../../hooks/useActions';
 import { IModalInfo } from '../../types/modalInfo.interface';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import Modal from '../modal/Modal';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { ICollectionFields } from '../../types/collectionFields.interface';
+import { RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
 
 
 function AddCollection() {
     const [croppedImage, setCroppedImage] = useState<string | undefined>(undefined);
+    const { user } = useSelector((state: RootState) => state.user);
     const [fields, setFields] = useState<ICollectionFields[]>([]);
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
     const { setToastChildren } = useActions();
+    
+    if (!user) {
+        return <Navigate to={'/'} />;
+    }
 
     const [addCollection, { isLoading, isSuccess, isError, error, data }] = useAddCollectionMutation();
     const [postCollectionImg, { isLoading: isLoadingImg, isSuccess: isSuccessImg, isError: isErrorImg, error: errorImg, data: dataImg }] = usePostCollectionPhotoMutation();
@@ -61,7 +67,7 @@ function AddCollection() {
         }
         if (isError) {
             const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('addCollectionModal') || 'addCollectionModal');
-            setModalInfo({ title: "Ошибка", children: (error as FetchBaseQueryError).data as string })
+            setModalInfo({ title: "Ошибка", children: "Ошибка добавления коллекции"})
             myModal.show();
         }
     }, [isLoading])

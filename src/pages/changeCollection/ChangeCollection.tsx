@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { useChangeMyCollectionMutation, useGetCollectionQuery, usePostCollectionPhotoMutation } from '../../store/api/collections.api';
 import MyCropper from '../addCollection/MyCropper';
 import { useActions } from '../../hooks/useActions';
@@ -11,6 +11,8 @@ import { dataUrlToFile } from '../../utils/cropUtils';
 import Modal from '../modal/Modal';
 import { variables } from '../../variables';
 import { ICollectionInfo } from '../../types/collectionInfo.interface';
+import { RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
 
 function ChangeCollection() {
     let { id } = useParams();
@@ -18,6 +20,11 @@ function ChangeCollection() {
     const [croppedImage, setCroppedImage] = useState<string | undefined>(undefined);
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
     const { setToastChildren } = useActions();
+    
+    const { user } = useSelector((state: RootState) => state.user);
+    if (!user) {
+        return <Navigate to={'/collection/' + id} />;
+    }
 
     const [changeCollection, { isLoading, isSuccess, isError, error, data }] = useChangeMyCollectionMutation();
     const [postCollectionImg, { isLoading: isLoadingImg, isSuccess: isSuccessImg, isError: isErrorImg, error: errorImg, data: dataImg }] = usePostCollectionPhotoMutation();
