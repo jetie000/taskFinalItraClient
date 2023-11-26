@@ -3,7 +3,6 @@ import { IItem } from '../../types/item.interface';
 import { useNavigate } from 'react-router-dom';
 function ItemsList({ data }: { data: IItem[] }) {
     const navigate = useNavigate();
-    console.log(data);
     
     return (
         <ul className="list-group rounded-4 mt-2 collection-wrapper overflow-y-auto">

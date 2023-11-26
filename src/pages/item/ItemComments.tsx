@@ -5,8 +5,9 @@ import { Toast as bootstrapToast } from 'bootstrap';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { useActions } from '../../hooks/useActions';
+import { HubConnection } from '@microsoft/signalr';
 
-function ItemComments({ idItem, comments }: { idItem: number, comments: IComment[] }) {
+function ItemComments({ idItem, comments, conn }: { idItem: number, comments: IComment[], conn: HubConnection | undefined }) {
     const [addComment, { isLoading, isSuccess, isError, data }] = useAddCommentMutation();
     const [deleteComment, { isLoading: isLoadingDelete, isSuccess: isSuccessDelete, isError: isErrorDelete, data: dataDelete }] = useDeleteCommentMutation();
     const { user } = useSelector((state: RootState) => state.user);
@@ -21,7 +22,8 @@ function ItemComments({ idItem, comments }: { idItem: number, comments: IComment
                 case 'No item found.':
                     setToastChildren('Предмет не найден'); break;
                 case 'Comment added.':
-                    setToastChildren('Комментарий успешно создан'); break;
+                    setToastChildren('Комментарий успешно создан');
+                    invokeMessage(); break;
             }
             myToast.show();
         }
@@ -31,6 +33,10 @@ function ItemComments({ idItem, comments }: { idItem: number, comments: IComment
             myToast.show();
         }
     }, [isLoading]);
+    
+    const invokeMessage = async () => {
+        await conn?.invoke('SendMessage', idItem.toString())
+    }
 
     useEffect(() => {
         if (isSuccessDelete) {

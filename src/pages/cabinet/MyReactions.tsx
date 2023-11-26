@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import ItemsList from './ItemsList';
 function MyReactions() {
 
-    const navigate = useNavigate();
     const { data } = useGetReactionItemsQuery(undefined)
 
     return (

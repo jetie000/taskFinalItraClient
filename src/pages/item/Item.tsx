@@ -1,15 +1,49 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { Link, useParams } from 'react-router-dom';
 import { useGetItemQuery } from '../../store/api/items.api';
 import { Toast as bootstrapToast } from 'bootstrap';
 import ItemInfo from './ItemInfo';
 import { useActions } from '../../hooks/useActions';
+import { baseApi } from '../../store/api/baseApi';
+import { useDispatch } from 'react-redux';
+import { variables } from '../../variables';
 
 function Item() {
     let { id, idItem } = useParams();
     const { isLoading, isSuccess, isError, error, data } = useGetItemQuery(Number(idItem))
     const { setToastChildren } = useActions();
-    
+    const dispatch = useDispatch();
+    const [connection, setConnection] = useState<HubConnection>();
+
+
+    const joinRoom = async () => {
+        try {
+            const connection = new HubConnectionBuilder()
+                .withUrl(variables.SOCKET_URL, {
+                    skipNegotiation: true,
+                    transport: HttpTransportType.WebSockets
+                }
+                )
+                .withAutomaticReconnect()
+                .configureLogging(LogLevel.Information)
+                .build();
+            connection.on("AddMessage", (message) => {
+                dispatch(baseApi.util.invalidateTags(['Item']))
+            });
+            await connection.start();
+            await connection.invoke("JoinRoom", idItem);
+            setConnection(connection);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        joinRoom();
+    }, [])
+
     useEffect(() => {
         if (isError || data === 'No collection found.') {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
@@ -31,7 +65,7 @@ function Item() {
                 {
                     data && typeof (data) != 'string' && data.item ?
                         <div className="d-flex flex-column">
-                            <ItemInfo data={data} />
+                            <ItemInfo data={data} connection={connection}/>
                         </div>
                         : (isLoading ?
                             <div className="spinner-border m-auto" role="status">

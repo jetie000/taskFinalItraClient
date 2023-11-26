@@ -23,7 +23,10 @@ function Login() {
                 setModalInfo({ title: "Ошибка", children: "Вы ввели неправильный логин или пароль" })
                 myModal.show();
             }
-            else {
+            else if(data === "No access."){
+                setModalInfo({ title: "Ошибка", children: "Нет доступа" })
+                myModal.show();
+            } else {
                 setToastChildren('Вы успешно вошли');
                 myToast.show();
                 setUser(data as IUser);

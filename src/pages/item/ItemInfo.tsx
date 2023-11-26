@@ -14,8 +14,9 @@ import ItemInfoFields from './ItemInfoFields';
 import ItemInfoTags from './ItemInfoTags';
 import ItemComments from './ItemComments';
 import { useSetReactionMutation } from '../../store/api/reaction.api';
+import { HubConnection } from '@microsoft/signalr';
 
-function ItemInfo({ data }: { data: IItemInfo }) {
+function ItemInfo({ data, connection }: { data: IItemInfo, connection: HubConnection | undefined }) {
     let { id } = useParams();
     const { user } = useSelector((state: RootState) => state.user);
     const { setToastChildren } = useActions();
@@ -56,7 +57,9 @@ function ItemInfo({ data }: { data: IItemInfo }) {
                 case 'No item found.':
                     setToastChildren('Предмет не найден');
                     myToast.show(); break;
+                default: invokeMessage();
             }
+
         }
         if (isErrorSet) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
@@ -64,6 +67,10 @@ function ItemInfo({ data }: { data: IItemInfo }) {
             myToast.show();
         }
     }, [isLoadingSet])
+
+    const invokeMessage = async () => {
+        await connection?.invoke('SendMessage', data.item.id.toString())
+    }
 
     const deleteItemClick = () => {
         const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('itemModal') || 'itemModal');
@@ -160,7 +167,7 @@ function ItemInfo({ data }: { data: IItemInfo }) {
                 data.item.tags && data.item.tags.length > 0 &&
                 <ItemInfoTags tags={data.item.tags} />
             }
-            <ItemComments idItem={data.item.id} comments={data.item.comments || []} />
+            <ItemComments idItem={data.item.id} comments={data.item.comments || []} conn={connection}/>
             <Modal id={"itemModal"} title={modalInfo.title}>
                 {modalInfo.children}
             </Modal>

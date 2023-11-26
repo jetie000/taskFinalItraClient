@@ -29,6 +29,16 @@ export const userApi = baseApi.injectEndpoints({
                 method: 'PUT',
             }),
         }),
+        changeUserAdmin: builder.mutation<string | IUser, IUser>({
+            query: (user) => ({
+                body: user,
+                url: '/user/changeInfoAdmin',
+                method: 'PUT',
+            }),
+            invalidatesTags: () => [{
+                type: 'Users'
+            }]
+        }),
         deleteUser: builder.mutation<string, IUserDeleteInfo>({
             query: (userInfo: IUserDeleteInfo) => ({
                 body: userInfo,
@@ -37,9 +47,25 @@ export const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: () => [{
                 type: 'Collections'
+            },{
+                type: 'Users'
+            }]
+        }),
+        getAll: builder.query<IUser[], undefined>({
+            query: () => ({
+                url: '/user/getAll',
+                method: 'GET',
+            }),
+            providesTags: () => [{
+                type: 'Users'
             }]
         }),
     })
 })
 
-export const { useLogInUserMutation, useRegisterUserMutation, useChangeUserMutation, useDeleteUserMutation } = userApi
+export const { useLogInUserMutation,
+    useRegisterUserMutation,
+    useChangeUserMutation,
+    useDeleteUserMutation, 
+    useGetAllQuery,
+    useChangeUserAdminMutation } = userApi
