@@ -9,7 +9,7 @@ export interface optionsState {
 
 const initialState: optionsState = {
     theme: localStorage.getItem(variables.THEME_LOCALSTORAGE) || 'dark',
-    language: Number(localStorage.getItem(variables.LANGUAGE_LOCALSTORAGE)) || 1
+    language: Number.parseInt(localStorage.getItem(variables.LANGUAGE_LOCALSTORAGE) || '1')
 }
 
 export const pageOptionsSlice = createSlice({
