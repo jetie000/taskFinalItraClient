@@ -28,7 +28,7 @@ function Collection() {
 
     useEffect(() => {
         if (isSuccessMy) {
-            if (dataMy === 'No user found') {
+            if (dataMy === 'No user found.') {
                 if (user) {
                     const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
                     setToastChildren(variables.LANGUAGES[language].ERROR_LOAD_COLLECTIONS);
