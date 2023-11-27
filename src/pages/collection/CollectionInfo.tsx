@@ -90,7 +90,7 @@ function CollectionInfo({ data }: { data: ICollectionInfo }) {
                 </div>
             }
             {
-                user && ((user.collections && user.collections.some(collection => collection.id === data.collection.id)) || user.role === 1) &&
+                user && ((user.collections && user.collections?.length > 0 && user.collections.some(collection => collection.id === data.collection.id)) || user.role === 1) &&
                 <div className="d-flex gap-3 mt-3">
                     <button onClick={() => navigate('/collection/' + data.collection.id + '/change')} className="btn btn-primary fs-4 w-50">
                         {variables.LANGUAGES[language].CHANGE_COLLECTION_}
