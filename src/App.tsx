@@ -18,6 +18,7 @@ import Collection from "./pages/collection/Collection";
 import Item from "./pages/item/Item";
 import ChangeCollection from "./pages/changeCollection/ChangeCollection";
 import ChangeItem from "./pages/changeItem/ChangeItem";
+import Search from "./pages/search/Search";
 
 const App = () => {
 
@@ -43,6 +44,7 @@ const App = () => {
                 <Register />
               </AuthWrapper>
             } />
+          <Route path="/search/:search" element={<Search/>}/>
           <Route path="/cabinet" element={<Cabinet />} />
           <Route path="/addcollection" element={<AddCollection/>}/>
           <Route path="/collection/:id" element={<Collection/>}/>

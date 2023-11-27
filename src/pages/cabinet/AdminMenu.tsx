@@ -11,6 +11,7 @@ import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import AdminMenuUsers from "./AdminMenuUsers";
 import { useNavigate } from "react-router-dom";
+import { variables } from "../../variables";
 
 function AdminMenu() {
     const { data } = useGetAllQuery(undefined);
@@ -21,6 +22,7 @@ function AdminMenu() {
     const [deleteUser, { isLoading: deleteLoading, isSuccess: deleteSuccess, isError: deleteIsError, error: deleteError, data: deleteData }] = useDeleteUserMutation();
     const { logout, setUser, setToastChildren } = useActions();
     const navigate = useNavigate();
+    const { language } = useSelector((state: RootState) => state.options);
 
     const inputID = useRef<HTMLInputElement>(null);
     const inputName = useRef<HTMLInputElement>(null);
@@ -53,19 +55,19 @@ function AdminMenu() {
         if (deleteSuccess) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             if (deleteData === "Invalid data.") {
-                setModalInfo({ title: "Ошибка", children: "Ошибка в данных пользователя" })
+                setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: variables.LANGUAGES[language].ERROR_USER_DATA })
             }
             else {
                 if (user?.id === currentUser?.id) {
                     logout();
                 }
                 myModal.hide();
-                setToastChildren('Пользователь успешно удален');
+                setToastChildren(variables.LANGUAGES[language].USER_SUCCESSFULLY_DELETED);
                 myToast.show();
             }
         }
         if (deleteIsError) {
-            setModalInfo({ title: "Ошибка", children: (deleteError as FetchBaseQueryError).data as string })
+            setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: (deleteError as FetchBaseQueryError).data as string })
             myModal.show();
         }
 
@@ -76,11 +78,11 @@ function AdminMenu() {
         if (isSuccess) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             if (dataChange === "User with that email exists.") {
-                setModalInfo({ title: "Ошибка", children: "Пользователь с таким адресом эл. почты существует" })
+                setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: variables.LANGUAGES[language].ALREADY_EXISTS })
                 myModal.show()
             }
             else if(dataChange === 'No user found.'){
-                setModalInfo({ title: "Ошибка", children: "Пользователь не найден" })
+                setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: variables.LANGUAGES[language].USER_NOT_FOUND })
                 myModal.show()
             }
             else{
@@ -89,13 +91,13 @@ function AdminMenu() {
                     dataChange.role === 0 && navigate('/');
                     dataChange.access === false && logout();
                 }
-                setToastChildren('Пользователь успешно изменен');
+                setToastChildren(variables.LANGUAGES[language].USER_SUCCESSFULLY_CHANGED);
                 myToast.show();
                 setCurrentUser(undefined);
             }
         }
         if (isError) {
-            setModalInfo({ title: "Ошибка", children: (deleteError as FetchBaseQueryError).data as string })
+            setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: (deleteError as FetchBaseQueryError).data as string })
             myModal.show();
         }
 
@@ -133,51 +135,51 @@ function AdminMenu() {
         const children = currentUser
             ?
             <div className='d-flex flex-column gap-3'>
-                <span>Вы точно хотите удалить аккаунт? Вместе с этим вы удалите все свои коллекции.</span>
+                <span>{variables.LANGUAGES[language].SURE_DELETE_ACC}</span>
                 <button onClick={() =>
                     deleteUser({
                         email: currentUser?.email,
                         saltedPassword: currentUser?.saltedPassword,
                         accessToken: currentUser?.accessToken
                     })} className='btn btn-danger'>
-                    Удалить аккаунт
+                    {variables.LANGUAGES[language].DELETE_ACCOUNT}
                 </button>
             </div >
-            : <div>Пользователь не найден</div>;
-        setModalInfo({ title: "Удаление аккаунта", children: children });
+            : <div>{variables.LANGUAGES[language].USER_NOT_FOUND}</div>;
+        setModalInfo({ title: variables.LANGUAGES[language].DELETING_ACCOUNT, children: children });
         myModal.show();
     }
 
     return (
         <div className='ps-3 pe-3 d-flex flex-column w-75 flex-fill'>
             <h2 className='text-center p-2'>
-                Меню администратора
+                {variables.LANGUAGES[language].ADMIN_MENU}
             </h2>
             <AdminMenuUsers data={data} setCurrentUser={setCurrentUser} />
             <h4 className='text-center p-2'>
-                Выбранный пользователь
+                {variables.LANGUAGES[language].SELECTED_USER}
             </h4>
             <div className="d-flex gap-3 border rounded-4 p-3">
                 <div className="d-flex flex-column w-50">
                     <div className="mb-2">
-                        <label htmlFor="inputSurname">Фамилия</label>
-                        <input className="form-control" id="inputSurname" ref={inputSurname} placeholder="Введите фамилию" />
+                        <label htmlFor="inputSurname">{variables.LANGUAGES[language].SURNAME}</label>
+                        <input className="form-control" id="inputSurname" ref={inputSurname} placeholder={variables.LANGUAGES[language].ENTER_SURNAME} />
                     </div>
                     <div className="mb-2">
-                        <label htmlFor="inputName">Имя</label>
-                        <input className="form-control" id="inputName" ref={inputName} placeholder="Введите имя" />
+                        <label htmlFor="inputName">{variables.LANGUAGES[language].NAME}</label>
+                        <input className="form-control" id="inputName" ref={inputName} placeholder={variables.LANGUAGES[language].ENTER_NAME} />
                     </div>
                     <div className="d-flex gap-4 align-items-center">
                         <div className="flex-fill">
-                            <label className="form-check-label" htmlFor="roleSelect">Роль</label>
+                            <label className="form-check-label" htmlFor="roleSelect">{variables.LANGUAGES[language].ROLE}</label>
                             <select className="form-select" id='roleSelect' ref={roleSelect}>
-                                <option value={0}>Пользователь</option>
-                                <option value={1}>Администратор</option>
+                                <option value={0}>{variables.LANGUAGES[language].USER}</option>
+                                <option value={1}>{variables.LANGUAGES[language].ADMIN}</option>
                             </select>
                         </div>
                         <div className="form-check p-3 ps-4 pe-4">
                             <input className="form-check-input" type="checkbox" ref={inputAccess} id="inputAccess" />
-                            <label className="form-check-label" htmlFor="inputAccess">Доступ</label>
+                            <label className="form-check-label" htmlFor="inputAccess">{variables.LANGUAGES[language].ACCESS}</label>
                         </div>
                     </div>
                 </div>
@@ -188,11 +190,11 @@ function AdminMenu() {
                     </div>
                     <div className="mb-2">
                         <label htmlFor="inputEmail">E-mail</label>
-                        <input type='email' className="form-control" id="inputEmail" ref={inputEmail} placeholder="Введите email" />
+                        <input type='email' className="form-control" id="inputEmail" ref={inputEmail} placeholder={variables.LANGUAGES[language].ENTER_EMAIL} />
                     </div>
                     <div>
-                        <label htmlFor="inputNewPassword">Новый пароль (По желанию)</label>
-                        <input type="password" className="form-control" id="inputNewPassword" ref={inputPassword} placeholder="Введите новый пароль" />
+                        <label htmlFor="inputNewPassword">{variables.LANGUAGES[language].NEW_PASSWORD}</label>
+                        <input type="password" className="form-control" id="inputNewPassword" ref={inputPassword} placeholder={variables.LANGUAGES[language].ENTER_NEW_PASSWORD} />
                     </div>
                 </div>
             </div>
@@ -200,12 +202,12 @@ function AdminMenu() {
                 <button type="button"
                     className="btn btn-primary ms-3 mt-3 w-50"
                     onClick={() => changeUserClick()}>
-                    Изменить данные
+                    {variables.LANGUAGES[language].CHANGE_DATA}
                 </button>
                 <button type="button"
                     className="btn btn-danger me-3 mt-3 w-50"
                     onClick={() => deleteUserClick()}>
-                    Удалить пользователя
+                    {variables.LANGUAGES[language].DELETE_USER}
                 </button>
             </div>
             <Modal id='myInfoModal' title={modalInfo.title}>

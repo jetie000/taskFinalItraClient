@@ -12,11 +12,13 @@ import { Link, Navigate } from 'react-router-dom';
 import { ICollectionFields } from '../../types/collectionFields.interface';
 import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
+import { variables } from '../../variables';
 
 
 function AddCollection() {
     const [croppedImage, setCroppedImage] = useState<string | undefined>(undefined);
     const { user } = useSelector((state: RootState) => state.user);
+    const { language } = useSelector((state: RootState) => state.options);
     const [fields, setFields] = useState<ICollectionFields[]>([]);
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
     const { setToastChildren } = useActions();
@@ -47,7 +49,7 @@ function AddCollection() {
         }
         if (isErrorImg) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Ошибка загрузки фото коллекции');
+            setToastChildren(variables.LANGUAGES[language].ERROR_LOADING_COLLECTION_PHOTO);
             myToast.show();
         }
     }, [isLoadingImg]);
@@ -57,17 +59,17 @@ function AddCollection() {
             const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('addCollectionModal') || 'addCollectionModal');
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             if (data === "No user found.") {
-                setModalInfo({ title: "Ошибка", children: "Ошибка токена доступа" })
+                setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: variables.LANGUAGES[language].ERROR_ACCESS_TOKEN })
                 myModal.show();
             }
             else {
-                setToastChildren('Коллекция успешно добавлена');
+                setToastChildren(variables.LANGUAGES[language].COLLECTION_ADDED);
                 myToast.show();
             }
         }
         if (isError) {
             const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('addCollectionModal') || 'addCollectionModal');
-            setModalInfo({ title: "Ошибка", children: "Ошибка добавления коллекции"})
+            setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: variables.LANGUAGES[language].ERROR_ADDING_COLLECTION})
             myModal.show();
         }
     }, [isLoading])
@@ -78,7 +80,7 @@ function AddCollection() {
         let inputDesc = (document.getElementById('inputDesc') as HTMLInputElement).value;
         if (inputName === '' || inputTheme === '' || fields.some(field => field.fieldName.trim() === '')) {
             const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('addCollectionModal') || 'addCollectionModal');
-            setModalInfo({ title: "Ошибка", children: 'Введите данные' })
+            setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: variables.LANGUAGES[language].INPUT_DATA })
             myModal.show();
             return;
         }
@@ -109,37 +111,37 @@ function AddCollection() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left me-2" viewBox="0 0 16 16">
                         <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                     </svg>
-                    Вернуться в личный кабинет
+                    {variables.LANGUAGES[language].RETURN_TO_THE_CABINET}
                 </Link>
                 <h2 className="text-center p-3">
-                    Создание новой коллекции
+                    {variables.LANGUAGES[language].ADD_NEW_COLLECTION}
                 </h2>
                 <div className="d-flex align-self-center flex-column w-50 mb-4">
                     <span className='fs-5'>
-                        Фото коллекции
+                        {variables.LANGUAGES[language].COLLECTION_PHOTO}
                     </span>
                     <MyCropper croppedImage={croppedImage} setCroppedImage={setCroppedImage} />
                     {croppedImage && <img className='img-fluid border rounded-2 mb-1' src={croppedImage} alt="blab" />}
-                    <label className="mb-1 fs-5" htmlFor="inputName">Название коллекции</label>
-                    <input className="form-control fs-6 mb-3" id="inputName" placeholder="Введите название коллекции" />
-                    <label className="mb-1 fs-5" htmlFor="inputTheme">Тема коллекции</label>
-                    <input className="form-control fs-6 mb-3" id="inputTheme" placeholder="Введите тему коллекции" />
-                    <label className="mb-1 fs-5" htmlFor="inputDesc">Описание в MarkDown (по желанию)</label>
-                    <textarea rows={4} className="form-control fs-6 mb-3" id="inputDesc" placeholder="Введите описание коллекции" />
+                    <label className="mb-1 fs-5" htmlFor="inputName">{variables.LANGUAGES[language].COLLECTION_NAME}</label>
+                    <input className="form-control fs-6 mb-3" id="inputName" placeholder={variables.LANGUAGES[language].ENTER_COLLECTION_NAME} />
+                    <label className="mb-1 fs-5" htmlFor="inputTheme">{variables.LANGUAGES[language].COLLECTION_THEME}</label>
+                    <input className="form-control fs-6 mb-3" id="inputTheme" placeholder={variables.LANGUAGES[language].ENTER_COLLECTION_THEME} />
+                    <label className="mb-1 fs-5" htmlFor="inputDesc">{variables.LANGUAGES[language].COLLECTION_DESCRIPTION}</label>
+                    <textarea rows={4} className="form-control fs-6 mb-3" id="inputDesc" placeholder={variables.LANGUAGES[language].ENTER_COLLECTION_DESCRIPTION} />
                     <span className='fs-5 mb-1'>
-                        Добавьте поля коллекции
+                        {variables.LANGUAGES[language].ADD_COLLECTION_FIELDS}
                     </span>
                     <button className='btn btn-secondary mb-2' onClick={() => setFields([...fields, { id: undefined, fieldName: '', fieldType: 'string' }])}>
-                        Добавить поле
+                        {variables.LANGUAGES[language].ADD_FIELD}
                     </button>
                     <CollectionFields fields={fields} setFields={setFields} />
                     <button onClick={() => addCollectionClick()} className='btn btn-primary fs-4 mt-4'>
                         {isLoadingImg || isLoading ?
                             <div className="spinner-border" role="status">
-                                <span className="visually-hidden">Загрузка...</span>
+                                <span className="visually-hidden">{variables.LANGUAGES[language].LOADING}</span>
                             </div>
                             :
-                            <div>Создать колллекцию</div>
+                            <div>{variables.LANGUAGES[language].ADD_COLLECTION}</div>
                         }
                     </button>
                 </div>

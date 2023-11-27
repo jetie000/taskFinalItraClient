@@ -4,6 +4,8 @@ import { Toast as bootstrapToast } from 'bootstrap'
 import Cropper, { Area } from "react-easy-crop";
 import { cropImage } from "../../utils/cropUtils";
 import { useActions } from '../../hooks/useActions';
+import { RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
 
 function MyCropper({croppedImage, setCroppedImage}: {croppedImage: string | undefined, setCroppedImage: Function}) {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -11,6 +13,7 @@ function MyCropper({croppedImage, setCroppedImage}: {croppedImage: string | unde
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | undefined>(undefined);
     const [imageSrc, setImageSrc] = useState<string>();
     const { setToastChildren } = useActions();
+    const { language } = useSelector((state: RootState) => state.options);
     
     function readFile(file: File) {
         return new Promise((resolve) => {
@@ -26,7 +29,7 @@ function MyCropper({croppedImage, setCroppedImage}: {croppedImage: string | unde
         if (e.target.files[0].size >= variables.MAX_COLLECTION_PHOTO_SIZE) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             e.target.value = '';
-            setToastChildren('Максимальный размер фото - 5 МБ');
+            setToastChildren(variables.LANGUAGES[language].MAX_PHOTO_SIZE);
             myToast.show();
             return;
         }
@@ -64,7 +67,7 @@ function MyCropper({croppedImage, setCroppedImage}: {croppedImage: string | unde
                             onZoomChange={setZoom}
                         />
                     </div>
-                    <button onClick={() => setCroppedImgFunc()} className='btn btn-secondary mb-3'>Обрезать</button>
+                    <button onClick={() => setCroppedImgFunc()} className='btn btn-secondary mb-3'>{variables.LANGUAGES[language].CROP}</button>
                 </>
             }
         </>

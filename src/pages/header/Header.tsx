@@ -1,28 +1,75 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './Header.scss'
 import { Link, useNavigate } from 'react-router-dom';
 import { useActions } from '../../hooks/useActions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { Dropdown } from 'bootstrap';
+import { use } from 'marked';
+import { useSearchItemsQuery } from '../../store/api/items.api';
+import { useGetTagsQuery } from '../../store/api/tags.api';
+import { ITag } from '../../types/tag.interface';
+import { fakeBaseQuery } from '@reduxjs/toolkit/query';
 
 function Header() {
     const { setTheme, setLanguage } = useActions();
     const { user } = useSelector((state: RootState) => state.user);
     const { theme, language } = useSelector((state: RootState) => state.options);
     const navigate = useNavigate();
+    const [searchStr, setSearchStr] = useState('');
+    const [isShow, setIsShow] = useState(false);
+    const { isLoading, isSuccess, isError, error, data } = useGetTagsQuery({ contain: searchStr, limit: 7 }, {
+        skip: searchStr === ''
+    })
+    const inputSearch = useRef<HTMLInputElement>(null)
+
+    const tagClick = (tag: string) => {
+        navigate('/search/' + tag);
+        setSearchStr(tag);
+        if (inputSearch.current)
+            inputSearch.current.value = tag;
+    }
 
     return (
         <header className='d-flex position-sticky top-0 start-0 end-0 bg-primary p-3 z-2'>
             <div className='main-wrapper m-auto d-flex align-items-center gap-3'>
-                <h3 className='font-light m-0 cursor-pointer' onClick={() => navigate('/')}>
+                <h3 className='font-light m-0 cursor-pointer flex-shrink-0' onClick={() => navigate('/')}>
                     Collections by jetie
                 </h3>
+                <div className="d-flex flex-column ms-5 me-5 w-50">
+                    <div className="input-group">
+                        <input type="text"
+                            className="form-control w-50"
+                            placeholder="Введите запрос" 
+                            ref={inputSearch} 
+                            onChange={(e) => setSearchStr(e.target.value)} 
+                            onFocus={() => setIsShow(true)}/>
+                        <button className="btn btn-light d-flex align-items-center" type="button" id="button-addon1" onClick={() => tagClick(searchStr)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                            </svg>
+                        </button>
+                    </div>
+                    {isShow &&
+                        <ul onClick={() => setIsShow(false)} id='searchList' className="list-group position-absolute search-list">
+                            {data && searchStr !== '' && data.length > 0 && data.map(tag =>
+                                <li className='list-group-item cursor-pointer text-truncate' onClick={() => tagClick(tag.tag)} key={tag.id}>
+                                    <span className="dropdown-item text-truncate">
+                                        {tag.tag}
+                                    </span>
+                                </li>)
+                            }
+                        </ul>
+                    }
+
+                </div>
+
+
                 {user
-                    ? <button className='btn btn-outline-light rounded-3 ms-auto' onClick={() => navigate('/cabinet')}>
+                    ? <button className='btn btn-outline-light rounded-3 ms-auto flex-shrink-0' onClick={() => navigate('/cabinet')}>
                         Личный кабинет
                     </button>
-                    : <button className='btn btn-outline-light rounded-3 ms-auto' onClick={() => navigate('/login')}>
+                    : <button className='btn btn-outline-light rounded-3 ms-auto flex-shrink-0' onClick={() => navigate('/login')}>
                         Войти{' '}
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
@@ -49,7 +96,6 @@ function Header() {
                         <li><span onClick={() => setTheme("light")} className="dropdown-item">Light</span></li>
                     </ul>
                 </div>
-                {/* <div className='dropdown ms-3 align-items-center d-flex cursor-pointer'> */}
 
                 <div className="dropdown align-items-center d-flex cursor-pointer">
                     <div className="font-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,8 +105,8 @@ function Header() {
                         </svg>
                     </div>
                     <ul className="dropdown-menu">
-                        <li><span onClick={() => setLanguage("en")} className="dropdown-item">English</span></li>
-                        <li><span onClick={() => setLanguage("ru")} className="dropdown-item">Русский</span></li>
+                        <li><span onClick={() => setLanguage(1)} className="dropdown-item">English</span></li>
+                        <li><span onClick={() => setLanguage(0)} className="dropdown-item">Русский</span></li>
                     </ul>
                 </div>
             </div>

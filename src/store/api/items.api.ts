@@ -14,6 +14,12 @@ export const itemsApi = baseApi.injectEndpoints({
                 type: 'Item'
             }]
         }),
+        searchItems: builder.query<IItem[], {contain: string, limit: number}>({
+            query: ({contain, limit}) => ({
+                url: '/item/search?contain=' + contain+ '&limit=' + limit,
+                method: 'GET',
+            })
+        }),
         getCommentsItems: builder.query<IItem[] | string, undefined>({
             query: () => ({
                 url: '/comment/getMy?accessToken=' + variables.GET_ACCESS_TOKEN(),
@@ -86,5 +92,6 @@ export const {
     useDeleteMyItemMutation,
     useGetCommentsItemsQuery,
     useGetReactionItemsQuery,
-    useGetLastItemsQuery
+    useGetLastItemsQuery,
+    useSearchItemsQuery
 } = itemsApi

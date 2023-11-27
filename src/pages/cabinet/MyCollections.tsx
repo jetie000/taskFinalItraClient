@@ -13,6 +13,7 @@ function MyCollections() {
     const { setToastChildren, setCollections } = useActions();
     const { user } = useSelector((state: RootState) => state.user);
     const navigate = useNavigate();
+    const { language } = useSelector((state: RootState) => state.options);
     const { isLoading, isSuccess, isError, error, data } = useGetMyCollectionsQuery(user?.accessToken || '')
 
     useEffect(() => {
@@ -20,7 +21,7 @@ function MyCollections() {
             if (data === 'No user found.') {
 
                 const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-                setToastChildren('Ошибка загрузки коллекций');
+                setToastChildren(variables.LANGUAGES[language].ERROR_LOAD_COLLECTIONS);
                 myToast.show();
             }
             else
@@ -28,7 +29,7 @@ function MyCollections() {
         }
         if (isError) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Ошибка загрузки коллекций');
+            setToastChildren(variables.LANGUAGES[language].ERROR_LOAD_COLLECTIONS);
             myToast.show();
         }
     }, [isLoading])
@@ -36,7 +37,7 @@ function MyCollections() {
     return (
         <div className='ps-3 pe-3 d-flex flex-column w-75 flex-fill'>
             <h2 className='text-center p-3'>
-                Мои коллекции
+                {variables.LANGUAGES[language].MY_COLLECTIONS}
             </h2>
             <div className='overflow-y-auto collection-wrapper flex-fill'>
                 {
@@ -49,10 +50,10 @@ function MyCollections() {
                                 <span className='fs-1 text-truncate'>{collection.title}</span>
                                 <div className='d-flex gap-2'>
                                     <div className='d-flex flex-column'>
-                                        <span className='fs-3 fw-light'>Категория: </span>
-                                        <span>Предметов: </span>
-                                        <span>Полей: </span>
-                                        <span>Создано: </span>
+                                        <span className='fs-3 fw-light'>{variables.LANGUAGES[language].CATEGORY} </span>
+                                        <span>{variables.LANGUAGES[language].ITEMS} </span>
+                                        <span>{variables.LANGUAGES[language].FIELDS} </span>
+                                        <span>{variables.LANGUAGES[language].CREATED} </span>
                                     </div>
                                     <div className='d-flex flex-column'>
                                         <span className='fs-3 fw-light text-truncate'>{collection.theme}</span>
@@ -69,7 +70,7 @@ function MyCollections() {
                 {isLoading &&
                     <div className="d-flex p-3">
                         <div className="spinner-border m-auto" role="status">
-                            <span className="visually-hidden">Загрузка...</span>
+                            <span className="visually-hidden">{variables.LANGUAGES[language].LOADING}</span>
                         </div>
                     </div>
                 }
@@ -80,9 +81,6 @@ function MyCollections() {
                     </svg>
                 </div>
             </div>
-            {/* <Modal id='myInfoModal' title={modalInfo.title}>
-                    {modalInfo.children}
-                </Modal> */}
         </div>
     );
 }

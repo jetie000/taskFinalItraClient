@@ -1,8 +1,12 @@
 import React from 'react'
 import { IItem } from '../../types/item.interface';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { variables } from '../../variables';
 function ItemsList({ data }: { data: IItem[] }) {
     const navigate = useNavigate();
+    const { language } = useSelector((state: RootState) => state.options);
     
     return (
         <ul className="list-group rounded-4 mt-2 collection-wrapper overflow-y-auto">
@@ -18,7 +22,7 @@ function ItemsList({ data }: { data: IItem[] }) {
                                     {tag.tag}
                                 </div>)
                                 :
-                                <span className="fs-5">Нет тегов</span>
+                                <span className="fs-5">{variables.LANGUAGES[language].NO_TAGS}</span>
                             }
                         </div>
                         <div className="vr ms-auto"></div>
