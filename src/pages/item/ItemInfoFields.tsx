@@ -1,6 +1,10 @@
 import React from 'react'
 import { IItemFields } from '../../types/itemFields.interface'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { variables } from '../../variables';
 function ItemInfoFields({ itemFields }: { itemFields: IItemFields[] }) {
+    const { language } = useSelector((state: RootState) => state.options);
     return (
         <div className="d-flex flex-wrap border rounded-4 mt-3 p-2">
             {
@@ -10,7 +14,7 @@ function ItemInfoFields({ itemFields }: { itemFields: IItemFields[] }) {
                         {field.stringFieldValue
                             || field.doubleFieldValue
                             || (field.dateFieldValue && new Date(field.dateFieldValue).toLocaleString())
-                            || (field.boolFieldValue ? 'Да' : 'Нет')
+                            || (field.boolFieldValue ? variables.LANGUAGES[language].YES : variables.LANGUAGES[language].NO)
                         }
                     </div>)
             }

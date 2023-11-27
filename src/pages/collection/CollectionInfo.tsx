@@ -14,6 +14,7 @@ import { marked } from 'marked';
 
 function CollectionInfo({ data }: { data: ICollectionInfo }) {
     const { user } = useSelector((state: RootState) => state.user);
+    const { language } = useSelector((state: RootState) => state.options);
     const { setToastChildren } = useActions();
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
     const [deleteCollection, { isLoading: isLoadingDelete, isSuccess: isSuccessDelete, isError: isErrorDelete, error: errorDelete, data: dataDelete }] = useDeleteCollectionMutation();
@@ -23,19 +24,19 @@ function CollectionInfo({ data }: { data: ICollectionInfo }) {
         if (isSuccessDelete) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             if (dataDelete === 'No user found.')
-                setToastChildren('Пользователь не найден');
+                setToastChildren(variables.LANGUAGES[language].USER_NOT_FOUND);
             else
                 if (dataDelete === 'No collection found.')
-                    setToastChildren('Коллекция не найдена');
+                    setToastChildren(variables.LANGUAGES[language].COLLECTION_NOT_FOUND);
                 else {
-                    setToastChildren('Коллекция успешно удалена');
+                    setToastChildren(variables.LANGUAGES[language].COLLECTION_DELETED);
                 }
             myToast.show();
             myModal.hide()
         }
         if (isErrorDelete) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Ошибка удаления коллекции');
+            setToastChildren(variables.LANGUAGES[language].ERROR_DELETING_COLLECTION);
             myToast.show();
             myModal.hide();
         }
@@ -46,14 +47,14 @@ function CollectionInfo({ data }: { data: ICollectionInfo }) {
         const children = data && typeof (data) !== 'string'
             ?
             <div className='d-flex flex-column gap-3'>
-                <span>Вы точно хотите удалить коллекцию? Вместе с этим вы удалите все предметы этой коллекции.</span>
+                <span>{variables.LANGUAGES[language].SURE_DELETE_COLLECTION}</span>
                 <button onClick={() =>
                     deleteCollection(data.collection.id!)} className='btn btn-danger'>
-                    Удалить коллекцию
+                    {variables.LANGUAGES[language].DELETE_COLLECTION}
                 </button>
             </div >
-            : <div>Коллекция не найдена</div>;
-        setModalInfo({ title: "Удаление коллекции", children: children });
+            : <div>{variables.LANGUAGES[language].COLLECTION_NOT_FOUND}</div>;
+        setModalInfo({ title: variables.LANGUAGES[language].COLLECTION_DELETING, children: children });
         myModal.show();
     }
     return (
@@ -61,17 +62,17 @@ function CollectionInfo({ data }: { data: ICollectionInfo }) {
             <div className="d-flex">
                 <img className="w-50 rounded-4" src={variables.PHOTOS_URL + data.collection.photoPath} alt="collection img" />
                 <div className="d-flex flex-column ps-5 justify-content-around flex-fill w-50">
-                    <span className="fs-1 align-self-center">Коллекция</span>
+                <span className="fs-1 align-self-center">{variables.LANGUAGES[language].COLLECTION}</span>
                     <hr />
                     <span className='fs-1 text-truncate'>{data.collection.title}</span>
                     <hr />
                     <div className='d-flex gap-2 fs-2'>
                         <div className='d-flex flex-column'>
-                            <span className='fw-light'>Категория: </span>
-                            <span>Предметов: </span>
-                            <span>Полей: </span>
-                            <span>Создано: </span>
-                            <span>Создатель: </span>
+                            <span className='fw-light'>{variables.LANGUAGES[language].CATEGORY}</span>
+                            <span>{variables.LANGUAGES[language].ITEMS}</span>
+                            <span>{variables.LANGUAGES[language].FIELDS}</span>
+                            <span>{variables.LANGUAGES[language].CREATED}</span>
+                            <span>{variables.LANGUAGES[language].CREATOR}</span>
                         </div>
                         <div className='d-flex flex-column'>
                             <span className='fw-light text-truncate'>{data.collection.theme}</span>
@@ -92,10 +93,10 @@ function CollectionInfo({ data }: { data: ICollectionInfo }) {
                 user && ((user.collections && user.collections.some(collection => collection.id === data.collection.id)) || user.role === 1) &&
                 <div className="d-flex gap-3 mt-3">
                     <button onClick={() => navigate('/collection/' + data.collection.id + '/change')} className="btn btn-primary fs-4 w-50">
-                        Изменить коллекцию
+                        {variables.LANGUAGES[language].CHANGE_COLLECTION_}
                     </button>
                     <button onClick={() => deleteCollectionClick()} className="btn btn-danger fs-4 w-50">
-                        Удалить коллекцию
+                        {variables.LANGUAGES[language].DELETE_COLLECTION}
                     </button>
                 </div>
             }

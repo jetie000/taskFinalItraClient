@@ -7,9 +7,12 @@ import { variables } from "../../variables";
 import { useNavigate } from "react-router-dom";
 import ItemsList from "../cabinet/ItemsList";
 import HomeItemsList from "./HomeItemsList";
+import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
 function Home() {
 
     const navigate = useNavigate();
+    const { language } = useSelector((state: RootState) => state.options);
     const [collectionsLimit, setCollectionLimit] = useState(5);
     const [itemsLimit, setItemLimit] = useState(5);
     const [tagsLimit, setTagsLimit] = useState(20);
@@ -19,13 +22,13 @@ function Home() {
 
     return (
         <div className="d-flex p-3">
-            <div className="d-flex main-wrapper m-auto">
+            <div className="d-flex main-wrapper m-auto home-wrapper">
                 <div className="d-flex w-75 flex-column">
-                    <h2 className="p-2 text-center">Самые большие коллекции</h2>
+                    <h2 className="p-2 text-center">{variables.LANGUAGES[language].BIGGEST_COLLECTIONS}</h2>
                     {isLoadingCollections ?
                         <div className="d-flex p-3">
                             <div className="spinner-border m-auto" role="status">
-                                <span className="visually-hidden">Загрузка...</span>
+                                <span className="visually-hidden">{variables.LANGUAGES[language].LOADING}</span>
                             </div>
                         </div> :
                         (dataCollections && typeof (dataCollections) !== 'string' && dataCollections?.length > 0 ?
@@ -38,10 +41,10 @@ function Home() {
                                                 <span className='fs-1 text-truncate'>{collection.title}</span>
                                                 <div className='d-flex gap-2'>
                                                     <div className='d-flex flex-column'>
-                                                        <span className='fs-3 fw-light'>Категория: </span>
-                                                        <span>Предметов: </span>
-                                                        <span>Полей: </span>
-                                                        <span>Создано: </span>
+                                                        <span className='fs-3 fw-light'>{variables.LANGUAGES[language].CATEGORY} </span>
+                                                        <span>{variables.LANGUAGES[language].ITEMS}</span>
+                                                        <span>{variables.LANGUAGES[language].FIELDS} </span>
+                                                        <span>{variables.LANGUAGES[language].CREATED} </span>
                                                     </div>
                                                     <div className='d-flex flex-column'>
                                                         <span className='fs-3 fw-light text-truncate'>{collection.theme}</span>
@@ -54,27 +57,27 @@ function Home() {
                                         </div>)
                                 }
                                 <div className='btn btn-outline-primary m-2 fs-4 border rounded-4 d-flex justify-content-center' onClick={() => setCollectionLimit(collectionsLimit + 5)}>
-                                    Показать еще
+                                    {variables.LANGUAGES[language].SHOW_MORE}
                                 </div>
                             </div>
-                            : <div>Коллекции не найдены</div>)
+                            : <div>{variables.LANGUAGES[language].COLLECTIONS_NOT_FOUND}</div>)
                     }
 
-                    <h2 className="p-2 mt-4 text-center">Последние добавленные предметы</h2>
+                    <h2 className="p-2 mt-4 text-center">{variables.LANGUAGES[language].LAST_ITEMS}</h2>
                     {
                         isLoadingItems ?
                             <div className="d-flex p-3">
                                 <div className="spinner-border m-auto" role="status">
-                                    <span className="visually-hidden">Загрузка...</span>
+                                    <span className="visually-hidden">{variables.LANGUAGES[language].LOADING}</span>
                                 </div>
                             </div> : (
                                 dataItems && typeof (dataItems) !== 'string' && dataItems.length > 0 ?
                                     <HomeItemsList data={dataItems} setItemsLimit={setItemLimit} itemsLimit={itemsLimit} />
-                                    : <div className="fs-4">Предметы не найдены</div>)
+                                    : <div className="fs-4">{variables.LANGUAGES[language].ITEMS_NOT_FOUND}</div>)
                     }
                 </div>
                 <div className="p-3 pt-2 w-25">
-                    <h4 className="text-center mb-4">Недавние теги</h4>
+                    <h4 className="text-center mb-4">{variables.LANGUAGES[language].RECENT_TAGS}</h4>
                     <div className="d-flex gap-2 flex-wrap align-self-center overflow-hidden">
                         {dataTagsLast && typeof (dataTagsLast) !== 'string' ?
                             <>{dataTagsLast.map(tag =>
@@ -83,17 +86,17 @@ function Home() {
                                     {tag.tag}
                                 </div>)}
                                 <div className='btn btn-outline-primary m-2 fs-6 border rounded-4 d-flex justify-content-center w-100' onClick={() => setTagsLimit(tagsLimit + 10)}>
-                                    Показать еще
+                                    {variables.LANGUAGES[language].SHOW_MORE}
                                 </div>
                             </>
                             : (isLoadingTags ?
                                 <div className="d-flex p-3">
                                     <div className="spinner-border m-auto" role="status">
-                                        <span className="visually-hidden">Загрузка...</span>
+                                        <span className="visually-hidden">{variables.LANGUAGES[language].LOADING}</span>
                                     </div>
                                 </div>
                                 :
-                                <span className="fs-5">Нет тегов</span>)
+                                <span className="fs-5">{variables.LANGUAGES[language].NO_TAGS}</span>)
 
                         }
                     </div>

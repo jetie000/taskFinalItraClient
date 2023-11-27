@@ -9,13 +9,13 @@ function ItemsList({ data }: { data: IItem[] }) {
     const { language } = useSelector((state: RootState) => state.options);
     
     return (
-        <ul className="list-group rounded-4 mt-2 collection-wrapper overflow-y-auto">
+        <ul className="list-group rounded-4 mt-2 collection-wrapper overflow-y-auto cabinet-items-list">
             {
                 data.map(item =>
                     <li key={item.id} onClick={() => navigate('/collection/' + item.myCollection!.id + '/item/' + item.id)} className="list-group-item fs-4 d-flex gap-3 align-items-start cursor-pointer">
                         <span>{item.name}</span>
                         <div className="vr"></div>
-                        <div className="d-flex gap-2 flex-wrap align-self-center overflow-hidden">
+                        <div className="d-flex gap-2 flex-wrap overflow-x-hidden">
                             {item.tags?.length ? item.tags?.map(tag =>
                                 <div key={tag.id}
                                     className="flex-grow-0 btn btn-info border rounded-4 p-0 ps-2 pe-2 text-truncate">

@@ -2,28 +2,32 @@ import React from 'react'
 import { IItem } from '../../types/item.interface';
 import { useNavigate } from 'react-router-dom';
 import { IItemInfo } from '../../types/itemInfo.interface';
+import { RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
+import { variables } from '../../variables';
 
 function HomeItemsList({ data, setItemsLimit, itemsLimit }: { data: IItemInfo[], setItemsLimit: Function, itemsLimit: number }) {
     const navigate = useNavigate();
+    const { language } = useSelector((state: RootState) => state.options);
 
     return (
-        <ul className="list-group rounded-4 mt-2 collection-wrapper overflow-y-auto">
+        <ul className="list-group rounded-4 mt-2 collection-wrapper overflow-y-auto items-list-home">
             {
                 data.map(itemInfo =>
                     <li key={itemInfo.item.id}
                         onClick={() => navigate('/item/' + itemInfo.item.id)}
                         className="list-group-item cursor-pointer">
-                        <div className='mb-2 fs-4 d-flex gap-3 align-items-start'>
+                        <div className='mb-2 fs-4 d-flex gap-3 align-items-start overflow-x-hidden'>
                             <span>{itemInfo.item.name}</span>
                             <div className="vr"></div>
-                            <div className="d-flex gap-2 flex-wrap align-self-center overflow-hidden">
+                            <div className="d-flex gap-2 flex-wrap overflow-x-hidden">
                                 {itemInfo.item.tags?.length ? itemInfo.item.tags?.map(tag =>
                                     <div key={tag.id}
                                         className="flex-grow-0 btn btn-info border rounded-4 p-0 ps-2 pe-2 text-truncate">
                                         {tag.tag}
                                     </div>)
                                     :
-                                    <span className="fs-5">Нет тегов</span>
+                                    <span className="fs-5">{variables.LANGUAGES[language].NO_TAGS}</span>
                                 }
                             </div>
                             <div className="vr ms-auto"></div>
@@ -49,16 +53,16 @@ function HomeItemsList({ data, setItemsLimit, itemsLimit }: { data: IItemInfo[],
                             </div>
                         </div>
                         <div className='fs-5 d-flex gap-3'>
-                            <span className='text-truncate'>{'Коллекция: '}{itemInfo.item.myCollection?.title}</span>
+                            <span className='text-truncate'>{variables.LANGUAGES[language].COLLECTION}{': '}{itemInfo.item.myCollection?.title}</span>
                             <div className="vr ms-auto"></div>
-                            <span className='text-truncate flex-shrink-0'>{'Создатель: '}{itemInfo.item.myCollection?.user?.fullName}</span>
+                            <span className='text-truncate flex-shrink-0'>{variables.LANGUAGES[language].CREATOR}{' '}{itemInfo.item.myCollection?.user?.fullName}</span>
                         </div>
                     </li>
                 )
             }
 
             <li className='list-group-item btn btn-outline-primary fs-4 d-flex justify-content-center' onClick={() => setItemsLimit(itemsLimit + 5)}>
-                Показать еще
+                {variables.LANGUAGES[language].SHOW_MORE}
             </li>
         </ul>
     );

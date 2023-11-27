@@ -32,7 +32,7 @@ function Cabinet() {
 
     return (
         <div className="d-flex p-3 flex-fill">
-            <div className="d-flex main-wrapper ms-auto me-auto">
+            <div className="d-flex main-wrapper ms-auto me-auto cabinet-wrapper">
                 <div className="pt-3 d-flex flex-column gap-3 flex-shrink-0">
                     <Link to={'/'} className="btn btn-outline-primary align-items-center justify-content-center d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left me-2" viewBox="0 0 16 16">

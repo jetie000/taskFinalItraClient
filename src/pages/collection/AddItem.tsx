@@ -6,10 +6,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useActions } from "../../hooks/useActions";
 import { IItemFields } from "../../types/itemFields.interface";
+import { variables } from "../../variables";
 
 function AddItem({ data }: { data: ICollectionInfo }) {
     const [isAddingItem, setIsAddingItem] = useState(false)
     const { user } = useSelector((state: RootState) => state.user);
+    const { language } = useSelector((state: RootState) => state.options);
     const [addItemTags, setAddItemTags] = useState<string[]>([]);
     const [addItem, { isLoading, isSuccess, isError, error, data: dataItem }] = useAddItemMutation();
     const { setToastChildren } = useActions();
@@ -19,22 +21,22 @@ function AddItem({ data }: { data: ICollectionInfo }) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             switch (dataItem) {
                 case 'No user found.':
-                    setToastChildren('Пользователь не найден'); break;
+                    setToastChildren(variables.LANGUAGES[language].USER_NOT_FOUND); break;
                 case 'No collection found.':
-                    setToastChildren('Коллекция не найдена'); break;
+                    setToastChildren(variables.LANGUAGES[language].COLLECTION_NOT_FOUND); break;
                 case 'Fields don\'t match.':
-                    setToastChildren('Поля коллекции и предмета не совпадают'); break;
+                    setToastChildren(variables.LANGUAGES[language].FIELDS_DONT_MATCH); break;
                 case 'There are empty fields.':
-                    setToastChildren('Присутствуют пустые поля'); break;
+                    setToastChildren(variables.LANGUAGES[language].EMPTY_FIELDS); break;
                 case 'Item added.': default:
-                    setToastChildren('Предмет успешно добавлен'); break;
+                    setToastChildren(variables.LANGUAGES[language].ITEM_ADDED); break;
             }
             setIsAddingItem(false);
             myToast.show();
         }
         if (isError) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Ошибка добавления предмета');
+            setToastChildren(variables.LANGUAGES[language].ERROR_ADDING_ITEM);
             myToast.show();
         }
     }, [isLoading])
@@ -97,7 +99,7 @@ function AddItem({ data }: { data: ICollectionInfo }) {
             field.dateFieldValue === undefined && field.doubleFieldValue === undefined && field.stringFieldValue === undefined && field.boolFieldValue === undefined)) {
 
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Введите данные');
+            setToastChildren(variables.LANGUAGES[language].INPUT_DATA);
             myToast.show();
             return;
         }
@@ -125,11 +127,11 @@ function AddItem({ data }: { data: ICollectionInfo }) {
             {
                 isAddingItem &&
                 <div className="border rounded-4 p-3 mt-3 fs-5 d-flex flex-column">
-                    <h3>Добавление предмета</h3>
+                    <h3>{variables.LANGUAGES[language].ITEM_ADDING}</h3>
                     <div className="d-flex gap-4 mb-3">
                         <div className="d-flex flex-column w-50">
-                            <label htmlFor="inputItemName">Название предмета</label>
-                            <input type='text' className="form-control" id="inputItemName" placeholder="Введите название предмета" />
+                            <label htmlFor="inputItemName">{variables.LANGUAGES[language].ITEM_NAME}</label>
+                            <input type='text' className="form-control" id="inputItemName" placeholder={variables.LANGUAGES[language].ENTER_ITEM_NAME} />
                             {
                                 data.collection.collectionFields && data.collection.collectionFields.map(field =>
                                     <div key={field.id}>
@@ -150,10 +152,10 @@ function AddItem({ data }: { data: ICollectionInfo }) {
                             }
                         </div>
                         <div className="d-flex flex-column w-50 flex-wrap">
-                            <span>Добавьте теги</span>
+                            <span>{variables.LANGUAGES[language].ADD_TAGS}</span>
                             <div className="d-flex gap-3">
-                                <input type='text' className="form-control" id="inputTag" placeholder="Введите тег" />
-                                <button className="btn btn-primary" onClick={() => addTag()}>Добавить</button>
+                                <input type='text' className="form-control" id="inputTag" placeholder={variables.LANGUAGES[language].ENTER_TAG} />
+                                <button className="btn btn-primary" onClick={() => addTag()}>{variables.LANGUAGES[language].ADD}</button>
                             </div>
                             <div className="d-flex gap-2 flex-wrap pt-2">
                                 {addItemTags.map(tag =>
@@ -168,7 +170,7 @@ function AddItem({ data }: { data: ICollectionInfo }) {
                         </div>
                     </div>
                     <button onClick={() => addItemHandler()} className="btn btn-primary">
-                        Добавить предмет
+                        {variables.LANGUAGES[language].ADD_ITEM}
                     </button>
                 </div>
             }

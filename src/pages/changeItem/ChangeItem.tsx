@@ -8,9 +8,11 @@ import { IItemFields } from '../../types/itemFields.interface';
 import { IItemInfo } from '../../types/itemInfo.interface';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import { variables } from '../../variables';
 
 function ChangeItem() {
     let { id, idItem } = useParams();
+    const { language } = useSelector((state: RootState) => state.options);
     
     const { user } = useSelector((state: RootState) => state.user);
     if (!user) {
@@ -29,7 +31,7 @@ function ChangeItem() {
         }
         if (isError || data === 'No item found.') {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Коллекция не найдена');
+            setToastChildren(variables.LANGUAGES[language].COLLECTION_NOT_FOUND);
             myToast.show();
         }
     }, [isLoading])
@@ -39,25 +41,25 @@ function ChangeItem() {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             switch (dataChange) {
                 case 'No user found.':
-                    setToastChildren('Пользователь не найден'); break;
+                    setToastChildren(variables.LANGUAGES[language].USER_NOT_FOUND); break;
                 case 'No item found.':
-                    setToastChildren('Коллекция не найдена'); break;
+                    setToastChildren(variables.LANGUAGES[language].COLLECTION_NOT_FOUND); break;
                 case 'Fields don\'t match.':
-                    setToastChildren('Поля коллекции и предмета не совпадают'); break;
+                    setToastChildren(variables.LANGUAGES[language].FIELDS_DONT_MATCH); break;
                 case 'There are empty fields.':
-                    setToastChildren('Присутствуют пустые поля'); break;
+                    setToastChildren(variables.LANGUAGES[language].EMPTY_FIELDS); break;
                 case 'No access to item.':
-                    setToastChildren('Нет доступа к предмету'); break;
+                    setToastChildren(variables.LANGUAGES[language].NO_ACCESS_ITEM); break;
                 case 'Item changed.':
-                    setToastChildren('Предмет успешно изменен'); break;
+                    setToastChildren(variables.LANGUAGES[language].ITEM_CHANGED); break;
                 default:
-                    setToastChildren('Ошибка изменения предмета'); break;
+                    setToastChildren(variables.LANGUAGES[language].ERROR_CHANGE_ITEM); break;
             }
             myToast.show();
         }
         if (isErrorChange) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Ошибка изменения предмета');
+            setToastChildren(variables.LANGUAGES[language].ERROR_CHANGE_ITEM);
             myToast.show();
         }
     }, [isLoadingChange])
@@ -119,7 +121,7 @@ function ChangeItem() {
             field.dateFieldValue === undefined && field.doubleFieldValue === undefined && field.stringFieldValue === undefined && field.boolFieldValue === undefined)) {
 
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Введите данные');
+            setToastChildren(variables.LANGUAGES[language].INPUT_DATA);
             myToast.show();
             return;
         }
@@ -146,18 +148,18 @@ function ChangeItem() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left me-2" viewBox="0 0 16 16">
                         <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                     </svg>
-                    Вернуться к предмету
+                    {variables.LANGUAGES[language].RETURN_TO_ITEM}
                 </Link>
                 {
                     data && typeof (data) !== 'string' && <>
                         <h2 className="text-center p-3">
-                            Изменение предмета
+                            {variables.LANGUAGES[language].ITEM_CHANGING}
                         </h2>
                         <div className="d-flex align-self-center flex-column w-75 mb-4">
                             <div className="d-flex gap-4 mb-3">
                                 <div className="d-flex flex-column w-50">
-                                    <label htmlFor="inputItemName">Название предмета</label>
-                                    <input type='text' className="form-control" id="inputItemName" placeholder="Введите название предмета" defaultValue={data.item.name} />
+                                    <label htmlFor="inputItemName">{variables.LANGUAGES[language].ITEM_NAME}</label>
+                                    <input type='text' className="form-control" id="inputItemName" placeholder={variables.LANGUAGES[language].ENTER_ITEM_NAME} defaultValue={data.item.name} />
                                     {
                                         data.item.fields && data.item.fields.map(field =>
                                             <div key={field.id}>
@@ -176,10 +178,10 @@ function ChangeItem() {
                                     }
                                 </div>
                                 <div className="d-flex flex-column w-50">
-                                    <span>Теги</span>
+                                    <span>{variables.LANGUAGES[language].TAGS}</span>
                                     <div className="d-flex gap-3">
-                                        <input type='text' className="form-control" id="inputTag" placeholder="Введите тег" />
-                                        <button className="btn btn-primary" onClick={() => addTag()}>Добавить</button>
+                                        <input type='text' className="form-control" id="inputTag" placeholder={variables.LANGUAGES[language].ENTER_TAG} />
+                                        <button className="btn btn-primary" onClick={() => addTag()}>{variables.LANGUAGES[language].ADD}</button>
                                     </div>
                                     {itemTags && itemTags.length > 0 &&
                                         <div className="d-flex gap-2 flex-wrap pt-2">
@@ -200,7 +202,7 @@ function ChangeItem() {
                                         <span className="visually-hidden">Загрузка...</span>
                                     </div>
                                     :
-                                    <div>Изменить предмет</div>
+                                    <div>{variables.LANGUAGES[language].CHANGE_ITEM}</div>
                                 }
                             </button>
                         </div>

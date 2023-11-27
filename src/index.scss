@@ -12,10 +12,50 @@ body {
     flex-direction: column;
 }
 
-.cursor-pointer{
+.cursor-pointer {
     cursor: pointer;
 }
 
-.main-wrapper{
+.main-wrapper {
     width: 1168px !important;
+}
+
+@media (max-width: 1200px) {
+    .main-wrapper {
+        width: 868px !important;
+    }
+}
+
+@media (max-width: 932px) {
+    .main-wrapper {
+        width: 668px !important;
+    }
+}
+
+@media (max-width: 716px) {
+    .main-wrapper {
+        width: 568px !important;
+    }
+}
+@media (max-width: 620px) {
+    .main-wrapper {
+        max-width: 468px !important;
+    }
+}
+@media (max-width: 520px) {
+    .main-wrapper {
+        max-width: 368px !important;
+    }
+    #app > div{
+        padding: 10px !important;
+    }
+}
+
+@media (max-width: 410px) {
+    .main-wrapper {
+        max-width: 270px !important;
+    }
+    #app > div{
+        padding: 10px !important;
+    }
 }

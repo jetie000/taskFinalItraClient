@@ -6,8 +6,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { useActions } from '../../hooks/useActions';
 import { HubConnection } from '@microsoft/signalr';
+import { variables } from '../../variables';
 
 function ItemComments({ idItem, comments, conn }: { idItem: number, comments: IComment[], conn: HubConnection | undefined }) {
+    const { language } = useSelector((state: RootState) => state.options);
     const [addComment, { isLoading, isSuccess, isError, data }] = useAddCommentMutation();
     const [deleteComment, { isLoading: isLoadingDelete, isSuccess: isSuccessDelete, isError: isErrorDelete, data: dataDelete }] = useDeleteCommentMutation();
     const { user } = useSelector((state: RootState) => state.user);
@@ -18,18 +20,18 @@ function ItemComments({ idItem, comments, conn }: { idItem: number, comments: IC
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             switch (data) {
                 case 'No user found.':
-                    setToastChildren('Пользователь не найден'); break;
+                    setToastChildren(variables.LANGUAGES[language].USER_NOT_FOUND); break;
                 case 'No item found.':
-                    setToastChildren('Предмет не найден'); break;
+                    setToastChildren(variables.LANGUAGES[language].ITEM_NOT_FOUND); break;
                 case 'Comment added.':
-                    setToastChildren('Комментарий успешно создан');
+                    setToastChildren(variables.LANGUAGES[language].COMMENT_ADDED);
                     invokeMessage(); break;
             }
             myToast.show();
         }
         if (isError) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Ошибка создания комментария');
+            setToastChildren(variables.LANGUAGES[language].ERROR_ADDING_COMMENT);
             myToast.show();
         }
     }, [isLoading]);
@@ -43,19 +45,19 @@ function ItemComments({ idItem, comments, conn }: { idItem: number, comments: IC
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             switch (dataDelete) {
                 case 'No user found.':
-                    setToastChildren('Пользователь не найден'); break;
+                    setToastChildren(variables.LANGUAGES[language].USER_NOT_FOUND); break;
                 case 'No comment found.':
-                    setToastChildren('Комментарий не найден'); break;
+                    setToastChildren(variables.LANGUAGES[language].COMMENT_NOT_FOUND); break;
                 case 'No access to comment.':
-                    setToastChildren('Нет доступа'); break;
+                    setToastChildren(variables.LANGUAGES[language].NO_ACCESS); break;
                 case 'Comment deleted.':
-                    setToastChildren('Комментарий успешно удален'); break;
+                    setToastChildren(variables.LANGUAGES[language].COMMENT_DELETED); break;
             }
             myToast.show();
         }
         if (isErrorDelete) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Ошибка удаления комментария');
+            setToastChildren(variables.LANGUAGES[language].ERROR_DELETING_COMMENT);
             myToast.show();
         }
     }, [isLoadingDelete]);
@@ -78,13 +80,13 @@ function ItemComments({ idItem, comments, conn }: { idItem: number, comments: IC
 
     return (
         <div className='d-flex flex-column mt-3 gap-1'>
-            <h2>Комментарии:</h2>
+            <h2>{variables.LANGUAGES[language].COMMENTS}</h2>
 
             {
                 user &&
                 <div className="input-group mb-2">
-                    <input type="text" className="form-control" placeholder="Введите комментарий" id='commentInput' />
-                    <button onClick={() => addCommentClick()} className="btn btn-outline-secondary" type="button" id="buttonAdd">Отправить</button>
+                    <input type="text" className="form-control" placeholder={variables.LANGUAGES[language].ENTER_COMMENT} id='commentInput' />
+                    <button onClick={() => addCommentClick()} className="btn btn-outline-secondary" type="button" id="buttonAdd">{variables.LANGUAGES[language].SEND}</button>
                 </div>
             }
             {comments.length > 0 ?
@@ -115,7 +117,7 @@ function ItemComments({ idItem, comments, conn }: { idItem: number, comments: IC
                         </li>
                     )}
                 </ul>
-                : <div className='fs-4'>На этом предмете пока нет комментариев</div>
+                : <div className='fs-4'>{variables.LANGUAGES[language].NO_COMMENTS_ITEM}</div>
             }
         </div >
     );

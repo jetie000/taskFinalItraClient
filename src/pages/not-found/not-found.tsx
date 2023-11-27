@@ -1,8 +1,12 @@
 import React from "react";
 import '../../pages/not-found/not-found.scss'
+import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
+import { variables } from "../../variables";
 function Custom404() {
+    const { language } = useSelector((state: RootState) => state.options);
     return ( 
-        <h1 className='page404'>Error 404 - Page not found</h1>
+        <h1 className='page404'>{variables.LANGUAGES[language].ERROR_404}</h1>
      );
 }
 

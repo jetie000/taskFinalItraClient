@@ -3,13 +3,17 @@ import { ICollectionInfo } from "../../types/collectionInfo.interface";
 import AddItem from "./AddItem";
 import './Collection.scss'
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
+import { variables } from "../../variables";
 
 function CollectionItems({ data }: { data: ICollectionInfo }) {
     const navigate = useNavigate();
+    const { language } = useSelector((state: RootState) => state.options);
 
     return (
         <>
-            <span className="fs-1 mt-3">Предметы:</span>
+            <span className="fs-1 mt-3">{variables.LANGUAGES[language].ITEMS}</span>
             {
                 data.collection.items && data.collection.items?.length > 0 ?
                     <ul className="list-group rounded-4 mt-2">
@@ -25,7 +29,7 @@ function CollectionItems({ data }: { data: ICollectionInfo }) {
                                                 {tag.tag}
                                             </div>)
                                             :
-                                            <span className="fs-5">Нет тегов</span>
+                                            <span className="fs-5">{variables.LANGUAGES[language].NO_TAGS}</span>
                                         }
                                     </div>
                                     <div className="vr ms-auto"></div>
@@ -53,7 +57,7 @@ function CollectionItems({ data }: { data: ICollectionInfo }) {
                         }
                     </ul>
                     :
-                    <div className="fs-3 mt-2">В этой коллекции пока нет предметов</div>
+                    <div className="fs-3 mt-2">{variables.LANGUAGES[language].NO_ITEMS_IN_COLLECTION}</div>
             }
             <AddItem data={data} />
         </>

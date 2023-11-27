@@ -6,11 +6,13 @@ import { Toast as bootstrapToast } from 'bootstrap';
 import ItemInfo from './ItemInfo';
 import { useActions } from '../../hooks/useActions';
 import { baseApi } from '../../store/api/baseApi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { variables } from '../../variables';
+import { RootState } from '../../store/store';
 
 function Item() {
     let { id, idItem } = useParams();
+    const { language } = useSelector((state: RootState) => state.options);
     const { isLoading, isSuccess, isError, error, data } = useGetItemQuery(Number(idItem))
     const { setToastChildren } = useActions();
     const dispatch = useDispatch();
@@ -47,7 +49,7 @@ function Item() {
     useEffect(() => {
         if (isError || data === 'No collection found.') {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Коллекция не найдена');
+            setToastChildren(variables.LANGUAGES[language].COLLECTION_NOT_FOUND);
             myToast.show();
         }
     }, [isLoading])
@@ -59,8 +61,8 @@ function Item() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left me-2" viewBox="0 0 16 16">
                         <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                     </svg>
-                    {id ? 'Вернуться к коллекции' 
-                    : 'Вернуться на главную'}
+                    {id ? variables.LANGUAGES[language].RETURN_TO_COLLECTION 
+                    : variables.LANGUAGES[language].RETURN_TO_MAIN}
                 </Link>
                 {
                     data && typeof (data) != 'string' && data.item ?
@@ -69,9 +71,9 @@ function Item() {
                         </div>
                         : (isLoading ?
                             <div className="spinner-border m-auto" role="status">
-                                <span className="visually-hidden">Загрузка...</span>
+                                <span className="visually-hidden">{variables.LANGUAGES[language].LOADING}</span>
                             </div>
-                            : <span className="fs-2 m-auto"> Предмет не найден</span>)
+                            : <span className="fs-2 m-auto">{variables.LANGUAGES[language].ITEM_NOT_FOUND}</span>)
                 }
             </div>
         </div>

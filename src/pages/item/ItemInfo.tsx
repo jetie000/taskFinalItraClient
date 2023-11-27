@@ -18,6 +18,7 @@ import { HubConnection } from '@microsoft/signalr';
 
 function ItemInfo({ data, connection }: { data: IItemInfo, connection: HubConnection | undefined }) {
     let { id } = useParams();
+    const { language } = useSelector((state: RootState) => state.options);
     const { user } = useSelector((state: RootState) => state.user);
     const { setToastChildren } = useActions();
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });
@@ -30,19 +31,19 @@ function ItemInfo({ data, connection }: { data: IItemInfo, connection: HubConnec
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             switch (dataDelete) {
                 case 'No user found.':
-                    setToastChildren('Пользователь не найден'); break;
+                    setToastChildren(variables.LANGUAGES[language].USER_NOT_FOUND); break;
                 case 'No item found.':
-                    setToastChildren('Предмет не найден'); break;
+                    setToastChildren(variables.LANGUAGES[language].ITEM_NOT_FOUND); break;
                 case 'No access to item.':
-                    setToastChildren('Нет доступа к предмету'); break;
+                    setToastChildren(variables.LANGUAGES[language].NO_ACCESS_ITEM); break;
                 case 'Item deleted.':
-                    setToastChildren('Предмет успешно удален'); break;
+                    setToastChildren(variables.LANGUAGES[language].ITEM_DELETED); break;
             }
             myToast.show();
         }
         if (isErrorDelete) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Ошибка удаления предмета');
+            setToastChildren(variables.LANGUAGES[language].ERROR_DELETING_ITEM);
             myToast.show();
         }
     }, [isLoadingDelete])
@@ -52,10 +53,10 @@ function ItemInfo({ data, connection }: { data: IItemInfo, connection: HubConnec
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             switch (dataSet) {
                 case 'No user found.':
-                    setToastChildren('Пользователь не найден');
+                    setToastChildren(variables.LANGUAGES[language].USER_NOT_FOUND);
                     myToast.show(); break;
                 case 'No item found.':
-                    setToastChildren('Предмет не найден');
+                    setToastChildren(variables.LANGUAGES[language].ITEM_NOT_FOUND);
                     myToast.show(); break;
                 default: invokeMessage();
             }
@@ -63,7 +64,7 @@ function ItemInfo({ data, connection }: { data: IItemInfo, connection: HubConnec
         }
         if (isErrorSet) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Ошибка удаления предмета');
+            setToastChildren(variables.LANGUAGES[language].ERROR_DELETING_ITEM);
             myToast.show();
         }
     }, [isLoadingSet])
@@ -77,23 +78,23 @@ function ItemInfo({ data, connection }: { data: IItemInfo, connection: HubConnec
         const children = data && typeof (data) !== 'string'
             ?
             <div className='d-flex flex-column gap-3'>
-                <span>Вы точно хотите удалить предмет? Вместе с этим вы удалите все его комментарии и реакции.</span>
+                <span>{variables.LANGUAGES[language].SURE_DELETE_ITEM}</span>
                 <button onClick={() => {
                     deleteItem(data.item.id!);
                     myModal.hide()
                 }} className='btn btn-danger'>
-                    Удалить предмет
+                    {variables.LANGUAGES[language].DELETE_ITEM}
                 </button>
             </div >
-            : <div>Предмет не найден</div>;
-        setModalInfo({ title: "Удаление предмета", children: children });
+            : <div>{variables.LANGUAGES[language].ITEM_NOT_FOUND}</div>;
+        setModalInfo({ title: variables.LANGUAGES[language].DELETING_ITEM, children: children });
         myModal.show();
     }
 
     const setReactionClick = (isLike: boolean) => {
         if(!user){
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            setToastChildren('Войдите, чтобы ставить реакции');
+            setToastChildren(variables.LANGUAGES[language].LOG_TO_REACT);
             myToast.show(); 
             return;
         }
@@ -113,14 +114,14 @@ function ItemInfo({ data, connection }: { data: IItemInfo, connection: HubConnec
             <div className="d-flex">
                 <img className="w-50 rounded-4" src={variables.PHOTOS_URL + data.item.myCollection?.photoPath} alt="collection img" />
                 <div className=" w-50 d-flex flex-column ps-5 justify-content-around flex-fill">
-                    <span className="fs-1 align-self-center">Предмет</span>
+                    <span className="fs-1 align-self-center">{variables.LANGUAGES[language].ITEM}</span>
                     <hr />
                     <span className='fs-1 text-truncate'>{data.item.name}</span>
                     <hr />
                     <div className='d-flex gap-2 fs-2'>
                         <div className='flex-shrink-0 d-flex flex-column'>
-                            <span className='fw-light'>Дата создания: </span>
-                            <span>Коллекция: </span>
+                            <span className='fw-light'>{variables.LANGUAGES[language].CREATED} </span>
+                            <span>{variables.LANGUAGES[language].COLLECTION}: </span>
                         </div>
                         <div className='d-flex flex-column overflow-hidden'>
                             <span className='fw-light'>{new Date(data.item.creationDate).toLocaleString()}</span>
@@ -130,19 +131,19 @@ function ItemInfo({ data, connection }: { data: IItemInfo, connection: HubConnec
                         </div>
                     </div>
                     {!id &&
-                        <button onClick={() => navigate('/collection/' + data.collectionId)} className='btn btn-primary fs-5'>Перейти</button>
+                        <button onClick={() => navigate('/collection/' + data.collectionId)} className='btn btn-primary fs-5'>{variables.LANGUAGES[language].GO_TO}</button>
                     }
                     <hr />
                     <div className="d-flex gap-2 justify-content-center">
                         <button onClick={() => setReactionClick(true)}
                             className={'btn fs-5 ' + (data.item.likes?.some(like =>
                                 like.isLike === true && like.userId == user?.id) ? 'btn-primary' : 'btn-secondary')}>
-                            Нравится {' '}
+                            {variables.LANGUAGES[language].LIKE} {' '}
                             {data.item.likes?.filter(like => like.isLike === true).length || 0}
                         </button>
                         <button onClick={() => setReactionClick(false)} className={'btn fs-5 ' + (data.item.likes?.some(like =>
                             like.isLike === false && like.userId == user?.id) ? 'btn-primary' : 'btn-secondary')}>
-                            Не нравится {' '}
+                            {variables.LANGUAGES[language].DISLIKE} {' '}
                             {data.item.likes?.filter(like => like.isLike === false).length || 0}
                         </button>
                     </div>
@@ -152,10 +153,10 @@ function ItemInfo({ data, connection }: { data: IItemInfo, connection: HubConnec
                 user && (user.id === data.userId || user.role == 1) &&
                 <div className="d-flex gap-3 mt-3">
                     <button onClick={() => navigate('/collection/' + data.collectionId + '/item/' + data.item.id + '/change')} className="btn btn-primary fs-4 w-50">
-                        Изменить предмет
+                        {variables.LANGUAGES[language].CHANGE_ITEM}
                     </button>
                     <button onClick={() => deleteItemClick()} className="btn btn-danger fs-4 w-50">
-                        Удалить предмет
+                        {variables.LANGUAGES[language].DELETE_ITEM}
                     </button>
                 </div>
             }

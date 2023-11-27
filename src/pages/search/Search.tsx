@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSearchItemsQuery } from '../../store/api/items.api';
+import { RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
+import { variables } from '../../variables';
 
 function Search() {
     const { search } = useParams();
+    const { language } = useSelector((state: RootState) => state.options);
     const navigate = useNavigate();
     const [searchLimit, setSearchLimit] = useState(20);
     const { isLoading, isSuccess, isError, error, data } = useSearchItemsQuery({ contain: search!, limit: searchLimit }, {
@@ -16,7 +20,7 @@ function Search() {
         <div className="d-flex p-3 flex-fill">
             <div className="d-flex main-wrapper ms-auto me-auto">
                 <div className="d-flex flex-column ms-auto me-auto w-75">
-                    <h2 className='text-center text-truncate'>Результаты поиска по запросу: {' '+search}</h2>
+                    <h2 className='text-center text-truncate'>{variables.LANGUAGES[language].SEARCH_RESULTS} {' '+search}</h2>
                     <ul className="list-group rounded-4 mt-2 collection-wrapper overflow-y-auto">
                         {
                             data && data.map(item =>
@@ -33,7 +37,7 @@ function Search() {
                                                     {tag.tag}
                                                 </div>)
                                                 :
-                                                <span className="fs-5">Нет тегов</span>
+                                                <span className="fs-5">{variables.LANGUAGES[language].NO_TAGS}</span>
                                             }
                                         </div>
                                         <div className="vr ms-auto"></div>
@@ -59,9 +63,9 @@ function Search() {
                                         </div>
                                     </div>
                                     <div className='fs-5 d-flex gap-3'>
-                                        <span className='text-truncate'>{'Коллекция: '}{item.myCollection?.title}</span>
+                                        <span className='text-truncate'>{variables.LANGUAGES[language].COLLECTION}{': '}{item.myCollection?.title}</span>
                                         <div className="vr ms-auto"></div>
-                                        <span className='text-truncate flex-shrink-0'>{'Создатель: '}{item.myCollection?.user?.fullName}</span>
+                                        <span className='text-truncate flex-shrink-0'>{variables.LANGUAGES[language].CREATOR}{' '}{item.myCollection?.user?.fullName}</span>
                                     </div>
                                 </li>
                             )
@@ -69,9 +73,9 @@ function Search() {
                         {
                             data && data.length > 0 ?
                                 <li className='list-group-item btn btn-outline-primary fs-4 d-flex justify-content-center' onClick={() => setSearchLimit(searchLimit + 5)}>
-                                    Показать еще
+                                    {variables.LANGUAGES[language].SHOW_MORE}
                                 </li> :
-                                <h2 className='text-center'>Результатов нет</h2>
+                                <h2 className='text-center'>{variables.LANGUAGES[language].NO_RESULTS}</h2>
                         }
                     </ul>
 

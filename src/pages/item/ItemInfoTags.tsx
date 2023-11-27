@@ -1,9 +1,13 @@
 import React from 'react'
 import { ITag } from '../../types/tag.interface';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { variables } from '../../variables';
 function ItemInfoTags({ tags }: { tags: ITag[] }) {
+    const { language } = useSelector((state: RootState) => state.options);
     return (
         <div className='border rounded-4 p-3 mt-3'>
-            <h4>Теги:</h4>
+            <h4>{variables.LANGUAGES[language].TAGS}</h4>
             <div className="d-flex gap-2 flex-wrap">
                 {
                     tags.map(tag =>

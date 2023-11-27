@@ -1,0 +1,24 @@
+@media (max-width: 932px) {
+    .home-wrapper {
+        flex-direction: column-reverse;
+
+        & > div{
+            width: 100% !important;  
+        }
+    }
+    .items-list-home{
+        & > li div, & > li span{
+            font-size: 16px !important;
+        }
+    }
+}
+
+@media (max-width: 520px) {
+    
+    .items-list-home > li > div{
+        flex-direction: column !important;
+        & .vr{
+            display: none !important;
+        }
+    }
+}
