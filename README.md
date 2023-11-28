@@ -1,7 +1,8 @@
 # Collections
 
 Front-end: React, TypeScript, Redux Toolkit, RTK Query, Bootstrap, SASS
-Back-end  [Перейти к репозиторию](https://github.com/jetie000/taskFinalItraServer)
+
+Back-end: [Перейти к репозиторию](https://github.com/jetie000/taskFinalItraServer)
 
 Веб-приложение, позволяющее добавлять, просматривать, изменять, удалять коллекции.
 
