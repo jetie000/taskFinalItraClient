@@ -4,6 +4,7 @@ import { useSearchItemsQuery } from '../../store/api/items.api';
 import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
 import { variables } from '../../variables';
+import './Search.scss'
 
 function Search() {
     const { search } = useParams();
@@ -20,8 +21,8 @@ function Search() {
         <div className="d-flex p-3 flex-fill">
             <div className="d-flex main-wrapper ms-auto me-auto">
                 <div className="d-flex flex-column ms-auto me-auto w-75">
-                    <h2 className='text-center text-truncate'>{variables.LANGUAGES[language].SEARCH_RESULTS} {' '+search}</h2>
-                    <ul className="list-group rounded-4 mt-2 collection-wrapper overflow-y-auto">
+                    <h2 className='text-center'>{variables.LANGUAGES[language].SEARCH_RESULTS} {' '+search}</h2>
+                    <ul className="list-group rounded-4 mt-2 collection-wrapper overflow-y-auto items-list-search">
                         {
                             data && data.map(item =>
                                 <li key={item.id}
@@ -64,8 +65,6 @@ function Search() {
                                     </div>
                                     <div className='fs-5 d-flex gap-3'>
                                         <span className='text-truncate'>{variables.LANGUAGES[language].COLLECTION}{': '}{item.myCollection?.title}</span>
-                                        <div className="vr ms-auto"></div>
-                                        <span className='text-truncate flex-shrink-0'>{variables.LANGUAGES[language].CREATOR}{' '}{item.myCollection?.user?.fullName}</span>
                                     </div>
                                 </li>
                             )

@@ -32,7 +32,7 @@ function Home() {
                             </div>
                         </div> :
                         (dataCollections && typeof (dataCollections) !== 'string' && dataCollections?.length > 0 ?
-                            <div className="overflow-y-auto collection-wrapper flex-fill">
+                            <div className="flex-fill">
                                 {
                                     dataCollections?.map(collection =>
                                         <div onClick={() => navigate('/collection/' + collection.id)} className='m-2 border rounded-4 collection-item d-flex cursor-pointer' key={collection.id}>
