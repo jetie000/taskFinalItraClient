@@ -9,6 +9,7 @@ import { baseApi } from '../../store/api/baseApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { variables } from '../../variables';
 import { RootState } from '../../store/store';
+import './Item.scss'
 
 function Item() {
     let { id, idItem } = useParams();
@@ -66,7 +67,7 @@ function Item() {
                 </Link>
                 {
                     data && typeof (data) != 'string' && data.item ?
-                        <div className="d-flex flex-column">
+                        <div className="d-flex flex-column item_item">
                             <ItemInfo data={data} connection={connection}/>
                         </div>
                         : (isLoading ?

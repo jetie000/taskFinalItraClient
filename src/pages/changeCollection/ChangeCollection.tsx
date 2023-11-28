@@ -13,6 +13,7 @@ import { variables } from '../../variables';
 import { ICollectionInfo } from '../../types/collectionInfo.interface';
 import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
+import './ChangeCollection.scss'
 
 function ChangeCollection() {
     let { id } = useParams();
@@ -122,7 +123,7 @@ function ChangeCollection() {
                         <h2 className="text-center p-3">
                             {variables.LANGUAGES[language].CHANGE_COLLECTION}
                         </h2>
-                        <div className="d-flex align-self-center flex-column w-50 mb-4">
+                        <div className="d-flex align-self-center flex-column w-50 mb-4 changeCollection_wrapper">
                             <span className='fs-5'>
                                 {variables.LANGUAGES[language].COLLECTION_PHOTO}
                             </span>

@@ -1,0 +1,22 @@
+@media (max-width: 1200px) {
+
+    .changeItem_wrapper{
+        width: 75% !important;
+    }
+}
+
+@media (max-width: 932px) {
+    .changeItem_wrapper > :first-child{
+        flex-direction: column;
+        & > div{
+            width: 100% !important;
+        }
+    }
+}
+
+@media (max-width: 620px) {
+    
+    .changeItem_wrapper{
+        width: 100% !important;
+    }
+}

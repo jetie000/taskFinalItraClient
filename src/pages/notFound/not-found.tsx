@@ -1,5 +1,5 @@
 import React from "react";
-import '../../pages/not-found/not-found.scss'
+import './not-found.scss'
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { variables } from "../../variables";

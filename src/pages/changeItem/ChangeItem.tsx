@@ -9,6 +9,7 @@ import { IItemInfo } from '../../types/itemInfo.interface';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { variables } from '../../variables';
+import './ChangeItem.scss'
 
 function ChangeItem() {
     let { id, idItem } = useParams();
@@ -155,7 +156,7 @@ function ChangeItem() {
                         <h2 className="text-center p-3">
                             {variables.LANGUAGES[language].ITEM_CHANGING}
                         </h2>
-                        <div className="d-flex align-self-center flex-column w-75 mb-4">
+                        <div className="d-flex align-self-center flex-column w-75 mb-4 changeItem_wrapper">
                             <div className="d-flex gap-4 mb-3">
                                 <div className="d-flex flex-column w-50">
                                     <label htmlFor="inputItemName">{variables.LANGUAGES[language].ITEM_NAME}</label>

@@ -58,7 +58,7 @@ function Collection() {
                 </Link>
                 {
                     data && typeof (data) != 'string' && data.collection ?
-                        <div className="d-flex flex-column">
+                        <div className="collection_collection d-flex flex-column">
                             <CollectionInfo data={data} />
                             <CollectionItems data={data} />
                         </div>

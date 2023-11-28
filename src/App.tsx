@@ -10,7 +10,7 @@ import Home from "./pages/home/Home";
 import ReactDOM from "react-dom/client";
 import Toast from "./pages/toast/Toast";
 import Header from "./pages/header/Header";
-import Custom404 from "./pages/not-found/not-found";
+import Custom404 from "./pages/notFound/not-found";
 import { variables } from "./variables";
 import Cabinet from "./pages/cabinet/Cabinet";
 import AddCollection from "./pages/addCollection/AddCollection";

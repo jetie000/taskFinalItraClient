@@ -51,7 +51,7 @@ function ItemComments({ idItem, comments, conn }: { idItem: number, comments: IC
                 case 'No access to comment.':
                     setToastChildren(variables.LANGUAGES[language].NO_ACCESS); break;
                 case 'Comment deleted.':
-                    setToastChildren(variables.LANGUAGES[language].COMMENT_DELETED); break;
+                    invokeMessage(); setToastChildren(variables.LANGUAGES[language].COMMENT_DELETED); break;
             }
             myToast.show();
         }

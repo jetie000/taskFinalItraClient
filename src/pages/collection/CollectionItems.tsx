@@ -16,13 +16,13 @@ function CollectionItems({ data }: { data: ICollectionInfo }) {
             <span className="fs-1 mt-3">{variables.LANGUAGES[language].ITEMS}</span>
             {
                 data.collection.items && data.collection.items?.length > 0 ?
-                    <ul className="list-group rounded-4 mt-2">
+                    <ul className="list-group rounded-4 mt-2 items-list-collection overflow-x-hidden">
                         {
                             data.collection.items.map(item =>
                                 <li key={item.id} onClick={() => navigate('/collection/'+data.collection.id+'/item/'+item.id)} className="list-group-item fs-4 d-flex gap-3 align-items-start cursor-pointer">
                                     <span>{item.name}</span>
                                     <div className="vr"></div>
-                                    <div className="d-flex gap-2 flex-wrap align-self-center overflow-hidden">
+                                    <div className="d-flex gap-2 flex-wrap overflow-x-hidden">
                                         {item.tags?.length ? item.tags?.map(tag =>
                                             <div key={tag.id}
                                                 className="flex-grow-0 btn btn-info border rounded-4 p-0 ps-2 pe-2 text-truncate">

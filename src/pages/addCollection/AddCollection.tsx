@@ -13,6 +13,7 @@ import { ICollectionFields } from '../../types/collectionFields.interface';
 import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
 import { variables } from '../../variables';
+import './AddCollection.scss'
 
 
 function AddCollection() {
@@ -116,7 +117,7 @@ function AddCollection() {
                 <h2 className="text-center p-3">
                     {variables.LANGUAGES[language].ADD_NEW_COLLECTION}
                 </h2>
-                <div className="d-flex align-self-center flex-column w-50 mb-4">
+                <div className="d-flex align-self-center flex-column w-50 mb-4 addCollection_wrapper">
                     <span className='fs-5'>
                         {variables.LANGUAGES[language].COLLECTION_PHOTO}
                     </span>

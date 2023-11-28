@@ -1,0 +1,77 @@
+@media (max-width: 1200px) {
+
+    .item_item> :first-child>div>span,
+    .item_item> :first-child>div>div>div>span {
+        font-size: 24px !important;
+    }
+    .item_item> :first-child>div>button{
+        font-size: 18px !important;
+    }
+}
+
+@media (max-width: 932px) {
+
+    .item_item> :first-child>div {
+        padding-left: 20px !important;
+
+        &>div>div>span {
+            font-size: 18px !important;
+        }
+
+        &>hr {
+            display: none;
+        }
+        &>:last-child>button{
+            font-size: 16px !important;
+        }
+    }
+
+}
+
+@media (max-width: 716px) {
+    .item_item> :nth-child(4) > ul > li > div > *{
+        font-size: 16px !important;
+    }
+    
+    .item_item> :first-child>div>button{
+        font-size: 16px !important;
+    }
+}
+
+@media (max-width: 620px) {
+
+    .item_item> :first-child {
+        flex-direction: column-reverse !important;
+        gap: 20px !important;
+
+        &>div {
+            padding-left: 0px !important;
+        }
+
+        &>* {
+            width: 100% !important;
+        }
+
+        &>div>hr {
+            display: block !important;
+
+        }
+
+    }
+    .item_item > :nth-child(2)>button {
+        font-size: 18px !important;
+    }
+
+    .item_item> :nth-child(4) > ul > li > div{
+        flex-direction: column;
+        & > .vr{
+            display: none;
+        }
+        & > :last-child{
+            align-self: flex-end !important;
+        }
+    }
+    .item_item> :first-child>div>button{
+        margin-top: 10px;
+    }
+}
