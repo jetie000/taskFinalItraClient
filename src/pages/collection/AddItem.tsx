@@ -68,35 +68,34 @@ function AddItem({ data }: { data: ICollectionInfo }) {
                         stringFieldValue: valueStr === '' ? undefined : valueStr,
                         fieldName: field.fieldName,
                         id: 0
-                    })
-                    break;
+                    }); break;
                 case 'number':
                     let valueNum = (document.getElementById('input' + field.id) as HTMLInputElement)?.value;
                     itemFields.push({
                         doubleFieldValue: valueNum === '' ? undefined : Number(valueNum),
                         fieldName: field.fieldName,
                         id: 0
-                    })
-                    break;
+                    }); break;
                 case 'Date':
                     let valueDate = (document.getElementById('input' + field.id) as HTMLInputElement)?.value;
                     itemFields.push({
                         dateFieldValue: valueDate === '' ? undefined : new Date(valueDate),
                         fieldName: field.fieldName,
                         id: 0
-                    })
-                    break;
+                    }); break;
                 case 'boolean':
                     itemFields.push({
                         boolFieldValue: (document.getElementById('input' + field.id) as HTMLInputElement)?.checked,
                         fieldName: field.fieldName,
                         id: 0
-                    })
-                    break;
+                    }); break;
             }
         })
         if (inputItemName.trim() === '' || itemFields.some(field =>
-            field.dateFieldValue === undefined && field.doubleFieldValue === undefined && field.stringFieldValue === undefined && field.boolFieldValue === undefined)) {
+            field.dateFieldValue === undefined && 
+            field.doubleFieldValue === undefined && 
+            field.stringFieldValue === undefined && 
+            field.boolFieldValue === undefined)) {
 
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
             setToastChildren(variables.LANGUAGES[language].INPUT_DATA);
