@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import './Home.scss'
-import { useGetLastTagsQuery, useGetTagsQuery } from "../../store/api/tags.api";
-import { useGetLargestCollectionsQuery } from "../../store/api/collections.api";
-import { useGetLastItemsQuery } from "../../store/api/items.api";
-import { variables } from "../../variables";
 import { useNavigate } from "react-router-dom";
-import ItemsList from "../cabinet/ItemsList";
-import HomeItemsList from "./HomeItemsList";
-import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
+import { variables } from "@/variables";
+import { RootState } from "@/store/store";
+import { useGetLargestCollectionsQuery } from "@/store/api/collections.api";
+import { useGetLastItemsQuery } from "@/store/api/items.api";
+import { useGetLastTagsQuery } from "@/store/api/tags.api";
+import HomeItemsList from "./HomeItemsList";
+
 function Home() {
 
     const navigate = useNavigate();

@@ -13,9 +13,3 @@ export interface ICollection {
     collectionFields: ICollectionFields[] | undefined
     user? : IUser
 }
-
-
-export interface ICollectionUser {
-    collection: ICollection
-    userId: number
-}

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
-import { useActions } from '../../hooks/useActions';
-import { RootState } from '../../store/store';
+import { useActions } from '@/hooks/useActions';
+import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Toast as bootstrapToast } from 'bootstrap';
-import { useGetMyCollectionsQuery } from '../../store/api/collections.api';
+import { useGetMyCollectionsQuery } from '@/store/api/collections.api';
 import './Cabinet.scss'
-import { variables } from '../../variables';
-import { ICollection } from '../../types/collection.interface';
+import { variables } from '@/variables';
+import { ICollection } from '@/types/collection.interface';
 
 function MyCollections() {
     const { setToastChildren, setCollections } = useActions();

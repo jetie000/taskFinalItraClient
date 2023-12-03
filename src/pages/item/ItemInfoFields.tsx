@@ -1,8 +1,8 @@
 import React from 'react'
-import { IItemFields } from '../../types/itemFields.interface'
+import { IItemFields } from '@/types/itemFields.interface'
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { variables } from '../../variables';
+import { RootState } from '@/store/store';
+import { variables } from '@/variables';
 function ItemInfoFields({ itemFields }: { itemFields: IItemFields[] }) {
     const { language } = useSelector((state: RootState) => state.options);
     return (

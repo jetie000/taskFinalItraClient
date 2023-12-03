@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useChangeUserAdminMutation, useChangeUserMutation, useDeleteUserMutation, useGetAllQuery } from "../../store/api/user.api";
-import { IUser } from "../../types/user.interface";
-import Modal from "../modal/Modal";
-import { IModalInfo } from "../../types/modalInfo.interface";
+import { useChangeUserAdminMutation, useChangeUserMutation, useDeleteUserMutation, useGetAllQuery } from "@/store/api/user.api";
+import { IUser } from "@/types/user.interface";
+import Modal from "@/pages/modal/Modal";
+import { IModalInfo } from "@/types/modalInfo.interface";
 import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap'
-import { useActions } from "../../hooks/useActions";
+import { useActions } from "@/hooks/useActions";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { RootState } from "../../store/store";
+import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import AdminMenuUsers from "./AdminMenuUsers";
 import { useNavigate } from "react-router-dom";
-import { variables } from "../../variables";
+import { variables } from "@/variables";
 
 function AdminMenu() {
     const { data } = useGetAllQuery(undefined);

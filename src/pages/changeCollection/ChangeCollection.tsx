@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from "react-router-dom";
-import { useChangeMyCollectionMutation, useGetCollectionQuery, usePostCollectionPhotoMutation } from '../../store/api/collections.api';
-import MyCropper from '../addCollection/MyCropper';
-import { useActions } from '../../hooks/useActions';
-import { IModalInfo } from '../../types/modalInfo.interface';
+import { useChangeMyCollectionMutation, useGetCollectionQuery, usePostCollectionPhotoMutation } from '@/store/api/collections.api';
+import MyCropper from '@/pages/addCollection/MyCropper';
+import { useActions } from '@/hooks/useActions';
+import { IModalInfo } from '@/types/modalInfo.interface';
 import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { dataUrlToFile } from '../../utils/cropUtils';
-import Modal from '../modal/Modal';
-import { variables } from '../../variables';
-import { ICollectionInfo } from '../../types/collectionInfo.interface';
-import { RootState } from '../../store/store';
+import { dataUrlToFile } from '@/utils/cropUtils';
+import Modal from '@/pages/modal/Modal';
+import { variables } from '@/variables';
+import { ICollectionInfo } from '@/types/collectionInfo.interface';
+import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import './ChangeCollection.scss'
 

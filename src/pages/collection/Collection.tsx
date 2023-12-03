@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Toast as bootstrapToast } from 'bootstrap';
-import { useGetCollectionQuery, useGetMyCollectionsQuery } from "../../store/api/collections.api";
-import { useActions } from "../../hooks/useActions";
+import { useGetCollectionQuery, useGetMyCollectionsQuery } from "@/store/api/collections.api";
+import { useActions } from "@/hooks/useActions";
 import CollectionInfo from "./CollectionInfo";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import { ICollection } from "../../types/collection.interface";
+import { RootState } from "@/store/store";
+import { ICollection } from "@/types/collection.interface";
 import CollectionItems from "./CollectionItems";
-import { variables } from "../../variables";
+import { variables } from "@/variables";
 function Collection() {
     let { id } = useParams();
     const { user } = useSelector((state: RootState) => state.user);

@@ -1,9 +1,9 @@
 import React from 'react'
-import { IItem } from '../../types/item.interface';
+import { IItem } from '@/types/item.interface';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { variables } from '../../variables';
+import { RootState } from '@/store/store';
+import { variables } from '@/variables';
 function ItemsList({ data }: { data: IItem[] }) {
     const navigate = useNavigate();
     const { language } = useSelector((state: RootState) => state.options);

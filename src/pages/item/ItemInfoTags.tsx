@@ -1,8 +1,8 @@
 import React from 'react'
-import { ITag } from '../../types/tag.interface';
+import { ITag } from '@/types/tag.interface';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { variables } from '../../variables';
+import { RootState } from '@/store/store';
+import { variables } from '@/variables';
 function ItemInfoTags({ tags }: { tags: ITag[] }) {
     const { language } = useSelector((state: RootState) => state.options);
     return (

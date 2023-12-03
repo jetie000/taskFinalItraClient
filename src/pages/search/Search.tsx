@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { useSearchItemsQuery } from '../../store/api/items.api';
-import { RootState } from '../../store/store';
+import { useSearchItemsQuery } from '@/store/api/items.api';
+import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import { variables } from '../../variables';
+import { variables } from '@/variables';
 import './Search.scss'
 
 function Search() {

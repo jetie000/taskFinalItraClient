@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { IModalInfo } from '../../types/modalInfo.interface';
-import Modal from '../modal/Modal';
-import { RootState } from '../../store/store';
+import { IModalInfo } from '@/types/modalInfo.interface';
+import Modal from '@/pages/modal/Modal';
+import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap'
-import { useChangeUserMutation, useDeleteUserMutation } from '../../store/api/user.api';
-import { useActions } from '../../hooks/useActions';
-import { IUser } from '../../types/user.interface';
+import { useChangeUserMutation, useDeleteUserMutation } from '@/store/api/user.api';
+import { useActions } from '@/hooks/useActions';
+import { IUser } from '@/types/user.interface';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import './Cabinet.scss'
-import { variables } from '../../variables';
+import { variables } from '@/variables';
 
 function MyInfo() {
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { Link, useParams } from 'react-router-dom';
-import { useGetItemQuery } from '../../store/api/items.api';
+import { useGetItemQuery } from '@/store/api/items.api';
 import { Toast as bootstrapToast } from 'bootstrap';
 import ItemInfo from './ItemInfo';
-import { useActions } from '../../hooks/useActions';
-import { baseApi } from '../../store/api/baseApi';
+import { useActions } from '@/hooks/useActions';
+import { baseApi } from '@/store/api/baseApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { variables } from '../../variables';
-import { RootState } from '../../store/store';
+import { variables } from '@/variables';
+import { RootState } from '@/store/store';
 import './Item.scss'
 
 function Item() {

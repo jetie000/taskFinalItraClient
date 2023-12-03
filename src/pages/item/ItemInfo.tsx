@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap';
-import { IModalInfo } from '../../types/modalInfo.interface';
-import Modal from '../modal/Modal';
+import { IModalInfo } from '@/types/modalInfo.interface';
+import Modal from '@/pages/modal/Modal';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { variables } from '../../variables';
-import { useActions } from '../../hooks/useActions';
+import { RootState } from '@/store/store';
+import { variables } from '@/variables';
+import { useActions } from '@/hooks/useActions';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IItemInfo } from '../../types/itemInfo.interface';
-import { useDeleteMyItemMutation } from '../../store/api/items.api';
+import { IItemInfo } from '@/types/itemInfo.interface';
+import { useDeleteMyItemMutation } from '@/store/api/items.api';
 import ItemInfoFields from './ItemInfoFields';
 import ItemInfoTags from './ItemInfoTags';
 import ItemComments from './ItemComments';
-import { useSetReactionMutation } from '../../store/api/reaction.api';
+import { useSetReactionMutation } from '@/store/api/reaction.api';
 import { HubConnection } from '@microsoft/signalr';
 
 function ItemInfo({ data, connection }: { data: IItemInfo, connection: HubConnection | undefined }) {

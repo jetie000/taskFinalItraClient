@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import { variables } from "../../variables";
+import { RootState } from "@/store/store";
+import { variables } from "@/variables";
 
 function Toast() {
     const { toastChildren } = useSelector((state: RootState) => state.toast)

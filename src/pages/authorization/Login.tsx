@@ -1,16 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { IModalInfo } from '../../types/modalInfo.interface';
-import { useLogInUserMutation } from '../../store/api/user.api';
+import { IModalInfo } from '@/types/modalInfo.interface';
+import { useLogInUserMutation } from '@/store/api/user.api';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { useActions } from '../../hooks/useActions';
-import Modal from '../modal/Modal';
+import { useActions } from '@/hooks/useActions';
+import Modal from '@/pages/modal/Modal';
 import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap';
-import { IUser } from '../../types/user.interface';
+import { IUser } from '@/types/user.interface';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { variables } from '../../variables';
+import { RootState } from '@/store/store';
+import { variables } from '@/variables';
 
 function Login() {
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });

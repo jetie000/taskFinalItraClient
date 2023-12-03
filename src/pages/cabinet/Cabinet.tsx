@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import './Cabinet.scss'
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "@/store/store";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useActions } from "../../hooks/useActions";
+import { useActions } from "@/hooks/useActions";
 import MyInfo from "./MyInfo";
 import MyCollections from "./MyCollections";
 import MyComments from "./MyComments";
 import MyReactions from "./MyReactions";
-import { baseApi } from "../../store/api/baseApi";
+import { baseApi } from "@/store/api/baseApi";
 import AdminMenu from "./AdminMenu";
-import { variables } from "../../variables";
+import { variables } from "@/variables";
 
 function Cabinet() {
     const [currentPage, setCurrentPage] = useState(<MyInfo />);

@@ -1,10 +1,9 @@
 import React from 'react'
-import { IItem } from '../../types/item.interface';
 import { useNavigate } from 'react-router-dom';
-import { IItemInfo } from '../../types/itemInfo.interface';
-import { RootState } from '../../store/store';
+import { IItemInfo } from '@/types/itemInfo.interface';
+import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import { variables } from '../../variables';
+import { variables } from '@/variables';
 
 function HomeItemsList({ data, setItemsLimit, itemsLimit }: { data: IItemInfo[], setItemsLimit: Function, itemsLimit: number }) {
     const navigate = useNavigate();

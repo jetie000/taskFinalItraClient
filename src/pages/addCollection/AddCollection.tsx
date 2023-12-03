@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { useAddCollectionMutation, usePostCollectionPhotoMutation } from '../../store/api/collections.api';
+import { useAddCollectionMutation, usePostCollectionPhotoMutation } from '@/store/api/collections.api';
 import CollectionFields from './CollectionFields';
 import MyCropper from './MyCropper';
-import { dataUrlToFile } from '../../utils/cropUtils';
+import { dataUrlToFile } from '@/utils/cropUtils';
 import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap';
-import { useActions } from '../../hooks/useActions';
-import { IModalInfo } from '../../types/modalInfo.interface';
-import Modal from '../modal/Modal';
+import { useActions } from '@/hooks/useActions';
+import { IModalInfo } from '@/types/modalInfo.interface';
+import Modal from '@/pages/modal/Modal';
 import { Link, Navigate } from 'react-router-dom';
-import { ICollectionFields } from '../../types/collectionFields.interface';
-import { RootState } from '../../store/store';
+import { ICollectionFields } from '@/types/collectionFields.interface';
+import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import { variables } from '../../variables';
+import { variables } from '@/variables';
 import './AddCollection.scss'
 
 

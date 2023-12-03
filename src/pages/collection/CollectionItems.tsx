@@ -1,11 +1,11 @@
 import React from "react";
-import { ICollectionInfo } from "../../types/collectionInfo.interface";
+import { ICollectionInfo } from "@/types/collectionInfo.interface";
 import AddItem from "./AddItem";
 import './Collection.scss'
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../../store/store";
+import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
-import { variables } from "../../variables";
+import { variables } from "@/variables";
 
 function CollectionItems({ data }: { data: ICollectionInfo }) {
     const navigate = useNavigate();

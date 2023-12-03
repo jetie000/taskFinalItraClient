@@ -1,8 +1,8 @@
 import React from "react";
-import { IUser } from "../../types/user.interface";
-import { RootState } from "../../store/store";
+import { IUser } from "@/types/user.interface";
+import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
-import { variables } from "../../variables";
+import { variables } from "@/variables";
 
 function AdminMenuUsers({data, setCurrentUser} :{data: IUser[] | undefined, setCurrentUser: Function}) {
     const { language } = useSelector((state: RootState) => state.options);

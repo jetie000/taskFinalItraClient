@@ -1,10 +1,9 @@
 import React from 'react'
-import { useGetCommentsItemsQuery } from '../../store/api/items.api';
-import { useNavigate } from 'react-router-dom';
+import { useGetCommentsItemsQuery } from '@/store/api/items.api';
 import ItemsList from './ItemsList';
-import { RootState } from '../../store/store';
+import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import { variables } from '../../variables';
+import { variables } from '@/variables';
 function MyComments() {
     
     const { language } = useSelector((state: RootState) => state.options);

@@ -1,16 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import './Header.scss'
-import { Link, useNavigate } from 'react-router-dom';
-import { useActions } from '../../hooks/useActions';
+import { useNavigate } from 'react-router-dom';
+import { useActions } from '@/hooks/useActions';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { Dropdown } from 'bootstrap';
-import { use } from 'marked';
-import { useSearchItemsQuery } from '../../store/api/items.api';
-import { useGetTagsQuery } from '../../store/api/tags.api';
-import { ITag } from '../../types/tag.interface';
-import { fakeBaseQuery } from '@reduxjs/toolkit/query';
-import { variables } from '../../variables';
+import { RootState } from '@/store/store';
+import { useGetTagsQuery } from '@/store/api/tags.api';
+import { variables } from '@/variables';
 
 function Header() {
     const { setTheme, setLanguage } = useActions();

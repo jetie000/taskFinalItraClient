@@ -1,8 +1,8 @@
 import React, { ChangeEvent, SyntheticEvent } from "react";
-import { ICollectionFields } from "../../types/collectionFields.interface";
-import { RootState } from "../../store/store";
+import { ICollectionFields } from "@/types/collectionFields.interface";
+import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
-import { variables } from "../../variables";
+import { variables } from "@/variables";
 
 
 function CollectionFields({ fields, setFields }: { fields: ICollectionFields[], setFields: Function }) {

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ReactElement } from "react";
-import { variables } from "../../variables";
+import { variables } from "@/variables";
 
 export interface optionsState {
     theme: string

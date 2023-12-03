@@ -11,7 +11,6 @@ import ReactDOM from "react-dom/client";
 import Toast from "./pages/toast/Toast";
 import Header from "./pages/header/Header";
 import Custom404 from "./pages/notFound/not-found";
-import { variables } from "./variables";
 import Cabinet from "./pages/cabinet/Cabinet";
 import AddCollection from "./pages/addCollection/AddCollection";
 import Collection from "./pages/collection/Collection";
@@ -19,11 +18,13 @@ import Item from "./pages/item/Item";
 import ChangeCollection from "./pages/changeCollection/ChangeCollection";
 import ChangeItem from "./pages/changeItem/ChangeItem";
 import Search from "./pages/search/Search";
+import { useSetTheme } from "./hooks/useSetTheme";
 
 const App = () => {
+  const setTheme = useSetTheme();
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-bs-theme', localStorage.getItem(variables.THEME_LOCALSTORAGE) || 'dark')
+    setTheme();
   }, [])
 
   return (

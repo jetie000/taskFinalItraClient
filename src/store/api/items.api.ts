@@ -1,6 +1,6 @@
-import { IItem } from "../../types/item.interface"
-import { IItemInfo } from "../../types/itemInfo.interface"
-import { variables } from "../../variables"
+import { IItem } from "@/types/item.interface"
+import { IItemInfo } from "@/types/itemInfo.interface"
+import { variables } from "@/variables"
 import { baseApi } from "./baseApi"
 
 export const itemsApi = baseApi.injectEndpoints({

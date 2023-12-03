@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Modal from '../../pages/modal/Modal'
+import Modal from '@/pages/modal/Modal'
 import 'bootstrap';
-import { IModalInfo } from '../../types/modalInfo.interface';
-import { useRegisterUserMutation } from '../../store/api/user.api';
+import { IModalInfo } from '@/types/modalInfo.interface';
+import { useRegisterUserMutation } from '@/store/api/user.api';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { RootState } from '../../store/store';
+import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import { variables } from '../../variables';
+import { variables } from '@/variables';
 
 function Register() {
     const [modalInfo, setModalInfo] = useState<IModalInfo>({ title: '', children: '' });

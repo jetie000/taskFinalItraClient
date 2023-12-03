@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Modal as bootstrapModal } from 'bootstrap';
 import { Toast as bootstrapToast } from 'bootstrap';
-import { ICollectionInfo } from '../../types/collectionInfo.interface';
-import { IModalInfo } from '../../types/modalInfo.interface';
-import Modal from '../modal/Modal';
-import { useDeleteCollectionMutation } from '../../store/api/collections.api';
+import { ICollectionInfo } from '@/types/collectionInfo.interface';
+import { IModalInfo } from '@/types/modalInfo.interface';
+import Modal from '@/pages/modal/Modal';
+import { useDeleteCollectionMutation } from '@/store/api/collections.api';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { variables } from '../../variables';
-import { useActions } from '../../hooks/useActions';
+import { RootState } from '@/store/store';
+import { variables } from '@/variables';
+import { useActions } from '@/hooks/useActions';
 import { useNavigate } from 'react-router-dom';
 import { marked } from 'marked';
 

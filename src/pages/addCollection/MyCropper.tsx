@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useState } from 'react'
-import { variables } from '../../variables'
+import { variables } from '@/variables'
 import { Toast as bootstrapToast } from 'bootstrap'
 import Cropper, { Area } from "react-easy-crop";
-import { cropImage } from "../../utils/cropUtils";
-import { useActions } from '../../hooks/useActions';
-import { RootState } from '../../store/store';
+import { cropImage } from "@/utils/cropUtils";
+import { useActions } from '@/hooks/useActions';
+import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 
 function MyCropper({croppedImage, setCroppedImage}: {croppedImage: string | undefined, setCroppedImage: Function}) {

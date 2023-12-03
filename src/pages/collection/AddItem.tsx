@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { ICollectionInfo } from "../../types/collectionInfo.interface";
+import { ICollectionInfo } from "@/types/collectionInfo.interface";
 import { Toast as bootstrapToast } from 'bootstrap';
-import { useAddItemMutation } from "../../store/api/items.api";
+import { useAddItemMutation } from "@/store/api/items.api";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import { useActions } from "../../hooks/useActions";
-import { IItemFields } from "../../types/itemFields.interface";
-import { variables } from "../../variables";
+import { RootState } from "@/store/store";
+import { useActions } from "@/hooks/useActions";
+import { IItemFields } from "@/types/itemFields.interface";
+import { variables } from "@/variables";
 
 function AddItem({ data }: { data: ICollectionInfo }) {
     const [isAddingItem, setIsAddingItem] = useState(false)

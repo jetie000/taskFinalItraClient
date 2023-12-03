@@ -1,10 +1,9 @@
 import React from 'react'
-import { useGetReactionItemsQuery } from '../../store/api/items.api';
-import { useNavigate } from 'react-router-dom';
+import { useGetReactionItemsQuery } from '@/store/api/items.api';
 import ItemsList from './ItemsList';
-import { RootState } from '../../store/store';
+import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import { variables } from '../../variables';
+import { variables } from '@/variables';
 function MyReactions() {
 
     const { language } = useSelector((state: RootState) => state.options);

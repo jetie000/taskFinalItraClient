@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { IComment } from '../../types/comment.interface';
-import { useAddCommentMutation, useDeleteCommentMutation } from '../../store/api/comments.api';
+import { IComment } from '@/types/comment.interface';
+import { useAddCommentMutation, useDeleteCommentMutation } from '@/store/api/comments.api';
 import { Toast as bootstrapToast } from 'bootstrap';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { useActions } from '../../hooks/useActions';
+import { RootState } from '@/store/store';
+import { useActions } from '@/hooks/useActions';
 import { HubConnection } from '@microsoft/signalr';
-import { variables } from '../../variables';
+import { variables } from '@/variables';
 
 function ItemComments({ idItem, comments, conn }: { idItem: number, comments: IComment[], conn: HubConnection | undefined }) {
     const { language } = useSelector((state: RootState) => state.options);

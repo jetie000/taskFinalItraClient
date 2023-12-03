@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { Toast as bootstrapToast } from 'bootstrap';
-import { useChangeMyItemMutation, useGetItemQuery } from '../../store/api/items.api';
-import { useActions } from '../../hooks/useActions';
-import { ITag } from '../../types/tag.interface';
-import { IItemFields } from '../../types/itemFields.interface';
-import { IItemInfo } from '../../types/itemInfo.interface';
+import { useChangeMyItemMutation, useGetItemQuery } from '@/store/api/items.api';
+import { useActions } from '@/hooks/useActions';
+import { IItemFields } from '@/types/itemFields.interface';
+import { IItemInfo } from '@/types/itemInfo.interface';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { variables } from '../../variables';
+import { RootState } from '@/store/store';
+import { variables } from '@/variables';
 import './ChangeItem.scss'
 
 function ChangeItem() {

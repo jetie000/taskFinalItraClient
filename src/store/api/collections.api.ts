@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { variables } from '../../variables'
-import { ICollection } from '../../types/collection.interface'
+import { variables } from '@/variables'
+import { ICollection } from '@/types/collection.interface'
 import { baseApi } from './baseApi'
-import { ICollectionInfo } from '../../types/collectionInfo.interface'
+import { ICollectionInfo } from '@/types/collectionInfo.interface'
 
 
 export const collectionsApi = baseApi.injectEndpoints({

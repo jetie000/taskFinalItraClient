@@ -1,6 +1,5 @@
-import { IComment } from "../../types/comment.interface"
-import { IReaction } from "../../types/reaction.interface"
-import { variables } from "../../variables"
+import { IReaction } from "@/types/reaction.interface"
+import { variables } from "@/variables"
 import { baseApi } from "./baseApi"
 
 export const reactionsApi = baseApi.injectEndpoints({

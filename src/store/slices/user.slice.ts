@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IUser } from "../../types/user.interface";
-import { variables } from "../../variables";
-import { ICollection } from "../../types/collection.interface";
+import { IUser } from "@/types/user.interface";
+import { variables } from "@/variables";
+import { ICollection } from "@/types/collection.interface";
 
 
 export interface userState {

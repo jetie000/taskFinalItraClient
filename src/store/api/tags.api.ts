@@ -1,4 +1,4 @@
-import { ITag } from "../../types/tag.interface"
+import { ITag } from "@/types/tag.interface"
 import { baseApi } from "./baseApi"
 
 export const tagsApi = baseApi.injectEndpoints({

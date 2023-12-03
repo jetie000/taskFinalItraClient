@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { variables } from '../../variables'
-import { IUser, IUserChangeInfo, IUserDeleteInfo, IUserLoginInfo, IUserRegisterInfo } from '../../types/user.interface'
+import { IUser, IUserChangeInfo, IUserDeleteInfo, IUserLoginInfo, IUserRegisterInfo } from '@/types/user.interface'
 import { baseApi } from './baseApi'
 
 export const userApi = baseApi.injectEndpoints({
