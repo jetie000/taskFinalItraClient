@@ -1,11 +1,13 @@
-@media (max-width: 1200px) {
+@import '@/variables.scss';
+
+@media (max-width: $media-lg-2) {
 
     .changeItem_wrapper{
         width: 75% !important;
     }
 }
 
-@media (max-width: 932px) {
+@media (max-width: $media-lg-1) {
     .changeItem_wrapper > :first-child{
         flex-direction: column;
         & > div{
@@ -14,7 +16,7 @@
     }
 }
 
-@media (max-width: 620px) {
+@media (max-width: $media-md-1) {
     
     .changeItem_wrapper{
         width: 100% !important;

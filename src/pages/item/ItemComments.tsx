@@ -79,7 +79,7 @@ function ItemComments({ idItem, comments, conn }: { idItem: number, comments: IC
     }
 
     return (
-        <div className='d-flex flex-column mt-3 gap-1'>
+        <div className='d-flex flex-column mt-3 gap-1 item-info-comments'>
             <h2>{variables.LANGUAGES[language].COMMENTS}</h2>
 
             {

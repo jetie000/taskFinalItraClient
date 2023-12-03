@@ -1,10 +1,12 @@
+@import '@/variables.scss';
+
 .item-icon {
     width: 24px !important;
     height: 24px !important;
 }
 
 
-@media (max-width: 1200px) {
+@media (max-width: $media-lg-2) {
 
     .collection_collection> :first-child>div>span,
     .collection_collection> :first-child>div>div>div>span {
@@ -12,7 +14,7 @@
     }
 }
 
-@media (max-width: 932px) {
+@media (max-width: $media-lg-1) {
 
     .collection_collection> :first-child>div {
         padding-left: 20px !important;
@@ -35,7 +37,7 @@
     }
 }
 
-@media (max-width: 620px) {
+@media (max-width: $media-md-1) {
 
     .collection_collection> :first-child {
         flex-direction: column-reverse !important;
@@ -64,7 +66,7 @@
 
 }
 
-@media (max-width: 530px) {
+@media (max-width: $media-sm-2) {
 
     .items-list-collection>li {
         flex-direction: column !important;

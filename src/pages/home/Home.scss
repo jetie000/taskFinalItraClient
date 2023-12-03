@@ -1,4 +1,6 @@
-@media (max-width: 932px) {
+@import '@/variables.scss';
+
+@media (max-width: $media-lg-1) {
     .home-wrapper {
         flex-direction: column-reverse;
 
@@ -13,7 +15,7 @@
     }
 }
 
-@media (max-width: 530px) {
+@media (max-width: $media-sm-2) {
     
     .items-list-home > li > div{
         flex-direction: column !important;

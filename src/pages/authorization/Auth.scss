@@ -1,3 +1,5 @@
+@import '@/variables.scss';
+
 .main-window{
     left: 0;
     top: 0;
@@ -10,7 +12,7 @@
     margin: auto;
 }
 
-@media (max-width:500px) {
+@media (max-width: $media-sm-1) {
     .inner-window{
         padding: 20px !important;
         margin: auto 20px;

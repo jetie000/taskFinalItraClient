@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 .full-height {
     min-height: max-content;
 }
@@ -20,30 +22,30 @@ body {
     width: 1168px !important;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: $media-lg-2) {
     .main-wrapper {
         width: 868px !important;
     }
 }
 
-@media (max-width: 932px) {
+@media (max-width: $media-lg-1) {
     .main-wrapper {
         width: 668px !important;
     }
 }
 
-@media (max-width: 716px) {
+@media (max-width: $media-md-2) {
     .main-wrapper {
         width: 568px !important;
     }
 }
 
-@media (max-width: 620px) {
+@media (max-width: $media-md-1) {
     .main-wrapper {
         max-width: 490px !important;
     }
 }
-@media (max-width: 530px) {
+@media (max-width: $media-sm-2) {
     .main-wrapper {
         max-width: 368px !important;
     }
@@ -52,7 +54,7 @@ body {
     }
 }
 
-@media (max-width: 410px) {
+@media (max-width: $media-sm-1) {
     .main-wrapper {
         max-width: 270px !important;
     }

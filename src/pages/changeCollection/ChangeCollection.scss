@@ -1,11 +1,13 @@
-@media (max-width: 1200px) {
+@import '@/variables.scss';
+
+@media (max-width: $media-lg-2) {
 
     .changeCollection_wrapper{
         width: 75% !important;
     }
 }
 
-@media (max-width: 620px) {
+@media (max-width: $media-md-1) {
     
     .changeCollection_wrapper{
         width: 100% !important;

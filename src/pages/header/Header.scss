@@ -1,3 +1,5 @@
+@import '@/variables.scss';
+
 .cursor-pointer {
     cursor: pointer;
 }
@@ -57,7 +59,7 @@
     transition: .2s;
 }
 
-@media (max-width: 932px) {
+@media (max-width: $media-lg-1) {
     .burger {
         display: block !important;
         transition: .2s;

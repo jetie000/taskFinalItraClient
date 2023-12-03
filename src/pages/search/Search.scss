@@ -1,4 +1,6 @@
-@media (max-width: 932px) {
+@import '@/variables.scss';
+
+@media (max-width: $media-lg-1) {
     .items-list-search{
         & > li div, & > li span{
             font-size: 16px !important;
@@ -6,7 +8,7 @@
     }
 }
 
-@media (max-width: 530px) {
+@media (max-width: $media-sm-2) {
     
     .items-list-search > li > div{
         flex-direction: column !important;

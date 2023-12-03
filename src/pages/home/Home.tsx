@@ -7,6 +7,7 @@ import { useGetLargestCollectionsQuery } from "@/store/api/collections.api";
 import { useGetLastItemsQuery } from "@/store/api/items.api";
 import { useGetLastTagsQuery } from "@/store/api/tags.api";
 import HomeItemsList from "./HomeItemsList";
+import './Home.scss'
 
 function Home() {
 

@@ -1,3 +1,5 @@
+@import '@/variables.scss';
+
 .my-info {
     width: 350px;
     flex-grow: 1;
@@ -24,7 +26,7 @@
     height: 100px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: $media-lg-2) {
     .collection-item {
         height: 200px !important;
 
@@ -37,19 +39,7 @@
 
 }
 
-@media (max-width: 1200px) {
-    .collection-item {
-        height: 200px !important;
-
-        &>div {
-            padding: 10px !important;
-            padding-left: 20px !important;
-        }
-    }
-}
-
-
-@media (max-width: 932px) {
+@media (max-width: $media-lg-1) {
     .cabinet-wrapper {
         flex-direction: column !important;
 
@@ -67,7 +57,7 @@
 }
 
 
-@media (max-width: 716px) {
+@media (max-width: $media-md-2) {
     .collection-item {
         height: 150px !important;
 
@@ -95,7 +85,7 @@
     }
 }
 
-@media (max-width: 620px) {
+@media (max-width: $media-md-1) {
     .collection-item {
         height: 150px !important;
 
@@ -115,7 +105,7 @@
     }
 }
 
-@media (max-width: 530px) {
+@media (max-width: $media-sm-2) {
     .collection-item {
         flex-direction: column;
         height: unset !important;
@@ -156,7 +146,7 @@
 
 }
 
-@media (max-width: 410px) {
+@media (max-width: $media-sm-1) {
     .my-info {
         width: 250px;
     }

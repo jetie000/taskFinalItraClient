@@ -1,4 +1,6 @@
-@media (max-width: 1200px) {
+@import '@/variables.scss';
+
+@media (max-width: $media-lg-2) {
 
     .item_item> :first-child>div>span,
     .item_item> :first-child>div>div>div>span {
@@ -9,7 +11,7 @@
     }
 }
 
-@media (max-width: 932px) {
+@media (max-width: $media-lg-1) {
 
     .item_item> :first-child>div {
         padding-left: 20px !important;
@@ -28,8 +30,8 @@
 
 }
 
-@media (max-width: 716px) {
-    .item_item> :nth-child(4) > ul > li > div > *{
+@media (max-width: $media-md-2) {
+    .item_item> .item-info-comments > ul > li > div > *{
         font-size: 16px !important;
     }
     
@@ -38,7 +40,7 @@
     }
 }
 
-@media (max-width: 620px) {
+@media (max-width: $media-md-1) {
 
     .item_item> :first-child {
         flex-direction: column-reverse !important;
@@ -58,11 +60,11 @@
         }
 
     }
-    .item_item > :nth-child(2)>button {
+    .item_item > .item-info-buttons >button {
         font-size: 18px !important;
     }
 
-    .item_item> :nth-child(4) > ul > li > div{
+    .item_item> .item-info-comments > ul > li > div{
         flex-direction: column;
         & > .vr{
             display: none;
