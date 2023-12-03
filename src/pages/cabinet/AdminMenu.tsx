@@ -77,23 +77,23 @@ function AdminMenu() {
         const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('myInfoModal') || 'myInfoModal');
         if (isSuccess) {
             const myToast = bootstrapToast.getOrCreateInstance(document.getElementById('myToast') || 'myToast');
-            if (dataChange === "User with that email exists.") {
-                setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: variables.LANGUAGES[language].ALREADY_EXISTS })
-                myModal.show()
-            }
-            else if(dataChange === 'No user found.'){
-                setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: variables.LANGUAGES[language].USER_NOT_FOUND })
-                myModal.show()
-            }
-            else{
-                if (dataChange && typeof(dataChange)!=='string' && user?.id === dataChange.id){
-                    setUser(dataChange)
-                    dataChange.role === 0 && navigate('/');
-                    dataChange.access === false && logout();
-                }
-                setToastChildren(variables.LANGUAGES[language].USER_SUCCESSFULLY_CHANGED);
-                myToast.show();
-                setCurrentUser(undefined);
+            switch (dataChange) {
+                case "User with that email exists.":
+                    setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: variables.LANGUAGES[language].ALREADY_EXISTS })
+                    myModal.show(); break;
+                case 'No user found.':
+                    setModalInfo({ title: variables.LANGUAGES[language].ERROR, children: variables.LANGUAGES[language].USER_NOT_FOUND })
+                    myModal.show(); break;
+                default:
+                    setToastChildren(variables.LANGUAGES[language].USER_SUCCESSFULLY_CHANGED);
+                    myToast.show();
+                    setCurrentUser(undefined);
+                    if (dataChange && typeof (dataChange) !== 'string' && user?.id === dataChange.id) {
+                        setUser(dataChange)
+                        dataChange.role === 0 && navigate('/');
+                        dataChange.access === false && logout();
+                    }
+                    break;
             }
         }
         if (isError) {
@@ -127,7 +127,7 @@ function AdminMenu() {
                 isOnline: false,
                 collections: undefined
             });
-            
+
     }
 
     const deleteUserClick = () => {

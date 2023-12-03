@@ -81,6 +81,7 @@ function Home() {
                         {dataTagsLast && typeof (dataTagsLast) !== 'string' ?
                             <>{dataTagsLast.map(tag =>
                                 <div key={tag.id}
+                                onClick={() => navigate('/search/' + tag.tag)}
                                     className="flex-grow-0 btn btn-info border rounded-4 p-0 ps-2 pe-2 text-truncate">
                                     {tag.tag}
                                 </div>)}
