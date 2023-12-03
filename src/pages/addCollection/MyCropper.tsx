@@ -54,7 +54,7 @@ function MyCropper({croppedImage, setCroppedImage}: {croppedImage: string | unde
             {
                 imageSrc && !croppedImage &&
                 <>
-                    <div className='img-fluid border rounded-2 mb-1 position-relative' style={{ height: '400px' }}>
+                    <div className='img-fluid border rounded-2 mb-1 position-relative addCollection-cropper'>
                         <Cropper
                             image={imageSrc}
                             crop={crop}

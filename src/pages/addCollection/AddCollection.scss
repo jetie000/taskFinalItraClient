@@ -1,5 +1,9 @@
 @import '@/variables.scss';
 
+.addCollection-cropper{
+    height: 400px;
+}
+
 @media (max-width: $media-lg-2) {
 
     .addCollection_wrapper{
