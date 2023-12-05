@@ -61,7 +61,7 @@
 
 @media (max-width: $media-lg-1) {
     .burger {
-        display: block !important;
+        display: block !important; //to override bootstrap style
         transition: .2s;
         z-index: 3;
 

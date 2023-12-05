@@ -3,13 +3,13 @@
 @media (max-width: $media-lg-2) {
 
     .changeCollection_wrapper{
-        width: 75% !important;
+        width: 75% !important; //to override bootstrap style
     }
 }
 
 @media (max-width: $media-md-1) {
     
     .changeCollection_wrapper{
-        width: 100% !important;
+        width: 100% !important; //to override bootstrap style
     }
 }

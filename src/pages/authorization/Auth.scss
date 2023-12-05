@@ -14,7 +14,7 @@
 
 @media (max-width: $media-sm-1) {
     .inner-window{
-        padding: 20px !important;
+        padding: 20px !important; //to override bootstrap style
         margin: auto 20px;
     }
 }

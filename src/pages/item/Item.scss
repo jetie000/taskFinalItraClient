@@ -4,27 +4,27 @@
 
     .item_item> :first-child>div>span,
     .item_item> :first-child>div>div>div>span {
-        font-size: 24px !important;
+        font-size: 24px !important; //to override bootstrap style
     }
     .item_item> :first-child>div>button{
-        font-size: 18px !important;
+        font-size: 18px !important; //to override bootstrap style
     }
 }
 
 @media (max-width: $media-lg-1) {
 
     .item_item> :first-child>div {
-        padding-left: 20px !important;
+        padding-left: 20px !important; //to override bootstrap style
 
         &>div>div>span {
-            font-size: 18px !important;
+            font-size: 18px !important; //to override bootstrap style
         }
 
         &>hr {
             display: none;
         }
         &>:last-child>button{
-            font-size: 16px !important;
+            font-size: 16px !important; //to override bootstrap style
         }
     }
 
@@ -32,36 +32,36 @@
 
 @media (max-width: $media-md-2) {
     .item_item> .item-info-comments > ul > li > div > *{
-        font-size: 16px !important;
+        font-size: 16px !important; //to override bootstrap style
     }
     
     .item_item> :first-child>div>button{
-        font-size: 16px !important;
+        font-size: 16px !important; //to override bootstrap style
     }
 }
 
 @media (max-width: $media-md-1) {
 
     .item_item> :first-child {
-        flex-direction: column-reverse !important;
-        gap: 20px !important;
+        flex-direction: column-reverse !important; //to override bootstrap style
+        gap: 20px !important; //to override bootstrap style
 
         &>div {
-            padding-left: 0px !important;
+            padding-left: 0px !important; //to override bootstrap style
         }
 
         &>* {
-            width: 100% !important;
+            width: 100% !important; //to override bootstrap style
         }
 
         &>div>hr {
-            display: block !important;
+            display: block !important; //to override bootstrap style
 
         }
 
     }
     .item_item > .item-info-buttons >button {
-        font-size: 18px !important;
+        font-size: 18px !important; //to override bootstrap style
     }
 
     .item_item> .item-info-comments > ul > li > div{
@@ -70,7 +70,7 @@
             display: none;
         }
         & > :last-child{
-            align-self: flex-end !important;
+            align-self: flex-end !important; //to override bootstrap style
         }
     }
     .item_item> :first-child>div>button{

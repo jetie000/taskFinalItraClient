@@ -5,12 +5,12 @@
         flex-direction: column-reverse;
 
         & > div{
-            width: 100% !important;  
+            width: 100% !important; //to override bootstrap style  
         }
     }
     .items-list-home{
         & > li div, & > li span{
-            font-size: 16px !important;
+            font-size: 16px !important; //to override bootstrap style
         }
     }
 }
@@ -18,9 +18,9 @@
 @media (max-width: $media-sm-2) {
     
     .items-list-home > li > div{
-        flex-direction: column !important;
+        flex-direction: column !important; //to override bootstrap style
         & .vr{
-            display: none !important;
+            display: none !important; //to override bootstrap style
         }
     }
 }

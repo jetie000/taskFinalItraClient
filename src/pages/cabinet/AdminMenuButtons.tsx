@@ -87,8 +87,6 @@ function AdminMenuButtons({ setModalInfo, currentUser, setCurrentUser, inputUser
             const myModal = bootstrapModal.getOrCreateInstance(document.getElementById('myInfoModal') || 'myInfoModal');
             setModalInfo({ title: "Ошибка", children: "Введите данные" });
             myModal.show();
-            console.log(inputUserRef);
-            
             return;
         }
         if (currentUser)
